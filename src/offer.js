@@ -4,6 +4,7 @@
 import { compute, loadCatalog } from './engine/index.js';
 import { classFactors } from './engine/workload.js';
 import { clone } from './clone.js';
+import { money } from './format.js';
 
 // Largest-remainder rounding: integers that sum exactly to `target`.
 export function largestRemainder(values, target) {
@@ -77,7 +78,8 @@ export function buildOffer(deal, r, catalog = loadCatalog()) {
         `Production-realistic environment with a smoke-tested end-to-end RL dry run`,
         `Go / no-go recommendation with the expected improvement range`,
       ],
-      why: `This is the foundation every RL cycle depends on: an evaluation you can trust, a grader that measures what matters, and a baseline to measure improvement against. You own these assets and can reuse them with any future model. Self-serve RL services bill for compute only, which leaves your team to build them; here we build them with you and price the effort, about two weeks of a four-person team.`,
+      why: `This is the foundation every RL cycle depends on: an evaluation you can trust, a grader that measures what matters, and a baseline to measure improvement against. You own these assets and can reuse them with any future model. Self-serve RL services bill for compute only, which leaves your team to build them; here we build them with you and price the engineering time: 108 hours across four roles, delivered in the first two weeks. The expected improvement range is set from the measured baseline at the end of this phase; we do not promise a figure in advance.`,
+      evidence: ['Signed evaluation charter and frozen baseline score', 'Versioned grader and harness with a reproducible run ID', 'Signed go / no-go recommendation with the expected improvement range'],
       hours: hours.foundation,
     },
     {
@@ -89,7 +91,8 @@ export function buildOffer(deal, r, catalog = loadCatalog()) {
         `Infrastructure set-up, monitoring and recovery from failed runs`,
         `Diagnostics and a written review after each cycle`,
       ].concat(extra > 0 ? [`Extra-cycle engineering for the ${deal.rl.cycles - deal.pricing.includedCycles} cycles above the included count`] : []),
-      why: `Named engineers keep the training loop running and diagnose each cycle. The effort follows the number of cycles, so this fee is spread across the cycle invoices rather than charged up front.`,
+      evidence: ['Run IDs and diagnostics for every cycle', 'A written review after each cycle'],
+      why: `Engineers assigned to your engagement (the roles are listed in the hours table) keep the training loop running and diagnose each cycle. The effort follows the number of cycles, so this fee is spread across the cycle invoices rather than charged up front.`,
       hours: hours.cycles,
     },
     {
@@ -102,6 +105,7 @@ export function buildOffer(deal, r, catalog = loadCatalog()) {
         `Managed compute: about ${allowance.toLocaleString('en-US')} GPU-hours of included training compute across the engagement`,
         `A written score report and your stop or continue decision after each cycle`,
       ],
+      evidence: ['A score report per cycle: held-out score and change from the previous cycle', 'Your signed continue or stop decision'],
       why: `Each cycle runs the full loop: train, generate rollouts, evaluate on held-out cases, and report. The price covers managed compute, orchestration and evaluation, so you do not receive a separate GPU bill. This price is set for ${sizeWord}, because larger models need more compute per cycle.`,
       hours: null,
     },
@@ -114,20 +118,20 @@ export function buildOffer(deal, r, catalog = loadCatalog()) {
         `Reproducibility report and an operating runbook`,
         `Signed handoff acceptance against the agreed evidence`,
       ],
+      evidence: ['Reproducibility report and model version', 'Signed handoff acceptance against the listed artifacts'],
       why: `An independent check on data the model never trained on, plus everything your team needs to run the model without us.`,
       hours: null,
     },
   ];
 
   // Payment schedule: readiness (net of discount), one invoice per cycle, handoff.
-  const perCycleSplit = (() => {
-    const base = cycles + engineering + extra;
-    const share = Math.floor(base / N);
-    return Array.from({ length: N }, (_, i) => (i === N - 1 ? base - share * (N - 1) : share));
-  })();
+  const split = (amt) => Array.from({ length: N }, (_, i) => (i === N - 1 ? amt - Math.floor(amt / N) * (N - 1) : Math.floor(amt / N)));
+  const cycleFeeSplit = split(cycles);
+  const engineeringSplit = split(engineering + extra);
+  const perCycleSplit = cycleFeeSplit.map((c, i) => c + engineeringSplit[i]);
   const milestones = [
     { label: 'Readiness gate', week: R, amount: readiness + discount, note: discount ? 'Includes the negotiated discount' : '' },
-    ...perCycleSplit.map((amt, i) => ({ label: `Cycle ${i + 1} of ${N}`, week: R + (i + 1) * cad, amount: amt, note: 'Cycle fee plus its share of engineering' })),
+    ...perCycleSplit.map((amt, i) => ({ label: `Cycle ${i + 1} of ${N}`, week: R + (i + 1) * cad, amount: amt, note: `Cycle fee ${money(cycleFeeSplit[i])} + engineering ${money(engineeringSplit[i])}` })),
     { label: 'Handoff and verification', week: r.work.totalWeeks, amount: handoff, note: '' },
   ];
   let running = 0;
@@ -139,9 +143,13 @@ export function buildOffer(deal, r, catalog = loadCatalog()) {
     return Math.round(compute(d, catalog).pricing.quote) - total;
   };
   const scale = { plusCycle: delta(deal.rl.cycles + 1), minusCycle: deal.rl.cycles > 1 ? delta(deal.rl.cycles - 1) : null };
+  const cycleFee = deal.pricing.cycleFee;
+  const tiers = { small: Math.round(cycleFee * 0.65), standard: cycleFee, large: Math.round(cycleFee * 2.5) };
+  const stopAfterFirstCycle = milestones[0].amount + milestones[1].amount;
 
   return {
-    total, discount, phases, milestones, scale, allowance,
+    total, discount, phases, milestones, scale, allowance, tiers, stopAfterFirstCycle,
+    modelSpec: r.model.totalB == null ? 'a model whose parameter count is not yet verified' : `an open-weight model with ${r.model.totalB} billion parameters${r.model.activeB ? `, of which ${r.model.activeB} billion are active for each token` : ''}`,
     sizeClass: sizeWord,
     sumCheck: phases.reduce((s, ph) => s + ph.amount, 0) + discount,
     perCycle,
@@ -167,6 +175,18 @@ export const GLOSSARY = [
   ['Grader', 'The rules that score an attempt, for example pass or fail, or a rubric score.'],
   ['Compute allowance', 'The training compute included in the price, stated in GPU-hours for the whole engagement.'],
   ['Checkpoint', 'A saved version of the trained model, with its exact settings, so results can be reproduced.'],
+  ['Reinforcement learning (RL)', 'A way of improving a model by letting it attempt tasks, scoring the attempts, and rewarding the behaviour that scores well.'],
+  ['Reward', 'The score the grader gives an attempt, which the training uses to decide what to reinforce.'],
+  ['Baseline', 'The score of the untrained model on the held-out evaluation. Improvement is measured from this point.'],
+  ['Metric', 'The single measure of success you approve, for example the held-out pass rate.'],
+  ['Go / no-go gate', 'A decision point at the end of the foundation phase. You approve it before any RL cycle is paid for.'],
+  ['Standard-size model', 'The reference tier that the base cycle price is set for. Smaller and larger models are priced as a multiple of it.'],
+  ['Weights', 'The learned numbers that make up the model. The handoff package includes the trained weights.'],
+  ['Traces', 'Recorded attempts, showing each step the model took, for inspection.'],
+  ['Runbook', 'Written instructions for operating the handed-over model.'],
+  ['Forward-deployed engineer', 'An engineer who works alongside your team on-site or in your environment, rather than only remotely.'],
+  ['Change order', 'A short written amendment that adds or changes scope and its price before the work starts.'],
+  ['Statement of work (SOW)', 'The contract schedule that defines scope, phases, evidence, invoices and amendment rules. Sent with this proposal.'],
 ];
 
 export const FAQ = [

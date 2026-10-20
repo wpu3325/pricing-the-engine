@@ -92,7 +92,8 @@ footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid va
 <p class="note">Prepared for ${escapeHtml(customerName)} · Take-home submission draft, not an official Applied Compute document.</p>
 <div class="banner">${escapeHtml(statusBanner(status))}</div>
 ${body}
-<footer>Figures are planning estimates for review. Legal terms shown in [brackets] require counsel review before this document is sent. Take-home submission draft; not an official Applied Compute document.</footer>
+
+<footer>Amounts are the proposed fees for the scope described. Terms in [brackets] are placeholders that counsel must complete before this document is sent.</footer>
 </main></body></html>`;
 }
 
@@ -188,14 +189,16 @@ ${serving.replace('<h2>6.', '<h2>6.')}
 export function buildProposal(deal, r) {
   const o = buildOffer(deal, r);
   const b = deal.rl.baseline, t = deal.rl.target;
-  const summary = `You are buying ${o.cycles} managed reinforcement-learning ${o.cycles === 1 ? 'cycle' : 'cycles'} to move <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b> from ${E(pct(b, 0))} to a target of ${E(pct(t, 0))}, using the model <b>${escapeHtml(deal.model)}</b>, over ${E(o.weeks)} weeks. The total is <b>${usd(o.total)}</b>. You approve every cycle, and each invoice is issued when its milestone completes.`;
+  const summary = `You are buying ${o.cycles} managed reinforcement-learning (RL) ${o.cycles === 1 ? 'cycle' : 'cycles'} to improve <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b>, from a measured baseline of ${E(pct(b, 0))} toward a target of ${E(pct(t, 0))}, over ${E(o.weeks)} weeks. The model is <b>${escapeHtml(deal.model)}</b>, ${E(o.modelSpec)}. The total is <b>${usd(o.total)}</b>. The ${E(pct(t, 0))} target is a review point, not a guarantee: when it is reached, or when results stop improving, you decide whether to continue. You approve every cycle, and each invoice is issued when its milestone completes.`;
   const bar = o.phases.map((ph) => `<span class="seg-${ph.key}" style="width:${((ph.amount / o.total) * 100).toFixed(2)}%" title="${escapeHtml(ph.title)}"></span>`).join('');
   const legend = o.phases.map((ph) => `<li><span class="dot seg-${ph.key}"></span>${escapeHtml(ph.title)} <b>${usd(ph.amount)}</b> <span class="muted">(${E(pct(ph.amount / o.total, 0))})</span></li>`).join('');
   const change = [
-    ['One more cycle', `+${usd(o.scale.plusCycle)}`, 'A cycle fee and its share of extra engineering, plus about the same compute.'],
-    o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), 'You are invoiced for one fewer cycle.'],
-    ['Different model size', 'Priced again', 'The cycle price depends on model size, so a different model is a change order.'],
-    ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately before any work starts.'],
+    ['One more cycle', `+${usd(o.scale.plusCycle)}`, `The cycle fee of ${usd(deal.pricing.cycleFee)} plus extra-cycle engineering, because it goes beyond the ${deal.pricing.includedCycles} included cycles.`],
+    o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), `The cycle fee of ${usd(deal.pricing.cycleFee)} is not charged. The engineering fee does not change.`],
+    ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The readiness invoice and the first cycle invoice. No later invoices are issued. You are not billed the handoff fee unless the handoff is signed.'],
+    ['A smaller model (small class)', `${usd(o.tiers.small)} per cycle`, 'The cycle price for a small model, set at 0.65 times the standard cycle fee.'],
+    ['A larger model (large class)', `${usd(o.tiers.large)} per cycle`, 'The cycle price for a large mixture-of-experts model, set at 2.5 times the standard cycle fee.'],
+    ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately, through a change order, before any work starts.'],
   ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
   const discountRow = o.discount ? `<p class="note">Includes a negotiated discount of ${usd(-o.discount)}, applied to the readiness invoice.</p>` : '';
   const s = deal.serving;

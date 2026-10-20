@@ -19,7 +19,7 @@ The phase is framed as a fixed-scope build of the assets every RL cycle optimise
 
 Four anchors:
 
-1. **Effort.** 108 setup hours (40 research, 40 forward-deployed, 16 delivery, 12 infrastructure), about two weeks of a four-person team. $30,000 / 108 h ≈ $278/h, inside the $200–350/h band that the sources below cite for consulting work.
+1. **Effort.** 108 setup hours (40 research, 40 forward-deployed, 16 delivery, 12 infrastructure), 108 hours across four roles, delivered in the first two weeks. $30,000 / 108 h ≈ $278/h, inside the $200–350/h band that the sources below cite for consulting work.
 2. **Share of project.** $30K is 14% of $210K. One vendor estimate puts paid discovery at 10–15% of total project cost.
 3. **Absolute band.** Vendor guides cite paid discovery at $20–60K over 2–4 weeks. The phase fits that band and ends in working assets, not only a document. One guide warns that a phase producing only a document is a weak purchase; this one does not.
 4. **Market structure.** Self-serve RL services bill for compute only. The OpenAI reinforcement fine-tuning billing guide lists $100 per hour of training time, with grader tokens billed separately; Fireworks bills reinforcement fine-tuning by GPU-second and does not charge for models under 16B parameters. In both cases the customer builds the evaluation, grader and environment. This phase is that same work, done with embedded engineers.
