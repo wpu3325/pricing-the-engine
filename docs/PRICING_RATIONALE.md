@@ -58,6 +58,12 @@ Four anchors:
 
 The final holdout evaluation (Phase 4) runs evaluation compute that the workbook does not cost separately. Phase 4's cost is therefore understated and its margin overstated. It is flagged in `PARITY.md` (D-10) and should be costed before a quote.
 
+## 7. GPU choice and price
+
+The price follows cost in one place only: the RL cycle line, which is priced from the GPU-hours the cycles consume and the rate paid for them. People fees (readiness, engineering, handoff) are fixed, so the customer sees a stable rate card. Under hybrid pricing the cycle line is set so the quote lands on the target margin, whenever that is above the fixed fees.
+
+A GPU type matters through its cost per unit of work, not its hourly rate: a faster GPU can cost less per unit of work at a higher price. It matters most when compute is a large share of cost. At the default scale, prepaid capacity and labour dominate and the GPU type barely moves the price; in the compute-heavy stress case it moves the price a lot. The numbers are on the internal pricing model page and their inputs are listed as unverified in `PARITY.md`.
+
 ## Sources
 
 - OpenAI, Billing guide for the Reinforcement Fine-Tuning API: https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api

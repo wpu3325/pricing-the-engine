@@ -46,6 +46,7 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 - H100 $3.99 PayGo, $2.75 extension, $2.50 reservation, $2.50 allocation (public proxy and finance assumptions).
 - Labour loaded rates, graders, storage, platform, rework 10%, margin policy 45% / 35%.
 - Workload profile presets (`data/workload_presets.json`) and GPU HBM sizes (`data/gpu_skus.json`).
+- GPU economics in `data/gpu_skus.json`: PayGo, extension and reservation rates and the throughput multiple for B200 and B300 are placeholders. The H100 list price is $5.49. Each GPU row on the pricing model page depends on them.
 - Model parameter counts from the supplied catalogue. Several are null and are shown as "Not verified".
 
 ## 5. Deviations added with the cost ledger and the proposal
@@ -56,6 +57,7 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 | D-8 | Cost is eight buckets (`02!B73:B81`) | Same eight buckets plus about 40 ledger lines; extension inputs default to $0 | Brief asks for every cost line. Defaults keep parity | `src/engine/cogs.js`; `test/ledger.test.js`; parity suite unchanged |
 | D-9 | Marketplace and payment fees not modelled | Not modelled; documented as excluded | Those fees depend on the price, which would be circular | `docs/COGS_LEDGER.md` |
 | D-10 | Final holdout evaluation compute is not costed separately | Still not costed; flagged as a known gap | Adding it would change the workbook baseline; it should be costed before a quote | `docs/PRICING_RATIONALE.md` §6 |
+| D-11 | Only the rate card and its adjustment price the deal (`pricing.mode`) | Hybrid mode keeps readiness, engineering, extra-cycle and handoff fees fixed and derives the RL cycle line from compute cost, so the quote lands on the margin floor. The rate card stays the default and the parity suite is unchanged | Price should follow the cost and capacity decision, and a GPU or model change should show in the price | `pricing.mode === 'hybrid'` in `src/engine/pricing.js`; `test/acceptance.test.js` (hybrid tests); `src/gpuCompare.js` |
 
 ## 6. Other refreshed conflicts
 

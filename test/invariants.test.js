@@ -30,7 +30,7 @@ function randomDeal() {
   d.demand.policyGpus = Math.floor(num(0, 64));
   d.pricing.discountPct = num(-0.2, 0.6);
   d.pricing.targetGrossMargin = num(0, 0.9);
-  d.pricing.mode = pick(['rateCard', 'costPlus']);
+  d.pricing.mode = pick(['rateCard', 'costPlus', 'hybrid']);
   d.capacity.acquisition = pick(['Auto', 'PayGo', 'Extend', 'Reserve', 'Existing only', 'BYOC']);
   d.capacity.gpuSku = pick(['H100', 'B200', 'B300']);
   d.capacity.canObtainExtra = rnd() < 0.5;

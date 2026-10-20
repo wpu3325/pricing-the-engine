@@ -14,7 +14,8 @@ import { fileURLToPath } from 'node:url';
 import { compute, loadCatalog } from '../src/engine/index.js';
 import { starterDeal } from '../src/presets.js';
 import { buildSow, buildProposal } from '../src/documents.js';
-import { buildPricingModelPage, buildSowPage } from './lib/wrappers.mjs';
+import { buildSowPage } from './lib/wrappers.mjs';
+import { buildPricingModelPage } from './lib/pricing_model.mjs';
 import { shell } from './lib/page.mjs';
 import { buildExcelPage } from './lib/excel.mjs';
 import { buildHub } from './lib/hub.mjs';
@@ -31,7 +32,7 @@ write('index.html', buildHub());
 write('deliverables/excel-model.html', buildExcelPage());
 // The COGS page is internal, so it gets a back-link to the hub; the customer pages do not.
 write('deliverables/cogs-model.html', buildCogsPage(deal, r));
-write('deliverables/pricing-model.html', buildPricingModelPage(deal, r));
+write('deliverables/pricing-model.html', buildPricingModelPage(deal, r, loadCatalog()));
 write('deliverables/statement-of-work.html', buildSowPage(deal, r));
 write('deliverables/customer/pricing-proposal.html', buildProposal(deal, r));
 write('deliverables/customer/statement-of-work.html', buildSow(deal, r));

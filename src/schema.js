@@ -149,7 +149,7 @@ export const SECTIONS = [
   {
     id: 'pricing', title: 'Customer price & margin policy', num: 7, feeds: 'Feeds: quote and margin',
     fields: [
-      { path: 'pricing.mode', label: 'Pricing basis', type: 'select', options: { rateCard: 'Itemized rate card', costPlus: 'Cost-plus (COGS ÷ (1 − target GM))' }, essential: true },
+      { path: 'pricing.mode', label: 'Pricing basis', type: 'select', options: { rateCard: 'Itemized rate card', hybrid: 'Hybrid: fixed people fees, cycles priced from compute cost', costPlus: 'Cost-plus (COGS ÷ (1 − target GM))' }, essential: true },
       { path: 'pricing.readinessFee', label: 'Readiness fixed fee', type: 'number', unit: '$', step: 1000 },
       { path: 'pricing.engineeringSetupFee', label: 'Engineering setup fee', type: 'number', unit: '$', step: 1000 },
       { path: 'pricing.cycleFee', label: 'RL cycle fee (standard)', type: 'number', unit: '$/cycle', step: 1000 },

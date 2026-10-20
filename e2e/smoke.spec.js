@@ -47,3 +47,12 @@ test('phone width has no horizontal scroll', async ({ page }) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test('economics step shows the GPU choice, and the rate-card quote is unchanged', async ({ page }) => {
+  await page.goto('/app/index.html');
+  await page.locator('#starter').selectOption('workflow');
+  await page.locator('[data-step="economics"]').click();
+  await expect(page.locator('#view')).toContainText('GPU choice');
+  await expect(page.locator('#view')).toContainText('illustrative placeholders');
+  await expect(page.locator('#rail')).toContainText('$210,000');
+});

@@ -61,7 +61,7 @@ export const EXPLAIN = {
   'costs.storageNetworking': I('Storage / networking', 'Checkpoint transfer, logs and object storage.', '01!B64'),
   'costs.platformSupport': I('Direct platform support', 'Deal-specific operating cost. Not corporate overhead.', '01!B65'),
   'costs.reworkPct': I('Expected rework allowance', 'Forecast share of COGS for failed runs and grader changes. Not a booked expense.', '01!B66'),
-  'pricing.mode': I('Pricing basis', 'Itemized rate card (workbook) raises the price only to the margin floor, as a proposed adjustment. Cost-plus prices directly at COGS ÷ (1 − target).', 'MVP extension'),
+  'pricing.mode': I('Pricing basis', 'Itemized rate card (workbook) raises the price only to the margin floor, as a proposed adjustment. Hybrid keeps the people fees fixed and prices the RL cycles from compute cost, so the quote lands on the margin floor. Cost-plus prices directly at COGS ÷ (1 − target).', 'MVP extension'),
   'pricing.readinessFee': I('Readiness fixed fee', 'Customer-facing fee for feasibility, baseline and grader design.', '01!B68'),
   'pricing.engineeringSetupFee': I('Engineering setup fee', 'Customer-facing engineering and harness delivery across the engagement.', '01!B69'),
   'pricing.cycleFee': I('RL cycle fee (standard)', 'Customer fee per approved baseline-size cycle. Multiplied by the model class factor.', '01!B70'),

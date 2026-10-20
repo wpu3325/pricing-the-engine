@@ -10,7 +10,7 @@ A deal tool for an enterprise reinforcement-learning (RL) post-training engageme
 |---|---|---|
 | Excel model | The supplied workbook, rendered, with its equations and a parity table against the tool | [excel-model](https://wpu3325.github.io/pricing-the-engine/deliverables/excel-model.html) · [.xlsx](https://wpu3325.github.io/pricing-the-engine/deliverables/downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx) |
 | COGS model (internal) | Every delivery cost line, its phase and its source | [cogs-model](https://wpu3325.github.io/pricing-the-engine/deliverables/cogs-model.html) |
-| Pricing model and proposal | The price, the reasoning behind each phase fee, and the customer copy | [pricing-model](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-model.html) |
+| Pricing model (internal) | The price as an output of cost: fixed people fees, cycles priced from compute, and the effect of GPU type and model size | [pricing-model](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-model.html) |
 | Statement of work | Contract terms: scope now, customer control as it grows, re-paper triggers, and the customer copy | [SOW](https://wpu3325.github.io/pricing-the-engine/deliverables/statement-of-work.html) |
 | Pricing and margin rationale (internal) | Margin target and floor, pushback on cost, competitor undercut, known gaps | [rationale](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-rationale.html) |
 | Live tool | Change any input; every number updates from the same engine | [app](https://wpu3325.github.io/pricing-the-engine/app/) |

@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { compute } from '../src/engine/index.js';
 import { loadCatalog } from '../src/engine/catalog.js';
 import { dealWith } from './helpers.js';
+import { defaultDeal } from '../src/engine/defaults.js';
 
 const catalog = loadCatalog();
 const approved = {
@@ -130,4 +131,26 @@ test('margin floor: quote never falls below COGS / (1 - target GM) in rate-card 
 test('cost-plus mode prices at COGS / (1 - target GM)', () => {
   const r = compute(dealWith({ 'pricing.mode': 'costPlus' }), catalog);
   assert.ok(Math.abs(r.pricing.quote - r.cogs.cogs / (1 - 0.45)) < 1e-6);
+});
+
+test('hybrid mode: people fees stay fixed and the cycle line is derived from cost', () => {
+  const rc = compute(dealWith({}), catalog);
+  const hy = compute(dealWith({ 'pricing.mode': 'hybrid' }), catalog);
+  const fixed = hy.pricing.lines.filter((l) => l.key !== 'cycles' && l.key !== 'discount').reduce((a, l) => a + l.value, 0);
+  const floor = hy.pricing.marginFloorPrice;
+  assert.ok(floor > fixed, 'default example: floor is above the fixed fees');
+  assert.ok(Math.abs(hy.pricing.quote - floor) < 1e-6, 'quote lands on the margin floor');
+  assert.ok(Math.abs(hy.pricing.grossMargin - 0.45) < 1e-9, 'margin equals the target');
+  assert.ok(Math.abs(hy.pricing.lines.find((l) => l.key === 'cycles').value - (floor - fixed)) < 1e-6);
+  assert.equal(hy.pricing.adjustment, 0);
+  assert.equal(hy.pricing.rateCardQuote, rc.pricing.quote, 'rate card quote is still reported');
+});
+
+test('hybrid mode: a dearer GPU raises the price when compute is bought', () => {
+  const stress = { 'rl.cycles': 8, 'demand.rolloutAttemptsPerCycle': 10 * defaultDeal().demand.rolloutAttemptsPerCycle };
+  const base = compute(dealWith({ ...stress, 'pricing.mode': 'hybrid' }), catalog);
+  const dear = compute(dealWith({ ...stress, 'pricing.mode': 'hybrid',
+    'capacity.paygoPrice': 3.99 * 1.5, 'capacity.extendPrice': 2.75 * 1.5, 'capacity.reservePrice': 2.5 * 1.5 }), catalog);
+  assert.ok(base.capacity.method !== 'Existing', 'stress case buys capacity');
+  assert.ok(dear.pricing.quote > base.pricing.quote, 'price follows GPU cost');
 });

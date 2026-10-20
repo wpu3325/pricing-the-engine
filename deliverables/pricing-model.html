@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pricing model and proposal · Pricing the Engine</title>
-<meta name="description" content="The pricing model for the take-home: phase fees, the reasoning behind each line, and the customer copy of the proposal.">
+<title>Pricing model · Pricing the Engine</title>
+<meta name="description" content="Internal pricing model: how the price is an output of the cost and capacity decision, GPU type, model size and cycles.">
 <meta name="color-scheme" content="light dark">
 <style>
 
@@ -64,34 +64,50 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <main>
 <nav class="deliv-nav" aria-label="Deliverables"><a href="../index.html">Hub</a><a href="../deliverables/excel-model.html">Excel model</a><a href="../deliverables/cogs-model.html">COGS model</a><a href="../deliverables/pricing-model.html" aria-current="page">Pricing model</a><a href="../deliverables/statement-of-work.html">Statement of work</a><a href="../deliverables/pricing-rationale.html">Pricing and margin</a><a href="../app/index.html">Live tool</a></nav>
 
-<div class="mark">| · APPLIED COMPUTE · PRICING MODEL ·</div>
-<h1>Pricing model and proposal</h1>
-<p class="lede">The price the customer would see, the reasoning behind each line, and the customer copy of the proposal. Cost and margin are not shown here: they sit in the internal pages.</p>
-<div class="banner">Review page. The proposal below is the customer copy, generated from the same engine run as the internal cost model.</div>
+<div class="mark">| · APPLIED COMPUTE · PRICING MODEL · INTERNAL ·</div>
+<h1>Pricing model: from cost to price</h1>
+<p class="lede">The price starts from what it costs to deliver. The people fees are fixed; the RL cycles are priced from the compute they consume and the GPU they run on. This page shows the chain, and how the GPU choice, model size and cycle count move the price.</p>
+<div class="banner">INTERNAL. Shows cost, margin and the GPU economics. Do not send this page to the customer.</div>
 
-<h2>Intent</h2>
-<p>Win the engagement on scope and evidence, not on a lower rate. Every fee pays for something the customer can inspect (an evaluation, a grader, a cycle report, a signed handoff), so the question “why this much?” has a concrete answer for each line.</p>
+<h2>1. The chain, for the example deal</h2>
+<p>Read top to bottom. Each line is an output of the line above it.</p>
+<div class="wrap"><table><tbody><tr><td>Model and size class</td><td class="num">Qwen3.6-35B-A3B · class 2</td></tr><tr><td>RL cycles</td><td class="num">3</td></tr><tr><td>GPU-hours, all cycles</td><td class="num">3,360</td></tr><tr><td>GPU type and capacity method</td><td class="num">H100 · Existing</td></tr><tr><td>GPU cost</td><td class="num">$8,400</td></tr><tr><td>Delivery COGS, with rework</td><td class="num">$106,590</td></tr><tr><td>Price at target margin (COGS ÷ (1 − 45%))</td><td class="num">$193,800</td></tr><tr><td>Fixed people fees (readiness, engineering, extra cycles, handoff)</td><td class="num">$138,000</td></tr><tr><td>RL cycle line, derived from compute cost</td><td class="num">$55,800</td></tr><tr class="total"><td>Cost-driven price</td><td class="num">$193,800</td></tr></tbody></table></div>
+<p class="note">GPU rates and throughput are illustrative placeholders (see section 2). The cost-driven price is the lowest price that holds the 45% target on this cost.</p>
 
-<h2>The price, phase by phase</h2>
-<div class="wrap"><table><thead><tr><th class="num">#</th><th>Phase</th><th class="num">Fee</th><th>Why it is priced this way</th></tr></thead><tbody><tr><td class="num">1</td><td><strong>Eval and environment foundation</strong><div class="note">Weeks 1–2<br>Invoice: Week 2, when the go/no-go gate is signed</div></td>
-<td class="num">$30,000</td><td>This is the foundation every RL cycle depends on: an evaluation you can trust, a grader that measures what matters, and a baseline to measure improvement against. You own these assets and can reuse them with any future model. Self-serve RL services bill for compute only, which leaves your team to build them; here we build them with you and price the engineering time: 108 hours across four roles, delivered in the first two weeks. The expected improvement range is set from the measured baseline at the end of this phase; we do not promise a figure in advance.</td></tr><tr><td class="num">2</td><td><strong>Engineering through the cycles</strong><div class="note">Weeks 3–5<br>Invoice: Shared across the cycle invoices below</div></td>
-<td class="num">$78,000</td><td>Engineers assigned to your engagement (the roles are listed in the hours table) keep the training loop running and diagnose each cycle. The effort follows the number of cycles, so this fee is spread across the cycle invoices rather than charged up front.</td></tr><tr><td class="num">3</td><td><strong>3 RL cycles</strong><div class="note">One cycle every 1 week<br>Invoice: Invoiced as each cycle completes</div></td>
-<td class="num">$72,000</td><td>Each cycle runs the full loop: train, generate rollouts, evaluate on held-out cases, and report. The price covers managed compute, orchestration and evaluation, so you do not receive a separate GPU bill. This price is set for a standard-size model, because larger models need more compute per cycle.</td></tr><tr><td class="num">4</td><td><strong>Handoff and independent verification</strong><div class="note">Week 6<br>Invoice: Week 6, on signed handoff</div></td>
-<td class="num">$30,000</td><td>An independent check on data the model never trained on, plus everything your team needs to run the model without us.</td></tr></tbody></table></div>
-<p><strong>Total: $210,000</strong>. Each phase is billed on the timing shown above.</p>
+<h2>2. GPU type</h2>
+<p>A GPU type moves cost through two things: its hourly rate and how much work an hour buys. The table compares cost per unit of work, not the sticker rate, because a faster GPU can cost less per unit of work even at a higher hourly price. Existing capacity only counts for the matching GPU type, so switching type can also change which weeks are covered and how they are bought.</p>
+<h3>Example deal</h3>
+<div class="wrap"><table><thead><tr><th>GPU</th><th class="num">PayGo $/GPU-h</th><th class="num">Throughput vs H100</th><th class="num">$ per unit of work</th><th>Capacity method</th><th class="num">GPU cost</th><th class="num">Share of COGS</th><th class="num">Cost-driven price</th><th>Capacity verdict</th></tr></thead><tbody><tr><td>H100</td><td class="num">$5.49</td><td class="num">1.0×</td><td class="num">$5.49</td><td>Existing</td><td class="num">$8,400</td><td class="num">7.9%</td><td class="num">$193,800</td><td class="muted">FEASIBLE</td></tr><tr><td>B200</td><td class="num">$8.50</td><td class="num">2.2×</td><td class="num">$3.86</td><td>PayGo</td><td class="num">$12,982</td><td class="num">11.6%</td><td class="num">$202,964</td><td class="muted">UNFUNDED</td></tr><tr><td>B300</td><td class="num">$11.00</td><td class="num">3.0×</td><td class="num">$3.67</td><td>PayGo</td><td class="num">$12,320</td><td class="num">11.1%</td><td class="num">$201,640</td><td class="muted">UNFUNDED</td></tr></tbody></table></div>
+<h3>Stress case: 8 RL cycles, 10x rollout attempts</h3>
+<div class="wrap"><table><thead><tr><th>GPU</th><th class="num">PayGo $/GPU-h</th><th class="num">Throughput vs H100</th><th class="num">$ per unit of work</th><th>Capacity method</th><th class="num">GPU cost</th><th class="num">Share of COGS</th><th class="num">Cost-driven price</th><th>Capacity verdict</th></tr></thead><tbody><tr><td>H100</td><td class="num">$5.49</td><td class="num">1.0×</td><td class="num">$5.49</td><td>Extend</td><td class="num">$113,288</td><td class="num">33.8%</td><td class="num">$609,775</td><td class="muted">SCHEDULE RISK</td></tr><tr><td>B200</td><td class="num">$8.50</td><td class="num">2.2×</td><td class="num">$3.86</td><td>Reserve</td><td class="num">$64,835</td><td class="num">23.0%</td><td class="num">$512,869</td><td class="muted">SCHEDULE RISK</td></tr><tr><td>B300</td><td class="num">$11.00</td><td class="num">3.0×</td><td class="num">$3.67</td><td>Reserve</td><td class="num">$83,825</td><td class="num">27.7%</td><td class="num">$550,851</td><td class="muted">SCHEDULE RISK</td></tr></tbody></table></div>
+<p class="note">Capacity verdicts other than FEASIBLE mean the planned weeks are not fully covered on that GPU type. The deal stays on HOLD until capacity is confirmed.</p>
 
-<h2>Thought process</h2>
+<h2>3. Other inputs that move the price</h2>
+<h3>Base model size class</h3>
+<p>The class sets the GPU-hours, the GPU count and the cycle engineering factor. One representative model per class is shown on the example GPU.</p>
+<div class="wrap"><table><thead><tr><th>Class</th><th>Model</th><th class="num">GPU-hours</th><th class="num">COGS</th><th class="num">Cost-driven price</th></tr></thead><tbody><tr><td>Class 1</td><td>Qwen3.5-4B</td><td class="num">1,344</td><td class="num">$101,046</td><td class="num">$183,720</td></tr><tr><td>Class 2</td><td>Qwen3.6-35B-A3B</td><td class="num">3,360</td><td class="num">$106,590</td><td class="num">$193,800</td></tr><tr><td>Class 3</td><td>Qwen3.5-122B-A10B</td><td class="num">6,720</td><td class="num">$119,227</td><td class="num">$216,776</td></tr></tbody></table></div>
+<h3>RL cycles</h3>
+<p>Each cycle adds GPU-hours and cost, so the price rises with the cycle count. While the fixed fees already exceed the cost-driven floor, the price is the fixed fees and the margin sits above target.</p>
+<div class="wrap"><table><thead><tr><th class="num">Cycles</th><th class="num">GPU-hours</th><th class="num">COGS</th><th class="num">Cost-driven price</th><th class="num">Margin</th></tr></thead><tbody><tr><td class="num">1</td><td class="num">1,147</td><td class="num">$55,139</td><td class="num">$138,000</td><td class="num">60.0%</td></tr><tr><td class="num">2</td><td class="num">2,253</td><td class="num">$80,865</td><td class="num">$147,027</td><td class="num">45.0%</td></tr><tr><td class="num">3</td><td class="num">3,360</td><td class="num">$106,590</td><td class="num">$193,800</td><td class="num">45.0%</td></tr><tr><td class="num">4</td><td class="num">4,467</td><td class="num">$132,315</td><td class="num">$240,573</td><td class="num">45.0%</td></tr><tr><td class="num">5</td><td class="num">5,573</td><td class="num">$158,041</td><td class="num">$287,347</td><td class="num">45.0%</td></tr><tr><td class="num">6</td><td class="num">6,680</td><td class="num">$183,766</td><td class="num">$334,120</td><td class="num">45.0%</td></tr><tr><td class="num">7</td><td class="num">7,787</td><td class="num">$210,514</td><td class="num">$382,752</td><td class="num">45.0%</td></tr><tr><td class="num">8</td><td class="num">8,893</td><td class="num">$237,261</td><td class="num">$431,384</td><td class="num">45.0%</td></tr></tbody></table></div>
+
+<h2>4. The customer price</h2>
+<div class="wrap"><table><thead><tr><th>Price basis</th><th class="num">Price</th><th class="num">Margin</th><th>Use</th></tr></thead><tbody>
+<tr><td>Rate card (default; customer copy)</td><td class="num">$210,000</td><td class="num">49.2%</td><td>Matches the workbook and the customer proposal below.</td></tr>
+<tr><td>Cost-driven (hybrid mode)</td><td class="num">$193,800</td><td class="num">45.0%</td><td>The lowest price that holds the target margin on this cost.</td></tr>
+</tbody></table></div>
+<p>The rate card sits $16,200 above the cost-driven price, which is margin above target. That gap is the room to negotiate down without breaking policy.</p>
+
+<h2>5. Thought process</h2>
 <ol class="steps">
-  <li><strong>Price from cost, not from competitors.</strong> The internal cost model sets a floor; the price is set so the margin target holds. The rationale page gives the numbers and the reasons for the target and floor.</li>
-  <li><strong>Fund the foundation first.</strong> The readiness phase is the largest single fee before any training. It builds the evaluation and grader that every later cycle depends on, and it can be reused with another model.</li>
-  <li><strong>Make each cycle a visible decision.</strong> Cycle fees are explicit, so the customer decides to continue or stop after each cycle knowing what the next one costs.</li>
-  <li><strong>Defend the price on scope.</strong> If a competitor is cheaper, match scope rather than rate. The pricing and margin page shows the margin left after a match and the walk-away price.</li>
+  <li><strong>Cost sets the floor.</strong> The RL cycle line is the only part of the price that follows compute cost. The people fees are fixed, so the price reads as a stable rate card to the customer.</li>
+  <li><strong>GPU type matters through cost per unit of work.</strong> Compare the last column of the GPU table, not the hourly rate.</li>
+  <li><strong>Scope matters more than hardware at this size.</strong> On the example deal GPU cost is under a tenth of COGS. In the compute-heavy stress case it is a quarter to a third, and the GPU choice then moves the price a lot.</li>
+  <li><strong>Negotiate on scope, not on GPU.</strong> If the customer pushes on price, the gap to the cost-driven price is the room. Trading cycles or workflow scope keeps the economics intact. Cutting the price against an unconfirmed GPU rate does not: if the rate is wrong, the margin goes with it.</li>
 </ol>
 
 <h2>The customer copy</h2>
 <iframe class="doc-frame" src="customer/pricing-proposal.html" title="Pricing proposal, customer copy"></iframe>
-<p class="note"><a href="customer/pricing-proposal.html">Open the customer copy in its own tab</a> · print from there for a clean copy.</p>
-
+<p class="note"><a href="customer/pricing-proposal.html">Open the customer copy in its own tab</a>.</p>
 <p class="footer">Applied Compute take-home · Pricing the Engine. Planning model, not a quote. Generated from the same engine as the live tool; rebuilt with <code>npm run build</code>.</p>
 </main>
 </body>
