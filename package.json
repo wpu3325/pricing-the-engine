@@ -14,10 +14,12 @@
     "golden": "python3 scripts/gen_golden.py",
     "sync-data": "node scripts/sync_data.mjs",
     "samples": "node scripts/build_samples.mjs",
-    "verify": "node scripts/verify.mjs",
-    "e2e": "playwright test"
+    "verify": "node scripts/build.mjs && node scripts/verify.mjs",
+    "e2e": "playwright test",
+    "build": "node scripts/build.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0"
+    "@playwright/test": "^1.49.0",
+    "esbuild": "^0.25.12"
   }
 }

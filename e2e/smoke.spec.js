@@ -5,7 +5,7 @@ test('default deal reproduces the workbook headline numbers', async ({ page }) =
   await expect(page.locator('.strip')).toContainText('$210,000');
   await expect(page.locator('.strip')).toContainText('$106,590');
   await expect(page.locator('.strip')).toContainText('3,360 GPU-h');
-  await expect(page.locator('.strip .chip').first()).toContainText('HOLD - MODEL');
+  await expect(page.locator('.strip .kpi').last().locator('.chip')).toContainText('HOLD - MODEL');
 });
 
 test('changing cycles updates the quote live and focus stays in the form', async ({ page }) => {
