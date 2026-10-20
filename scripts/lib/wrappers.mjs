@@ -57,7 +57,7 @@ export function buildSowPage(deal, r) {
 <div class="banner">Review page. The statement of work below is the customer copy, marked as a draft until legal review.</div>
 
 <h2>Intent</h2>
-<p>Put the commercial risk where it can be managed. Protect Applied Compute now with a defined scope, objective acceptance and milestone invoices. Protect the customer as the engagement grows with explicit triggers, so expansion is a new order and never a silent change.</p>
+<p>Commit only to a defined scope now, with objective acceptance and milestone invoices. As the work grows, explicit triggers make expansion a new order, not a silent change in scope.</p>
 
 <h2>Short term and long term</h2>
 <div class="wrap"><table><thead><tr><th>Now (this order)</th><th>As the customer expands</th></tr></thead><tbody>
@@ -71,7 +71,7 @@ export function buildSowPage(deal, r) {
 <ol class="steps">
   <li><strong>Stop rules belong to the customer.</strong> A score can prompt a review, but it never stops contracted work on its own. This keeps the customer in control without giving them a free exit after the work is paid for.</li>
   <li><strong>Pay for finished work.</strong> Milestones match the phases in the proposal, so the invoice and the deliverable line up one for one.</li>
-  <li><strong>Re-paper on triggers, not on feelings.</strong> Section 5 of the SOW lists the triggers. Each one is a reason to re-scope and re-price the work.</li>
+  <li><strong>Re-paper on named triggers.</strong> Section 5 of the SOW lists the triggers. Each one is a reason to re-scope and re-price the work.</li>
 </ol>
 
 <h2>The customer copy</h2>

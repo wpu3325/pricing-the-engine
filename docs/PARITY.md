@@ -1,6 +1,6 @@
 # Parity log
 
-Every number in the tool is traceable to a workbook cell, a documented deviation, or a labelled proxy. This file is the audit trail.
+Every number in the tool is traceable to a workbook cell, a documented deviation, or a labelled proxy. This file is the audit trail. “Brief” means the build brief in [MVP_BRIEF.md](MVP_BRIEF.md).
 
 ## 1. Verified parity (engine vs recalculated workbook)
 
@@ -23,9 +23,9 @@ Cell map: `test/mapping.js`. Workbook source: `deliverables/downloads/AppliedCom
 
 Not parity-affecting, MVP-only additions: the workload profile layer (`src/engine/profile.js`), sensitivity analysis (`src/sensitivity.js`), share links and deal files, customer SOW/proposal generation.
 
-## 3. Conflicts between the supplied artifacts (resolved case by case)
+## 3. Conflicts with the original deck
 
-The deck, GTM PDFs and workbook disagree in places. Decision: the **workbook formulas and the engine** are canonical for calculation. Commercial policy follows the deck only where the workbook is silent.
+The original deck and GTM PDFs disagreed with the workbook in places. Decision: the **workbook formulas and the engine** are canonical. Commercial policy follows the deck only where the workbook is silent.
 
 | # | Item | Deck / GTM pack | Workbook | Decision in the MVP |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@ The deck, GTM PDFs and workbook disagree in places. Decision: the **workbook for
 | C-6 | Engineering hours | Slide 8: "300 hours, $78K" | Fixed $78K engineering fee; hours are internal cost, not sold | Fixed fee to the customer; hours only in the internal cost model |
 | C-7 | Model catalogue count | Workbook guide: 30 documented options | `model_catalog.json`: 30 entries | Consistent; no change |
 
-**Resolution (current):** the deck and GTM PDFs (`01`–`04`) are no longer in the repository. They carried the conflicting figures above and were never re-typeset, so keeping them invited readers to compare stale numbers. The workbook is canonical, and every figure a reader sees comes from the engine. The original pack remains in git history at commit `a000e1b`.
+**Status:** the deck and GTM PDFs were removed from the repository, so readers cannot compare them with the workbook. The table stays as a record for the walkthrough. The original pack is in git history before commit `a000e1b`.
 
 ## 4. Proxies that are NOT verified
 
@@ -48,7 +48,7 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 - Workload profile presets (`data/workload_presets.json`) and GPU HBM sizes (`data/gpu_skus.json`).
 - Model parameter counts from the supplied catalogue. Several are null and are shown as "Not verified".
 
-## 5. Deviations added with the cost ledger and the proposal redesign
+## 5. Deviations added with the cost ledger and the proposal
 
 | ID | Workbook behaviour | MVP behaviour | Why | Evidence |
 |---|---|---|---|---|
@@ -57,7 +57,7 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 | D-9 | Marketplace and payment fees not modelled | Not modelled; documented as excluded | Those fees depend on the price, which would be circular | `docs/COGS_LEDGER.md` |
 | D-10 | Final holdout evaluation compute is not costed separately | Still not costed; flagged as a known gap | Adding it would change the workbook baseline; it should be costed before a quote | `docs/PRICING_RATIONALE.md` §6 |
 
-## 6. Artifact conflicts refreshed
+## 6. Other refreshed conflicts
 
 - **C-6 (engineering hours).** The deck quotes "300 hours" for engineering. The tool now shows effort from the labour inputs: 108 hours in the foundation and 312 across three cycles, 420 in total.
 - **Stale PayGo price.** The workbook's $3.99 H100 PayGo is the expired Together promotion (list $5.49). It is kept for parity. The illustrative extension preset uses $5.49.
