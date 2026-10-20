@@ -13,7 +13,7 @@ export function defaultDeal() {
     },
     model: 'Qwen3.6-35B-A3B',                // B7
     method: 'GRPO',                          // B9
-    data: { type: 'text', examples: 0, tokensPerExample: 1500, taskType: 'tool-use', contextTokens: 8192 }, // drive suggestions only (profile.js)
+    data: { type: 'text', examples: 28444, tokensPerExample: 1500, taskType: 'tool-use', contextTokens: 8192 }, // drive suggestions only (profile.js)
     customParams: { totalB: null, activeB: null, architecture: 'Unknown' },
     rl: {
       cycles: 3,                             // B10
@@ -57,6 +57,21 @@ export function defaultDeal() {
       storageNetworking: 1500,                // B64
       platformSupport: 4000,                  // B65
       reworkPct: 0.10,                        // B66
+    },
+    // Additional cost lines that the workbook does not carry. All default to $0,
+    // so the default deal reproduces the workbook exactly (see test/parity.test.js).
+    extras: {
+      devComputeGpuHours: 0, devComputeRate: 0,          // dev and smoke-test GPU time
+      rerunReservePct: 0,                                 // re-run reserve, % of GPU cost
+      judgeApiPerCycle: 0, toolApiPerCycle: 0, sandboxPerCycle: 0, // per-cycle third-party spend
+      humanReviewHours: 0, supportRate: 0,                // reviewer hours; blended non-engineering rate
+      dataLabourHours: 0, dataLabellingVendor: 0,         // data preparation
+      storageTbMonths: 0, storageRatePerTbMonth: 0, egressTb: 0, egressRatePerTb: 0,
+      piiTooling: 0,
+      scopingHours: 0, csHours: 0, securityReviewHours: 0, legalHours: 0, verifierHours: 0,
+      onCallWeeks: 0, onCallRatePerWeek: 0, trips: 0, tripCost: 0,
+      seats: 0, seatCost: 0, softwareLicences: 0, baseModelLicence: 0,
+      insurancePct: 0,                                    // insurance, % of direct cost
     },
     pricing: {
       mode: 'rateCard',                       // rateCard (workbook) | costPlus (MVP extension)

@@ -6,9 +6,13 @@ import { compute } from '../src/engine/index.js';
 import { loadCatalog } from '../src/engine/catalog.js';
 import { buildSow, buildProposal, buildCogsCsv, buildDealJson, escapeHtml, fileName } from '../src/documents.js';
 import { dealWith } from './helpers.js';
+import { money, pct } from '../src/format.js';
 
 const catalog = loadCatalog();
-const FORBIDDEN = /COGS|gross margin|\bmargin\b|allocat|opportunity|loaded|per hour|\/hour|PayGo|reserv|rework|\bFDE\b|supplier|GPU-hour|\bGPU-h\b/i;
+// Words that must never appear in customer text. GPU-hours are allowed only as the
+// included compute allowance (a quantity), never as a price.
+const FORBIDDEN = /COGS|gross margin|\bmargin\b|allocat|opportunity|loaded|per hour|\/hour|\/h\b|per GPU|\/GPU|PayGo|reserv|rework|\bFDE\b|supplier|walk-away|Proposed price adjustment|hourly rate/i;
+const PRICE_PATTERN = /\$[\d,.]+\s*(\/|per)\s*(h|hour|GPU)/i;
 
 test('customer SOW and proposal contain no internal cost, margin or labour terms', () => {
   const deal = dealWith({ 'serving.include': true });
@@ -17,6 +21,11 @@ test('customer SOW and proposal contain no internal cost, margin or labour terms
     const text = html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
     const hit = text.match(FORBIDDEN);
     assert.equal(hit, null, `internal term leaked: ${hit && hit[0]}`);
+    assert.equal(PRICE_PATTERN.test(text), false, 'no per-hour or per-GPU price');
+    // No formatted internal figure from this deal may appear (exact COGS, rework, margin, floor).
+    for (const bad of [money(r.cogs.cogs), money(r.cogs.rework), pct(r.pricing.grossMargin), money(r.pricing.marginFloorPrice)]) {
+      assert.equal(text.includes(bad), false, `internal figure leaked: ${bad}`);
+    }
   }
 });
 

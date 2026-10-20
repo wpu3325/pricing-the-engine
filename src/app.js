@@ -11,6 +11,7 @@ import { CUSTOM } from './ui/forms.js';
 import { buildSow, buildProposal, buildCogsCsv, buildDealJson, fileName, escapeHtml } from './documents.js';
 import { suggestAll } from './engine/profile.js';
 import { undercut } from './sensitivity.js';
+import { COGS_EXTENDED_PRESETS } from './data/cogs_extended_presets.js';
 
 const catalog = loadCatalog();
 const DEFAULTS = defaultDeal();
@@ -202,6 +203,12 @@ function onClick(e) {
   if (t.dataset.useModel) { state.deal.model = t.dataset.useModel; commit({ full: true }); toast(`Selected ${t.dataset.useModel}. Still needs qualification.`); return; }
   switch (t.dataset.action) {
     case 'guide': $('#guide').innerHTML = renderGuide(); $('#guide').showModal(); return;
+    case 'fill-extras':
+      for (const [k, v] of Object.entries(COGS_EXTENDED_PRESETS.values)) state.deal.extras[k] = v;
+      commit({ full: true }); toast('Illustrative cost lines filled. Margin updated.'); return;
+    case 'clear-extras':
+      for (const k of Object.keys(state.deal.extras)) state.deal.extras[k] = 0;
+      commit({ full: true }); toast('Back to the workbook cost baseline'); return;
     case 'close-guide': $('#guide').close(); return;
     case 'export-doc': {
       const kind = t.dataset.kind;

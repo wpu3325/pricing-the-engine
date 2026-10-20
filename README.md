@@ -1,172 +1,201 @@
 # Pricing the Engine
 
-A deal-economics tool for an enterprise RL post-training engagement: model the cost to deliver, decide how to buy the GPUs, set a price and margin, stress-test it, and generate a customer SOW and pricing proposal.
+**A deal tool for enterprise reinforcement-learning (RL) post-training.** It takes a customer's request, works out what the engagement needs, prices what it costs to deliver, and produces the proposal and statement of work a customer can read line by line.
 
-It answers the Applied Compute take-home ("Pricing the Engine"): **(A)** a COGS model with the cost lines, assumptions and flexible inputs, and **(B)** a pricing structure, SOW, margin target, contract protections and re-papering triggers.
-
-Live tool: GitHub Pages (enabled by `.github/workflows/pages.yml` once the repo is published). Run locally with `npm start`, then open http://localhost:8080.
+Built for the Applied Compute take-home ("Pricing the Engine"). Live: https://wpu3325.github.io/pricing-the-engine/ · run locally by double-clicking `index.html`, or with `npm start`.
 
 ---
 
-## The answer in one screen
+## The story of one deal
 
-**Default engagement** (the workbook's example: Qwen3.6-35B-A3B, three weekly RL cycles, 8 spare H100 GPUs):
+Here is how the tool handles a real request, using the default example.
 
-| | |
-|---|---|
-| Demand | 3,360 GPU-hours over six weeks |
-| Forecast delivery COGS | **$106,590** (rework allowance included) |
-| Customer quote | **$210,000** = readiness $30K + engineering $78K + 3 cycles $72K + handoff $30K |
-| Gross margin | **49.2%** (target 45%, minimum 35%; the target-margin floor is $193,800) |
-| Capacity | Covered by owned spare GPUs in weeks 1–8. No new purchase needed |
-| Status | **HOLD – MODEL**: benchmark, training access and GPU SKU rate are not yet confirmed |
+**1. The customer asks.** *Example Enterprise* wants its internal workflow automation improved by RL post-training: their own model, trained on their own data and their own success measure. They want three weekly cycles, with a clear go / no-go point at the start.
 
-The tool will not say READY until the model is qualified (benchmark, licence and training access, SKU rate confirmed), the capacity is feasible, the price is within budget, and the margin clears the minimum. A proxy can never produce READY. These numbers come from the same engine that is verified against the supplied workbook (see [Verification](#verification)).
+**2. We learn what they have.** Their data is text documents, about **28,400 training examples**. The tool estimates **42.7 million tokens per cycle** from the example count and tokens per example, and suggests a task type (multi-turn tool use) that sets rollout and evaluation sizes. The suggestion is labelled as a proxy until measured.
 
----
+**3. We align on the model.** The tool ranks the catalogue for text data and RL eligibility. **Qwen3.6-35B-A3B** comes out top: it is RL-listed, is a 35-billion-parameter mixture-of-experts model that activates 3 billion parameters per token, and runs on one 8-GPU node. What is still unverified is the benchmark on our hardware and the licence. Those gates stay closed until someone confirms them.
 
-## A. COGS model
+**4. We size the work.** The model turns tokens into GPU-hours using measured throughput: **3,360 GPU-hours** across six weeks, with a training footprint of about 422 GB (one 8×H100 node).
 
-### Every cost line in a post-training engagement
+**5. We decide how to buy the GPUs.** The customer's prepaid pool has **8 spare H100s** in weeks 1–8, which covers the whole engagement. The tool compares PayGo, one-week extensions and reservations for any shortfall, and recommends the cheapest. Here the answer is *no purchase needed*.
 
-| Pool | What it covers | Driver in the tool | Included in |
+**6. We cost the delivery.** The full **cost ledger** has about 40 lines grouped into compute, people, evaluation, data, platform and risk. Each line is tagged to the phase that causes it and marked as either a workbook line or an extension. The workbook's own costs come to **$106,590** including a 10% rework allowance. Adding the costs that the workbook leaves out (judge APIs, data labelling, reviewers, security review, storage, and so on) raises delivery cost to about **$130,000**.
+
+**7. We price it in four phases.** The customer pays for four things, each with its effort in hours and why it costs what it does:
+
+| Phase | What the customer gets | Price | Effort |
 |---|---|---|---|
-| Training GPUs | Policy-update jobs | Policy tokens ÷ measured throughput | GPU COGS |
-| Rollout GPUs | Trajectory generation | Attempts × (input × work factor + output) ÷ throughput | GPU COGS |
-| Eval + graders | Held-out runs, judge APIs | Eval cases × work tokens ÷ throughput, plus grader cost per cycle | GPU COGS + graders |
-| Agent sandboxes | CPU, tools, environments | Included in graders/sandbox line | Graders |
-| Engineering | FDE, research, infrastructure, delivery | (setup hours + cycles × hours per cycle) × loaded rate | Engineering |
-| Data + checkpoints | Storage, transfer, logs | Fixed storage/network line | Storage |
-| Network + operations | Platform and direct support | Fixed platform line | Platform |
-| Expected rework | Failed runs, grader changes | % of base cost | Rework |
+| 1 · Eval and environment foundation | A frozen held-out evaluation set, a grader, a production-realistic environment and a measured baseline | $30,000 | 108 hours |
+| 2 · Engineering through the cycles | Harness, grader quality and diagnostics for every cycle | $78,000 | 312 hours |
+| 3 · Three RL cycles | Rollouts, held-out evaluation and a score report per cycle, with the compute included | $72,000 | $24,000 per cycle |
+| 4 · Handoff and verification | Untouched holdout evaluation, checkpoint, reproducibility report and runbook | $30,000 | fixed |
+| **Total** | | **$210,000** | |
 
-Per GPU-hour the model is: `GPU-hours = demand ÷ (measured throughput × model-class factor)`. GPU COGS = already-paid capacity (allocated) + any new capacity cash. Opportunity cost is shown separately and is not booked as COGS.
+The price is set by the workload, but the rate card has a floor: the price must cover delivery cost at the target margin. With the workbook costs the margin is 49.2%. With the illustrative extension costs filled in, the floor applies and the price rises to $236,358 so the margin holds at the 45% target. The tool shows that adjustment *inside* the phases, not as a separate charge.
 
-**Deliberately excluded from COGS:** corporate overhead, sales and marketing, R&D on the platform, and customer-side compute. The customer bills their own compute under their own cloud contract when BYOC is selected.
+**8. We check the margin by phase.** The Economics step shows whether each phase covers its own cost. Phase 1 earns a thin margin on purpose, as an entry point. The cycles earn most of the margin. The Handoff phase looks too profitable because its final evaluation compute is not yet costed (see Limits).
 
-### Assumptions the engagement needs (and what each one is)
+**9. We hold the quote until it is ready.** The status stays at **HOLD – MODEL** until the benchmark, the licence and the GPU rate are confirmed. A proxy can never produce READY. Once every gate clears, the proposal is marked as a draft for commercial and legal review.
 
-- **Demand:** training tokens per cycle, rollout attempts, input/output tokens per rollout, eval cases. The workload profile suggests these from the data type, dataset size and task type. Suggestions are labelled UNVERIFIED PROXY.
-- **Performance:** measured trainer, rollout and eval throughput per model and GPU SKU. This is the largest unverified input (see Limits).
-- **Capacity:** spare GPUs per pool with start/expiry weeks and SKU. Purchase prices for PayGo, one-week extension and reservation, with the reservation minimum.
-- **Labour and external:** loaded hourly rates and hours, graders, storage, platform, rework %.
-- **Gates:** benchmark confirmed, training access and licence approved, GPU SKU rate confirmed, data access.
+**10. The customer gets a clear document.** The proposal shows the total, the four phases with what each buys, when each invoice is issued and what it costs, what changes the price (one more cycle is +$48,000), what is not included, a glossary and common questions. The statement of work carries the same invoices, the stopping rules, and the triggers that require a new contract.
 
-Every one of these has a hover explanation, the workbook cell it lives in, and its evidence status.
-
-### Flexing it per deal
-
-- Enter the customer's data, model and task; the tool suggests demand, a model shortlist and a GPU SKU. Nothing changes until you press Apply.
-- Change any input, and the quote, COGS, margin, capacity and status update live.
-- **Save deal / Load deal** writes a JSON file. **Share link** encodes the deal in the URL, with no server.
-- Starter scenarios cover a text workflow, a code agent, document vision, and a frontier MoE that hits the B300 gate.
+**11. The customer stays in control.** After every cycle the customer chooses to continue or stop. Scores can prompt a review but never stop contracted work on their own. If the customer stops early, they pay for approved work completed and for any non-cancellable third-party compute committed for the engagement.
 
 ---
 
-## B. Pricing structure, SOW and margin
+## Quick start
 
-### The price the customer sees
+```bash
+open index.html            # double-click works: the app is a single self-contained file
+# or
+npm start                  # serves on http://localhost:8080
+```
 
-| Line | Basis | Why it is priced this way |
+Pick a starter scenario (text workflow, code agent, document vision, frontier MoE that hits the B300 gate), change any input, and every number updates live. **Share link** encodes the deal in the URL. **Save deal** and **Load deal** use a JSON file.
+
+---
+
+## A. The COGS model
+
+Cost to deliver is the sum of the lines below. Workbook lines reproduce the supplied configurator exactly. Extension lines are added by this tool and are $0 until you fill them.
+
+| Group | What it covers | Examples |
 |---|---|---|
-| Readiness and baseline | $30K, once | Feasibility, baseline and grader design happen before any spend on training. The customer pays to find out whether RL will work |
-| Engineering and integration | $78K, fixed | Harness, grader implementation and integration. It is a fixed fee because the scope is fixed |
-| RL cycles | $24K × cycles × model-class factor (small 0.65×, standard 1×, large 2.5×) | Each cycle is train → rollout → eval → decision. Larger models cost more per cycle in GPU-hours |
-| Extra-cycle engineering | $24K per cycle beyond 3 | Each extra cycle needs named engineering |
-| Handoff and independent verification | $30K, once | Held-out evaluation, reproducibility and checkpoint delivery |
+| **Compute and capacity** | GPU time for training, rollouts and evaluation; spare or purchased capacity | policy, rollout and evaluation GPUs; dev and smoke-test GPU time; re-run reserve |
+| **People and overhead** | Engineers by role, split into setup and per-cycle effort | forward-deployed, research, infrastructure and delivery; scoping, success, security, legal, the verification reviewer |
+| **Evaluation and environments** | Graders, judges and sandboxes | baseline and per-cycle graders; external judge APIs; third-party tools; sandbox CPU; human quality review |
+| **Data and storage** | Preparing and keeping the data and checkpoints | storage and networking; data ingestion labour; labelling vendors; object storage; egress; PII tooling |
+| **Platform and tools** | Running the platform and the team | platform support; on-call cover; travel; observability seats; software and base-model licences |
+| **Risk** | Allowances for things that go wrong | expected rework (10% in the workbook); insurance allocation |
 
-Customer documents show only these lines. They never show COGS, labour rates, GPU supplier prices, margin, opportunity cost, or the walk-away price. A test scans every generated customer document for those terms.
+The full line-by-line ledger, with each line's driver and phase, is in [`docs/COGS_LEDGER.md`](docs/COGS_LEDGER.md).
 
-### Margin profile and reasoning
+**What is deliberately excluded:** corporate overhead, sales, platform R&D, the customer's own cloud bill, and taxes. Marketplace fees depend on the price, so they are left out to avoid a circular calculation.
 
-- **Target 45%, floor 35%.** The target is a policy setting to test, not a company-published number. The deck's own guidance is 40–50%.
-- **Why this range:** the work is services-heavy with variable GPU and labour cost, and carries real capacity risk (buying GPUs you cannot use), so a 35% floor protects against the worst case while 45% leaves room for rework and discounts.
-- **Rate-card mode** (default) raises the price to the floor only when the itemised fees fall short. That raise is a **proposed** adjustment that needs written approval. It is never auto-billed.
-- **Cost-plus mode** prices at COGS ÷ (1 − target) for deals that do not fit the rate card.
-- The customer's **discount** lowers margin; it does not lower cost.
-- Serving is a separate order and is priced on its own margin.
+**How to flex it for a deal.** Enter the workload (data, task, cycles), the measured throughput, the capacity you hold, and the labour and cost lines. The Deal step's *Additional cost lines* card has a **Fill illustrative estimates** button, which populates realistic values you can edit, and a **Clear** button that returns to the workbook baseline. Every number has a hover explanation that shows the equation, this deal's numbers and the workbook cell it comes from.
+
+---
+
+## B. Pricing, the SOW, and protecting the contract
+
+### How the price is built
+
+- **Rate card (default).** The four phases above are priced from their components. If the cost to deliver would give a margin below the target, the price rises to the floor. That raise is folded into the phases, and the customer sees it as part of each phase, not as a separate charge.
+- **Cost-plus.** For deals that do not fit the rate card, the price is delivery cost ÷ (1 − target margin).
+
+Margin policy is 45% target and 35% minimum. These are policy settings to test, not company-published numbers.
+
+### Why each phase costs what it does
+
+- **Phase 1, the foundation ($30,000).** Competitors who sell RL on compute alone leave the evaluation, grader and environment to the customer. This phase builds them and leaves them with the customer, reusable for any later model. The price is about $278/h of effort, inside the $200–350/h band in the consulting benchmarks. It is 14% of the project, against 10–15% for paid discovery. The full justification and its sources are in [`docs/PRICING_RATIONALE.md`](docs/PRICING_RATIONALE.md).
+- **Phase 2, engineering ($78,000).** Named engineers keep the training loop running. Their effort follows the cycle count, so the fee is spread across the cycle invoices.
+- **Phase 3, cycles ($24,000 each).** Each cycle covers the full loop and the managed compute. The price depends on model size, because larger models need more compute per cycle.
+- **Phase 4, handoff ($30,000).** An independent check on data the model never trained on, and the package the customer needs to run the model themselves.
 
 ### Defending the price
 
-- **Pushback on cost:** every line of the proposal maps to a deliverable. The internal COGS is traceable to the workbook, and the tool re-runs cleanly when any assumption changes. Be ready to show the three things that drive cost: GPU-hours (throughput), the number of cycles, and labour.
-- **Competitor undercut:** the Economics step has a calculator. It shows the margin left if we match, and the walk-away price (COGS ÷ (1 − 35%)). The rule is **trade scope, not rate**: reduce cycles, shorten readiness, or narrow the workflow, so the price per unit of work stays at or above the floor. The tornado shows which assumption protects the margin most.
+- **Pushback on cost.** Every charge maps to a deliverable and to effort hours by role. Internal cost, rates and margins never reach the customer. The customer documents are tested to contain none of them.
+- **A cheaper competitor.** The Economics step has a calculator. It shows the margin left if you match the competitor, and the walk-away price. The rule is to **trade scope, not rate**: fewer cycles, a shorter foundation or a narrower workflow, so the price per unit of work stays at or above the floor. The tornado chart shows which assumption protects the margin most.
 
-### Contract protections: short term vs long term
+### Protecting the contract
 
-**Protect in the short term (first engagement):**
-- Scope limited to one workflow and one base model, with a fixed cycle count (`cycles`, `cadence`) and a change order for anything beyond it.
-- Customer-controlled stop/continue after every cycle. Score thresholds trigger a review, never an automatic stop, so contracted work is not stopped silently.
-- Acceptance on objective evidence (run IDs, frozen held-out results, signed artifacts), not a guaranteed quality uplift.
-- Fees are milestone-based and paid per phase, so cash follows delivery.
-- If the customer pauses or terminates, they cover approved work and any non-cancellable third-party compute commitments made for the engagement, net of reasonable redeployment.
+**In the short term (the first engagement):**
+- Scope is one workflow and one base model, with a fixed number of cycles. Anything beyond needs a change order.
+- The customer decides whether to continue or stop after each cycle. Scores can prompt a review, but they never stop contracted work on their own.
+- Acceptance is on objective evidence (run IDs, frozen held-out results, signed artifacts), not a promised quality uplift.
+- Fees are invoiced by milestone, so cash follows delivery.
+- If the customer stops early, they pay for approved work and for any non-cancellable third-party compute committed for the engagement, net of reasonable reuse.
 
-**Protect in the long term (as the customer expands):**
-- Re-price when the base model, method, data regime, region or GPU topology changes. Those are new capacity decisions, not the same contract.
-- Serving is a separate order with a traffic envelope, a warm-capacity floor and overage rates. Scale reviews start at 80% of the envelope and amendments are required before adding replicas.
-- Committed-volume pricing can step down only in return for a longer term or a larger minimum.
+**In the long term (as the customer expands):**
+- A new base model, a new method, a new data regime, a new region or GPU topology is a new capacity and pricing decision, and needs a new order.
+- Production serving is a separate order with a traffic envelope, a warm-capacity floor and overage rates.
+- Scale reviews start at 80% of the contracted envelope. Adding capacity needs an amendment first.
 
 ### When to re-paper
 
-The SOW section 5 lists the triggers. Each one requires a written amendment before work proceeds:
-
-1. New base model or method: re-check fit, memory, throughput and evaluator comparability.
-2. More RL cycles or higher token volume: a change order before exceeding the approved count.
-3. New workflow, data regime or grader: re-scope data rights, acceptance and timeline.
-4. New region, isolation or GPU topology: reassess capacity, security and price.
-5. Production launch or SLA upgrade: a separate serving order after a load test.
-6. Production demand above 80% of the contracted envelope: review; amend before adding replicas.
-7. Customer pause or termination: the net-cost clause above.
+The statement of work lists seven triggers, each requiring a written amendment before work proceeds: a new base model or method; more cycles or tokens than approved; a new workflow, data regime or grader; a new region or topology; a production launch or SLA upgrade; production demand above 80% of the envelope; and a customer pause or termination.
 
 ---
 
 ## Verification
 
-`npm run verify` runs every automated check in one command:
+`npm run verify` runs the whole automated gate in one command:
 
-- **Golden parity** (`test/parity.test.js`): 17 workbook scenarios recalculated with LibreOffice and compared against the engine, cell by cell. Every mapped cell matches within 1e-6, except the documented deviations.
-- **Brief acceptance tests** (`test/acceptance.test.js`): all ten mandatory tests from the build brief, plus custom model, stop rules and margin floor.
-- **Fuzz invariants** (`test/invariants.test.js`): 1,500 seeded random deals. Outputs stay finite, margins stay ≤ 100%, and READY only occurs when every gate has passed.
-- **Customer-safety tests** (`test/documents.test.js`): no internal term reaches a customer document; all user text is escaped; the CSV export is safe against formula injection.
-- **Explainability coverage** (`test/explain.test.js`): every input and every shown output has a meaning, equation and workbook reference.
-- **Sensitivity, profile, persistence and data sync** tests.
-- **Browser smoke suite** (`e2e/smoke.spec.js`, run with `npm run e2e`) and a phone-width overflow check.
+- **Workbook parity.** 17 scenarios are recalculated in LibreOffice from the supplied workbook, and the engine is compared cell by cell. The default deal reproduces the workbook exactly.
+- **The brief's acceptance tests.** All ten mandatory tests, plus custom-model, stop-rule and margin tests.
+- **Fuzz invariants.** 1,500 random deals: outputs stay finite, margins stay at or below 100%, and READY only occurs when every gate has passed.
+- **Customer-safety tests.** No internal cost, margin, rate or supplier term reaches a customer document, and no internal figure from the deal does either. User text is escaped. CSV exports are safe against spreadsheet formula injection.
+- **Offer tests.** In every scenario, the displayed phase fees and discount equal the displayed total, the invoices equal the total, and the what-changes figures match the engine.
+- **Coverage tests.** Every input and every shown output has a meaning, an equation and a workbook reference.
+- **Ledger tests.** Ledger lines add up to the total cost, and every line has a phase and a source.
+- **Browser tests** (`npm run e2e`) and a phone-width check.
 
-The golden fixtures are regenerated with `npm run golden` (requires LibreOffice). The sample documents are regenerated with `npm run samples`, and CI fails if they drift.
+The golden fixtures are regenerated with `npm run golden`, which needs LibreOffice. The sample documents are regenerated with `npm run samples`, and CI fails if they drift from the committed copies.
+
+---
+
+## Limits
+
+- **Throughput is the largest unknown.** The default of 100,000 tokens per GPU-hour is a proxy, not a benchmark. Until a benchmark is confirmed, the status stays HOLD.
+- **Most prices are illustrative.** The H100 rates, labour rates, the extension costs and the margin policy are placeholders for real figures. The workbook's $3.99 H100 price is an expired promotion; the list price is $5.49.
+- **Phase 4 is under-costed.** The final holdout evaluation compute is not in the workbook, so the handoff margin is overstated. Cost it before quoting.
+- **Parameter counts come from the supplied catalogue.** Several models have none, and the tool shows "Not verified" rather than a guess.
+- **Legal text is placeholder.** Anything in [brackets] needs counsel review. The statement of work is not a contract.
+- **Capacity is matched weekly.** It does not prove contiguous nodes, interconnect, quota or a reserve for failed jobs.
+- **The supplied deck and PDFs disagree with the workbook in places**: the deck's COGS is $112,097 against the workbook's $106,590. The workbook is canonical. The full list is in [`docs/PARITY.md`](docs/PARITY.md).
+
+---
+
+## Glossary
+
+- **RL cycle.** One round of training the model on its own attempts, scoring them, and updating the model.
+- **Rollout.** One attempt by the model at a task, recorded with its result.
+- **Held-out evaluation.** A test set the model never trains on, used to measure real improvement.
+- **Grader.** The rules that score an attempt.
+- **GPU-hour.** One GPU running for one hour. It is the unit of included compute.
+- **Checkpoint.** A saved version of the trained model with its exact settings.
+- **HOLD.** A status that means a required approval is missing. A quote cannot leave HOLD on a proxy.
+
+---
+
+## Common questions
+
+**Why pay for the foundation before training starts?** Training is only as good as the test that measures it. The foundation builds that test, the grader and a baseline, and you keep them.
+
+**Why is engineering separate from the cycles?** Engineers keep the loop running whether or not a given cycle improves the score. Their effort follows the cycle count, so it is billed with the cycles.
+
+**Why does the price depend on the model?** Larger models need more compute and more rollouts to learn the same task, so each cycle costs more.
+
+**Why is there a price adjustment in some scenarios?** If the delivery cost would push the margin below the target, the price rises to the floor. The rise is shown inside the phases.
+
+**What if a cycle does not improve the score?** You decide whether to continue, change direction or stop. You pay for the cycles and milestones completed.
+
+---
 
 ## Repo map
 
 ```
-index.html                  page shell (Applied Compute console look)
-src/engine/                 deterministic engine (no DOM): workload, capacity,
-                            cogs, pricing, serving, gates, profile, catalog, index.compute()
-src/documents.js            customer SOW, pricing proposal, internal COGS CSV, deal JSON
-src/sensitivity.js          tornado, cycle sweep, competitor undercut (full re-runs)
-src/explain.js              explanation registry (drives every ⓘ and the Guide)
-src/schema.js               form schema (order and wording follow workbook sheet 01)
-src/ui/                     charts (SVG), forms, tooltip, views
-src/app.js                  controller: state, events, persistence, exports
-data/                       model catalogue, workload presets, GPU SKUs, scenario fixtures
-docs/PARITY.md              deviations from the workbook, artifact conflicts, open items
-docs/ANSWERS.md             requirement-by-requirement answer map
-docs/samples/               generated sample SOW, proposal and internal COGS
-docs/reference/             supplied workbook, catalogue, GTM pack and briefs
-test/, e2e/                 automated tests
-scripts/                    verify, golden generator, data sync, sample builder
+index.html                 the app: one self-contained file (built from index.template.html + src/)
+src/engine/                deterministic engine, no DOM: workload, capacity, cogs (ledger),
+                           pricing, serving, gates, profile, catalog, compute()
+src/offer.js               customer offer model: phases, folded prices, invoices, what-changes
+src/documents.js           customer proposal, SOW, internal COGS CSV, deal JSON
+src/sensitivity.js         tornado, cycle sweep, competitor undercut
+src/explain.js             explanation registry behind every ⓘ and the Guide
+src/schema.js              form schema; order and wording follow workbook sheet 01
+src/ui/                    charts, forms, tooltip, views
+src/app.js                 controller: state, events, persistence, exports
+data/                      model catalogue, workload presets, GPU SKUs, COGS presets, scenarios
+docs/COGS_LEDGER.md        every cost line, driver, phase and source
+docs/PRICING_RATIONALE.md  why each phase is priced as it is, with sources and caveats
+docs/PARITY.md             deviations from the workbook, artifact conflicts, open items
+docs/ANSWERS.md            each take-home requirement mapped to the product and its tests
+docs/samples/              sample proposal, SOW and internal COGS export
+docs/reference/            supplied workbook, catalogue, GTM pack and briefs
+test/, e2e/                automated tests
+scripts/                   verify, build, golden generator, data sync, samples
 ```
-
-## Limits (read before using a number)
-
-- **Throughput is the biggest unknown.** The default 100,000 tokens/GPU-hour is a backsolved proxy, not a measurement. Until a benchmark is confirmed, the status stays HOLD, and the tool cannot be used to quote.
-- **Prices are illustrative.** The H100 rates, labour rates, graders, storage and margin policy are placeholders for Applied Compute's real figures.
-- **Parameter counts come from the supplied catalogue.** Several models have null counts. The tool shows "Not verified" and holds them. It does not guess.
-- **The model shortlist is a decision aid, not an availability claim.** Being listed does not mean access is confirmed.
-- **Legal language is placeholder.** Items in [brackets] need counsel review. The SOW is not a contract.
-- **The supplied deck, GTM PDFs and audit PDFs disagree with the workbook in places** (for example, the deck's COGS is $112,097, not $106,590). The workbook and engine are canonical. The full list and the open items are in `docs/PARITY.md`.
-- **Capacity matching is weekly.** It does not prove contiguous nodes, interconnect, quota or failed-job reserve. A green feasibility result is conditional on human verification.
-
-## Decisions, deviations and why
-
-Every departure from the workbook is listed with its reason and the test that proves it in `docs/PARITY.md` §2. The main ones are: blank parameters show "Not verified" rather than 0; H100 pool GPUs are not counted toward a B300-class plan; the planning horizon grows past 16 weeks; and the stop rule's plateau test no longer breaks when there is only one score.
 
 ## Licence
 

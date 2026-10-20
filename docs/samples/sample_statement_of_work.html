@@ -16,6 +16,21 @@ th{font:600 11px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var
 td.num,th.num{text-align:right;white-space:nowrap}
 .total td{font-weight:700;border-top:2px solid var(--ink)}
 .note{color:var(--muted);font-size:13px}
+.summary{background:#fcfcf9;border:1px solid var(--line);border-radius:12px;padding:6px 18px 4px;margin:14px 0}
+.stack{display:flex;height:18px;border-radius:999px;overflow:hidden;border:1px solid var(--line-2);margin:10px 0}
+.stack span{display:block;height:100%}
+.seg-foundation{background:#f04a00}.seg-engineering{background:#f5a06f}.seg-cycles{background:#101010}.seg-handoff{background:#9a9a9a}
+.legend{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:middle}
+.phase{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.phase-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.phase h3{font:500 20px/1.25 Newsreader,Georgia,serif;margin:4px 0 0}
+.phase h4{font:600 12px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.phase-amt{font:500 26px Newsreader,Georgia,serif;white-space:nowrap}
+.phase ul{margin:0;padding-left:18px}
+dl.gloss dt{font-weight:600;margin-top:10px}dl.gloss dd{margin:2px 0 0;color:var(--ink-2)}
+tfoot td{font-weight:700;border-top:2px solid var(--ink)}
+@media (max-width:640px){.phase-head{flex-direction:column}}
 .ph{background:#fcfcf9;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
 footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
 @media print{body{background:#fff}main{padding:0}.banner{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
@@ -39,27 +54,26 @@ footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid va
 
 <h2>2. Phases, responsibilities and acceptance evidence</h2>
 <table><thead><tr><th>Phase</th><th>Applied Compute delivers</th><th>Customer owns / approves</th><th>Evidence to accept</th></tr></thead>
-<tbody><tr><td><strong>0 · Readiness</strong><div class="note">Weeks 1–2</div></td><td>Scope workflow, assess data quality, compare base model options and estimate capacity.</td><td>Provides data and SME time; decides the initial base model and success metric.</td><td>Signed workflow/eval charter; dataset sample; frozen baseline score and review findings.</td></tr><tr><td><strong>1 · Graders + harness</strong><div class="note">Week 2</div></td><td>Build environment, grader version, rollout instrumentation and held-out evaluation.</td><td>Approves graders, thresholds, privacy assumptions and success/stop rules.</td><td>Versioned grader/harness, reproducible baseline run ID, acceptance sign-off.</td></tr><tr><td><strong>2 · RL cycle (repeat)</strong><div class="note">Per cycle</div></td><td>Train checkpoint; sample rollouts; compute reward and held-out score; investigate failures.</td><td>Reviews score and research evidence; explicitly chooses Stop or Continue.</td><td>Checkpoint/run ID, token ledger, graded metrics, failure samples, signed cycle decision.</td></tr><tr><td><strong>3 · Independent handoff</strong><div class="note">Final week</div></td><td>Evaluate untouched holdout; package checkpoint/weights, traces, config, results and runbook.</td><td>Accepts delivery by checking objective artifacts, not a guaranteed quality uplift.</td><td>Reproducibility report, model version, delivered files and signed handoff.</td></tr></tbody></table>
+<tbody><tr><td><strong>1 · Eval and environment foundation</strong><div class="note">Weeks 1–2</div></td><td>Frozen evaluation set, grader, environment and baseline score; go/no-go gate.</td><td>Co-design and sign-off of evaluation and grader.</td><td>Versioned grader and harness, reproducible baseline run ID, signed go/no-go.</td></tr><tr><td><strong>2 · Engineering through the cycles</strong><div class="note">Shared across cycles</div></td><td>Harness, grader quality checks, infrastructure and per-cycle diagnostics.</td><td>Reviews each cycle and provides the data and access agreed at kickoff.</td><td>Run IDs, diagnostics and written cycle review.</td></tr><tr><td><strong>3 · RL cycles (repeat)</strong><div class="note">3 cycle(s), one every 1 week(s)</div></td><td>Train, rollouts, held-out evaluation and a score report per cycle.</td><td>Explicitly chooses to stop or continue after each cycle.</td><td>Run ID, compute ledger, graded metrics, failure samples, signed cycle decision.</td></tr><tr><td><strong>4 · Independent handoff</strong><div class="note">Week 6</div></td><td>Final evaluation on untouched data; checkpoint, configuration, traces and runbook.</td><td>Accepts delivery by checking the listed artifacts.</td><td>Reproducibility report, model version, delivered files and signed handoff.</td></tr></tbody></table>
 
 <h2>3. Stopping rules and decision authority</h2>
 <ul>
 <li>Success target: held-out score of 80% on the frozen evaluation (Held-out pass rate). Reaching it triggers a review, not an automatic stop.</li>
 <li>Plateau: gains below 1.0 percentage points for 2 consecutive cycles trigger a review.</li>
-<li>Cycle cap: 3 cycles pre-authorised. Work is not stopped automatically by any score threshold.</li>
+<li>Cycle cap: 3 cycles pre-authorised. No score threshold stops contracted work automatically.</li>
 <li>Only the customer decides whether to continue or stop after each cycle. Decision owner: customer product / SME lead.</li>
 </ul>
 
 <h2>4. Commercial schedule</h2>
-<p>Fees are invoiced on the milestones below. Payment terms: [net terms — counsel review].</p>
-<table><thead><tr><th>Milestone</th><th>Timing</th><th class="num">Amount</th></tr></thead>
-<tbody><tr><td>Readiness and baseline</td><td>Week 2</td><td class="num">$30,000</td></tr><tr><td>Engineering and integration</td><td>Week 1 (fixed)</td><td class="num">$78,000</td></tr><tr><td>RL cycle 1 of 3</td><td>Week 3</td><td class="num">$24,000</td></tr><tr><td>RL cycle 2 of 3</td><td>Week 4</td><td class="num">$24,000</td></tr><tr><td>RL cycle 3 of 3</td><td>Week 5</td><td class="num">$24,000</td></tr><tr><td>Independent handoff and verification</td><td>Week 6</td><td class="num">$30,000</td></tr><tr class="total"><td>Total proposed training fee</td><td></td><td class="num">$210,000</td></tr></tbody></table>
+<p>Invoices follow the milestones below. Payment terms: [net terms — counsel review].</p>
+<table><thead><tr><th>Invoice</th><th>When</th><th class="num">Amount</th><th class="num">Running total</th></tr></thead><tbody><tr><td>Readiness gate</td><td>Week 2</td><td class="num">$30,000</td><td class="num">$30,000</td></tr><tr><td>Cycle 1 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 3</td><td class="num">$50,000</td><td class="num">$80,000</td></tr><tr><td>Cycle 2 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 4</td><td class="num">$50,000</td><td class="num">$130,000</td></tr><tr><td>Cycle 3 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 5</td><td class="num">$50,000</td><td class="num">$180,000</td></tr><tr><td>Handoff and verification</td><td>Week 6</td><td class="num">$30,000</td><td class="num">$210,000</td></tr></tbody><tfoot><tr class="total"><td>Total training fee</td><td></td><td class="num">$210,000</td><td class="num">$210,000</td></tr></tfoot></table>
 
 <h2>5. Amendment and re-papering triggers</h2>
 <p>The following require a written amendment before work proceeds:</p>
 <table><thead><tr><th>Trigger</th><th>What happens</th></tr></thead><tbody><tr><td>New base model or method</td><td>Re-confirm model fit, memory, unit rates, training throughput and evaluator comparability; sign a revised order.</td></tr><tr><td>More cycles or higher token volume</td><td>Written change order before exceeding the approved cycle count or compute allowance.</td></tr><tr><td>New workflow, data regime or grader</td><td>Re-scope data rights, acceptance benchmarks, engineering and timeline.</td></tr><tr><td>Different region, isolation or GPU topology</td><td>Reassess availability, security posture and price.</td></tr><tr><td>Production launch or SLA upgrade</td><td>Separate serving order with latency targets, traffic envelope, availability and minimums.</td></tr><tr><td>Production demand above the contracted envelope</td><td>Review at 80% of capacity; amendment before adding replicas or exceeding contracted traffic.</td></tr><tr><td>Customer pause or termination</td><td>Customer covers approved work and any non-cancellable third-party compute commitments made for this engagement, net of reasonable redeployment.</td></tr></tbody></table>
 
 
-<h2>5. Customer responsibilities and assumptions</h2>
+<h2>6. Customer responsibilities and assumptions</h2>
 <ul>
 <li>Customer provides data and access by kickoff, and confirms the base-model licence and training access.</li>
 <li>Scope is limited to the one workflow above. Material changes follow Section 5.</li>

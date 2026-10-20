@@ -14,9 +14,9 @@ const run = (cmd, args) => {
 const walk = (d) => readdirSync(join(root, d), { withFileTypes: true }).flatMap((e) =>
   e.isDirectory() ? walk(join(d, e.name)) : e.name.endsWith('.js') ? [join(d, e.name)] : []);
 
-run('node', ['--test', 'test/parity.test.js', 'test/acceptance.test.js', 'test/documents.test.js',
-  'test/sensitivity.test.js', 'test/profile.test.js', 'test/explain.test.js', 'test/invariants.test.js',
-  'test/store.test.js', 'test/data-sync.test.js']);
+// Discover every test file, so a new suite can never be silently skipped.
+const tests = readdirSync(join(root, 'test')).filter((f) => f.endsWith('.test.js')).map((f) => join('test', f));
+run('node', ['--test', ...tests]);
 for (const f of [...walk('src'), 'scripts/sync_data.mjs']) run('node', ['--check', join(root, f)]);
 const forbidden = ['with { type: \'json\' }'];
 for (const f of walk('src')) {

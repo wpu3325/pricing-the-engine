@@ -3,12 +3,14 @@
 // labour rates, GPU supplier prices, opportunity cost, allocation or margin
 // (enforced by test/documents.test.js). Wording follows workbook sheet 03.
 import { money, pct, count, tokens } from './format.js';
+import { buildOffer, NOT_INCLUDED, GLOSSARY, FAQ } from './offer.js';
 
 export const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 }[c]));
 
 const E = (v) => escapeHtml(String(v));
+
 
 export const slug = (s) => String(s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'deal';
 
@@ -66,6 +68,21 @@ th{font:600 11px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var
 td.num,th.num{text-align:right;white-space:nowrap}
 .total td{font-weight:700;border-top:2px solid var(--ink)}
 .note{color:var(--muted);font-size:13px}
+.summary{background:#fcfcf9;border:1px solid var(--line);border-radius:12px;padding:6px 18px 4px;margin:14px 0}
+.stack{display:flex;height:18px;border-radius:999px;overflow:hidden;border:1px solid var(--line-2);margin:10px 0}
+.stack span{display:block;height:100%}
+.seg-foundation{background:#f04a00}.seg-engineering{background:#f5a06f}.seg-cycles{background:#101010}.seg-handoff{background:#9a9a9a}
+.legend{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:middle}
+.phase{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.phase-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.phase h3{font:500 20px/1.25 Newsreader,Georgia,serif;margin:4px 0 0}
+.phase h4{font:600 12px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.phase-amt{font:500 26px Newsreader,Georgia,serif;white-space:nowrap}
+.phase ul{margin:0;padding-left:18px}
+dl.gloss dt{font-weight:600;margin-top:10px}dl.gloss dd{margin:2px 0 0;color:var(--ink-2)}
+tfoot td{font-weight:700;border-top:2px solid var(--ink)}
+@media (max-width:640px){.phase-head{flex-direction:column}}
 .ph{background:#fcfcf9;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
 footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
 @media print{body{background:#fff}main{padding:0}.banner{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
@@ -79,27 +96,40 @@ ${body}
 </main></body></html>`;
 }
 
+const usd = (v) => money(v);
+const hrs = (n) => `${Number(n).toLocaleString('en-US')} hours`;
+
+function phaseCard(ph) {
+  const items = ph.includes.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
+  const effort = ph.hours
+    ? `<h4>Team effort in this phase</h4><table><thead><tr><th>Role</th><th class="num">Hours</th></tr></thead><tbody>${ph.hours.filter((h) => h.hours > 0).map((h) => `<tr><td>${escapeHtml(h.role)}</td><td class="num">${E(h.hours)}</td></tr>`).join('') || '<tr><td colspan="2">Included in the cycle price</td></tr>'}</tbody><tfoot><tr><td>Total</td><td class="num">${E(ph.hours.reduce((a, b) => a + b.hours, 0))} hours</td></tr></tfoot></table>`
+    : '';
+  return `<article class="phase">
+<div class="phase-head"><div><div class="small muted">Phase ${E(ph.number)} · ${escapeHtml(ph.timing)}</div><h3>${escapeHtml(ph.title)}</h3></div><div class="phase-amt">${usd(ph.amount)}</div></div>
+<h4>What you get</h4><ul>${items}</ul>
+<h4>Why it costs this</h4><p>${escapeHtml(ph.why)}</p>
+${effort}
+<p class="small muted">Billed: ${escapeHtml(ph.billed)}</p>
+</article>`;
+}
+
+function scheduleTable(o) {
+  const rows = o.milestones.map((m) => `<tr><td>${escapeHtml(m.label)}${m.note ? `<div class="small muted">${escapeHtml(m.note)}</div>` : ''}</td><td>Week ${E(m.week)}</td><td class="num">${usd(m.amount)}</td><td class="num">${usd(m.cumulative)}</td></tr>`).join('');
+  return `<table><thead><tr><th>Invoice</th><th>When</th><th class="num">Amount</th><th class="num">Running total</th></tr></thead><tbody>${rows}</tbody><tfoot><tr class="total"><td>Total training fee</td><td></td><td class="num">${usd(o.total)}</td><td class="num">${usd(o.total)}</td></tr></tfoot></table>`;
+}
+
 export function buildSow(deal, r) {
-  const n = deal.rl.cycles;
-  const cad = deal.rl.cadenceWeeks;
-  const ready = deal.rl.readinessWeeks;
-  const hand = deal.rl.handoffWeeks;
-  const total = r.work.totalWeeks;
+  const o = buildOffer(deal, r);
   const s = deal.serving;
-  const phases = PHASES.map((p) => `<tr><td><strong>${escapeHtml(p.phase)}</strong><div class="note">${escapeHtml(p.week)}</div></td><td>${escapeHtml(p.delivers)}</td><td>${escapeHtml(p.customer)}</td><td>${escapeHtml(p.evidence)}</td></tr>`);
-  if (s.include) phases.push(`<tr><td><strong>4 · Inference pilot (optional)</strong></td><td>Benchmark representative traffic, SLO throughput, warm replicas and scaling policy.</td><td>Approves traffic forecast, deployment posture and the commercial service order.</td><td>Load-test results and approved serving order before production.</td></tr>`);
-
-  const milestones = [
-    ['Readiness and baseline', `Week ${E(ready)}`, r.pricing.lines[0].value],
-    ['Engineering and integration', 'Week 1 (fixed)', r.pricing.lines[1].value],
-    ...Array.from({ length: n }, (_, i) => [`RL cycle ${i + 1} of ${n}`, `Week ${E(ready + (i + 1) * cad)}`, r.pricing.lines[2].value / n]),
-    ['Independent handoff and verification', `Week ${E(total)}`, r.pricing.lines[4].value],
+  const phases = [
+    ['1 · Eval and environment foundation', `Weeks 1–${E(o.readinessWeeks)}`, 'Frozen evaluation set, grader, environment and baseline score; go/no-go gate.', 'Co-design and sign-off of evaluation and grader.', 'Versioned grader and harness, reproducible baseline run ID, signed go/no-go.'],
+    ['2 · Engineering through the cycles', 'Shared across cycles', 'Harness, grader quality checks, infrastructure and per-cycle diagnostics.', 'Reviews each cycle and provides the data and access agreed at kickoff.', 'Run IDs, diagnostics and written cycle review.'],
+    ['3 · RL cycles (repeat)', `${E(o.cycles)} cycle(s), one every ${E(deal.rl.cadenceWeeks)} week(s)`, 'Train, rollouts, held-out evaluation and a score report per cycle.', 'Explicitly chooses to stop or continue after each cycle.', 'Run ID, compute ledger, graded metrics, failure samples, signed cycle decision.'],
+    ['4 · Independent handoff', `Week ${E(o.weeks)}`, 'Final evaluation on untouched data; checkpoint, configuration, traces and runbook.', 'Accepts delivery by checking the listed artifacts.', 'Reproducibility report, model version, delivered files and signed handoff.'],
   ];
-  const ms = milestones.map(([a, b, c]) => `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td><td class="num">${money(c)}</td></tr>`).join('');
-
-  const amend = AMENDMENTS.map(([a, b]) => `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td></tr>`).join('');
-  const serving = s.include ? `<h2>5. Optional production serving (separate service order)</h2>
-<p>Production inference is not part of this training engagement. If elected, it is contracted under a separate service order with the following indicative terms:</p>
+  const phaseRows = phases.map((p) => `<tr><td><strong>${escapeHtml(p[0])}</strong><div class="note">${escapeHtml(p[1])}</div></td><td>${escapeHtml(p[2])}</td><td>${escapeHtml(p[3])}</td><td>${escapeHtml(p[4])}</td></tr>`).join('');
+  const serving = s.include ? `<h2>6. Optional production serving (separate service order)</h2>
+<p>Production inference is not part of this training engagement. If elected, it is contracted under a separate service order with indicative terms:</p>
 <table><tbody>
 <tr><td>Service type</td><td>${escapeHtml(s.contract)} ${s.contract === 'Shared' ? '(usage minimum)' : '(dedicated warm replicas)'}</td></tr>
 <tr><td>Minimum warm capacity</td><td>${E(count(s.minWarmReplicas))} GPUs</td></tr>
@@ -107,7 +137,7 @@ export function buildSow(deal, r) {
 <tr><td>Indicative monthly price</td><td>${E(money(r.serving.price))}</td></tr>
 <tr><td>Service-level target</td><td>${E(pct(s.availabilityTarget ?? 0.999, 1))} availability target; [latency SLA — to be set after load test]</td></tr>
 </tbody></table>` : '';
-
+  const amend = AMENDMENTS.map(([a, b]) => `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td></tr>`).join('');
   const body = `
 <h2>1. Parties and scope</h2>
 <table><tbody>
@@ -116,34 +146,33 @@ export function buildSow(deal, r) {
 <tr><td>Workflow in scope</td><td>${escapeHtml(deal.customer.workflow)}</td></tr>
 <tr><td>Base model</td><td>${escapeHtml(deal.model)} (open-weight; access and licence per Section 7)</td></tr>
 <tr><td>Method</td><td>${escapeHtml(deal.method)} reinforcement learning</td></tr>
-<tr><td>Approved RL cycles</td><td>${E(n)} (every ${E(cad)} week${cad === 1 ? '' : 's'}); change orders required beyond ${E(n)}</td></tr>
-<tr><td>Planned duration</td><td>${E(total)} weeks</td></tr>
+<tr><td>Approved RL cycles</td><td>${E(o.cycles)} (every ${E(deal.rl.cadenceWeeks)} week${deal.rl.cadenceWeeks === 1 ? '' : 's'}); change orders required beyond ${E(o.cycles)}</td></tr>
+<tr><td>Planned duration</td><td>${E(o.weeks)} weeks</td></tr>
 <tr><td>Hosting region</td><td>${escapeHtml(deal.customer.region)}</td></tr>
 </tbody></table>
 
 <h2>2. Phases, responsibilities and acceptance evidence</h2>
 <table><thead><tr><th>Phase</th><th>Applied Compute delivers</th><th>Customer owns / approves</th><th>Evidence to accept</th></tr></thead>
-<tbody>${phases.join('')}</tbody></table>
+<tbody>${phaseRows}</tbody></table>
 
 <h2>3. Stopping rules and decision authority</h2>
 <ul>
 <li>Success target: held-out score of ${E(pct(deal.rl.target, 0))} on the frozen evaluation (${escapeHtml(deal.rl.metric)}). Reaching it triggers a review, not an automatic stop.</li>
 <li>Plateau: gains below ${E((deal.rl.minGain * 100).toFixed(1))} percentage points for ${E(deal.rl.slowCycles)} consecutive cycles trigger a review.</li>
-<li>Cycle cap: ${E(n)} cycles pre-authorised. Work is not stopped automatically by any score threshold.</li>
-<li>Only the customer decides whether to continue or stop after each cycle. Decision owner: ${escapeHtml(deal.customer.workflow ? 'customer product / SME lead' : 'customer')}.</li>
+<li>Cycle cap: ${E(o.cycles)} cycles pre-authorised. No score threshold stops contracted work automatically.</li>
+<li>Only the customer decides whether to continue or stop after each cycle. Decision owner: customer product / SME lead.</li>
 </ul>
 
 <h2>4. Commercial schedule</h2>
-<p>Fees are invoiced on the milestones below. Payment terms: [net terms — counsel review].</p>
-<table><thead><tr><th>Milestone</th><th>Timing</th><th class="num">Amount</th></tr></thead>
-<tbody>${ms}<tr class="total"><td>Total proposed training fee</td><td></td><td class="num">${money(r.pricing.quote)}</td></tr></tbody></table>
+<p>Invoices follow the milestones below. Payment terms: [net terms — counsel review].</p>
+${scheduleTable(o)}
 
 <h2>5. Amendment and re-papering triggers</h2>
 <p>The following require a written amendment before work proceeds:</p>
 <table><thead><tr><th>Trigger</th><th>What happens</th></tr></thead><tbody>${amend}</tbody></table>
 
-${serving.replace('<h2>5.', '<h2>6.')}
-<h2>${s.include ? '7' : '5'}. Customer responsibilities and assumptions</h2>
+${serving.replace('<h2>6.', '<h2>6.')}
+<h2>${s.include ? '7' : '6'}. Customer responsibilities and assumptions</h2>
 <ul>
 <li>Customer provides data and access by kickoff, and confirms the base-model licence and training access.</li>
 <li>Scope is limited to the one workflow above. Material changes follow Section 5.</li>
@@ -157,42 +186,48 @@ ${serving.replace('<h2>5.', '<h2>6.')}
 }
 
 export function buildProposal(deal, r) {
-  const p = r.pricing;
-  const n = deal.rl.cycles;
-  const rows = [
-    ['Readiness and baseline', 'Once', 'Feasibility, baseline and grader design.', p.lines[0].value],
-    ['Engineering and integration', 'Fixed engagement', 'Harness integration, grader implementation, research and infrastructure support.', p.lines[1].value],
-    ['Approved RL cycles', `${n} × cycle fee`, `One train, rollout, evaluation and decision per cycle. Fee adjusted for model size class (small 0.65×, standard 1×, large 2.5×).`, p.lines[2].value],
-  ];
-  if (p.lines[3].value) rows.push(['Extra-cycle engineering', 'Cycles above included count', 'Named incremental engineering for cycles beyond the included count.', p.lines[3].value]);
-  rows.push(['Independent handoff and verification', 'Once', 'Held-out evaluation, checkpoint, reproducibility report and handoff.', p.lines[4].value]);
-  if (p.lines[5].value) rows.push(['Negotiated discount', 'Once', 'Explicit discount agreed with the customer.', p.lines[5].value]);
-  if (Math.abs(p.adjustment) > 0.5) rows.push(['Proposed price adjustment', 'If approved', 'Requires explicit written customer approval. Not an automatic charge.', p.adjustment]);
-  const lines = rows.map(([a, b, c, d]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td>${escapeHtml(b)}</td><td>${escapeHtml(c)}</td><td class="num">${money(d)}</td></tr>`).join('');
-
+  const o = buildOffer(deal, r);
+  const b = deal.rl.baseline, t = deal.rl.target;
+  const summary = `You are buying ${o.cycles} managed reinforcement-learning ${o.cycles === 1 ? 'cycle' : 'cycles'} to move <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b> from ${E(pct(b, 0))} to a target of ${E(pct(t, 0))}, using the model <b>${escapeHtml(deal.model)}</b>, over ${E(o.weeks)} weeks. The total is <b>${usd(o.total)}</b>. You approve every cycle, and each invoice is issued when its milestone completes.`;
+  const bar = o.phases.map((ph) => `<span class="seg-${ph.key}" style="width:${((ph.amount / o.total) * 100).toFixed(2)}%" title="${escapeHtml(ph.title)}"></span>`).join('');
+  const legend = o.phases.map((ph) => `<li><span class="dot seg-${ph.key}"></span>${escapeHtml(ph.title)} <b>${usd(ph.amount)}</b> <span class="muted">(${E(pct(ph.amount / o.total, 0))})</span></li>`).join('');
+  const change = [
+    ['One more cycle', `+${usd(o.scale.plusCycle)}`, 'A cycle fee and its share of extra engineering, plus about the same compute.'],
+    o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), 'You are invoiced for one fewer cycle.'],
+    ['Different model size', 'Priced again', 'The cycle price depends on model size, so a different model is a change order.'],
+    ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately before any work starts.'],
+  ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
+  const discountRow = o.discount ? `<p class="note">Includes a negotiated discount of ${usd(-o.discount)}, applied to the readiness invoice.</p>` : '';
   const s = deal.serving;
   const serving = s.include ? `<h2>Optional production serving (separate order)</h2>
 <table><tbody>
-<tr><td>Indicative monthly price</td><td class="num">${money(r.serving.price)}</td></tr>
+<tr><td>Indicative monthly price</td><td class="num">${usd(r.serving.price)}</td></tr>
 <tr><td>Included monthly tokens</td><td>${E(tokens(s.includedInputTokens))} input · ${E(tokens(s.includedOutputTokens))} output</td></tr>
-<tr><td>Overage</td><td>${E(money(s.inputOveragePerM))} per million input tokens · ${E(money(s.outputOveragePerM))} per million output tokens</td></tr>
+<tr><td>Overage</td><td>${usd(s.inputOveragePerM)} per million input tokens · ${usd(s.outputOveragePerM)} per million output tokens</td></tr>
 </tbody></table>
 <p class="note">Production serving requires a load test and a signed service order. It is not included in the training total above.</p>` : '';
-
+  const phaseCards = o.phases.map(phaseCard).join('');
   const body = `
-<h2>Training engagement — itemized proposal</h2>
-<table><thead><tr><th>Item</th><th>Billing</th><th>What the customer receives</th><th class="num">Amount</th></tr></thead>
-<tbody>${lines}<tr class="total"><td>Total proposed training fee</td><td></td><td>Model: ${escapeHtml(deal.model)} · ${E(n)} approved cycles · ${E(r.work.totalWeeks)} weeks</td><td class="num">${money(p.quote)}</td></tr></tbody></table>
-<p class="note">Fee items are priced in USD. [Validity period — to confirm] · [Tax treatment — counsel review].</p>
+<section class="summary"><h2>In short</h2><p>${summary}</p></section>
+<h2>Where your money goes</h2>
+<div class="stack" role="img" aria-label="Share of the total by phase">${bar}</div>
+<ul class="legend">${legend}</ul>
+${discountRow}
+<h2>What you pay for, phase by phase</h2>
+${phaseCards}
+<h2>When you are invoiced</h2>
+${scheduleTable(o)}
+<h2>What changes the price</h2>
+<table><thead><tr><th>If you…</th><th class="num">Price effect</th><th>Why</th></tr></thead><tbody>${change}</tbody></table>
+<h2>Not included</h2>
+<ul>${NOT_INCLUDED.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
 ${serving}
-<h2>Why this price</h2>
-<ul>
-<li>Priced by the work delivered: each fee corresponds to a named deliverable in the statement of work.</li>
-<li>Compute is included in the cycle fee; the customer is not billed separately for GPUs.</li>
-<li>Any change to scope, cycle count, base model or region is quoted as a change order rather than absorbed.</li>
-</ul>
+<h2>Words used in this proposal</h2>
+<dl class="gloss">${GLOSSARY.map(([a, c]) => `<dt>${escapeHtml(a)}</dt><dd>${escapeHtml(c)}</dd>`).join('')}</dl>
+<h2>Common questions</h2>
+${FAQ.map(([q, a]) => `<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join('')}
 <h2>Acceptance</h2>
-<p>Each phase is accepted against the objective evidence listed in the statement of work. Payment milestones follow the same phase gates.</p>`;
+<p>Each phase is accepted against the objective evidence listed in the statement of work, and each invoice follows the same milestone.</p>`;
   return doc('Pricing Proposal', body, r.gates.status, deal.customer.name);
 }
 

@@ -16,6 +16,21 @@ th{font:600 11px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var
 td.num,th.num{text-align:right;white-space:nowrap}
 .total td{font-weight:700;border-top:2px solid var(--ink)}
 .note{color:var(--muted);font-size:13px}
+.summary{background:#fcfcf9;border:1px solid var(--line);border-radius:12px;padding:6px 18px 4px;margin:14px 0}
+.stack{display:flex;height:18px;border-radius:999px;overflow:hidden;border:1px solid var(--line-2);margin:10px 0}
+.stack span{display:block;height:100%}
+.seg-foundation{background:#f04a00}.seg-engineering{background:#f5a06f}.seg-cycles{background:#101010}.seg-handoff{background:#9a9a9a}
+.legend{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:middle}
+.phase{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.phase-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.phase h3{font:500 20px/1.25 Newsreader,Georgia,serif;margin:4px 0 0}
+.phase h4{font:600 12px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.phase-amt{font:500 26px Newsreader,Georgia,serif;white-space:nowrap}
+.phase ul{margin:0;padding-left:18px}
+dl.gloss dt{font-weight:600;margin-top:10px}dl.gloss dd{margin:2px 0 0;color:var(--ink-2)}
+tfoot td{font-weight:700;border-top:2px solid var(--ink)}
+@media (max-width:640px){.phase-head{flex-direction:column}}
 .ph{background:#fcfcf9;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
 footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
 @media print{body{background:#fff}main{padding:0}.banner{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
@@ -25,18 +40,49 @@ footer{margin-top:48px;color:var(--muted);font-size:12px;border-top:1px solid va
 <p class="note">Prepared for Example Enterprise · Take-home submission draft, not an official Applied Compute document.</p>
 <div class="banner">PRELIMINARY — DO NOT SEND CUSTOMER: HOLD - MODEL</div>
 
-<h2>Training engagement — itemized proposal</h2>
-<table><thead><tr><th>Item</th><th>Billing</th><th>What the customer receives</th><th class="num">Amount</th></tr></thead>
-<tbody><tr><td><strong>Readiness and baseline</strong></td><td>Once</td><td>Feasibility, baseline and grader design.</td><td class="num">$30,000</td></tr><tr><td><strong>Engineering and integration</strong></td><td>Fixed engagement</td><td>Harness integration, grader implementation, research and infrastructure support.</td><td class="num">$78,000</td></tr><tr><td><strong>Approved RL cycles</strong></td><td>3 × cycle fee</td><td>One train, rollout, evaluation and decision per cycle. Fee adjusted for model size class (small 0.65×, standard 1×, large 2.5×).</td><td class="num">$72,000</td></tr><tr><td><strong>Independent handoff and verification</strong></td><td>Once</td><td>Held-out evaluation, checkpoint, reproducibility report and handoff.</td><td class="num">$30,000</td></tr><tr class="total"><td>Total proposed training fee</td><td></td><td>Model: Qwen3.6-35B-A3B · 3 approved cycles · 6 weeks</td><td class="num">$210,000</td></tr></tbody></table>
-<p class="note">Fee items are priced in USD. [Validity period — to confirm] · [Tax treatment — counsel review].</p>
+<section class="summary"><h2>In short</h2><p>You are buying 3 managed reinforcement-learning cycles to move <b>Held-out pass rate</b> for <b>Internal workflow automation</b> from 60% to a target of 80%, using the model <b>Qwen3.6-35B-A3B</b>, over 6 weeks. The total is <b>$210,000</b>. You approve every cycle, and each invoice is issued when its milestone completes.</p></section>
+<h2>Where your money goes</h2>
+<div class="stack" role="img" aria-label="Share of the total by phase"><span class="seg-foundation" style="width:14.29%" title="Eval and environment foundation"></span><span class="seg-engineering" style="width:37.14%" title="Engineering through the cycles"></span><span class="seg-cycles" style="width:34.29%" title="3 RL cycles"></span><span class="seg-handoff" style="width:14.29%" title="Handoff and independent verification"></span></div>
+<ul class="legend"><li><span class="dot seg-foundation"></span>Eval and environment foundation <b>$30,000</b> <span class="muted">(14%)</span></li><li><span class="dot seg-engineering"></span>Engineering through the cycles <b>$78,000</b> <span class="muted">(37%)</span></li><li><span class="dot seg-cycles"></span>3 RL cycles <b>$72,000</b> <span class="muted">(34%)</span></li><li><span class="dot seg-handoff"></span>Handoff and independent verification <b>$30,000</b> <span class="muted">(14%)</span></li></ul>
 
-<h2>Why this price</h2>
-<ul>
-<li>Priced by the work delivered: each fee corresponds to a named deliverable in the statement of work.</li>
-<li>Compute is included in the cycle fee; the customer is not billed separately for GPUs.</li>
-<li>Any change to scope, cycle count, base model or region is quoted as a change order rather than absorbed.</li>
-</ul>
+<h2>What you pay for, phase by phase</h2>
+<article class="phase">
+<div class="phase-head"><div><div class="small muted">Phase 1 · Weeks 1–2</div><h3>Eval and environment foundation</h3></div><div class="phase-amt">$30,000</div></div>
+<h4>What you get</h4><ul><li>Workflow and data review, with your subject-matter experts</li><li>Frozen held-out evaluation set (200 baseline cases) and baseline score</li><li>Grader and reward specification, versioned and signed off by you</li><li>Production-realistic environment with a smoke-tested end-to-end RL dry run</li><li>Go / no-go recommendation with the expected improvement range</li></ul>
+<h4>Why it costs this</h4><p>This is the foundation every RL cycle depends on: an evaluation you can trust, a grader that measures what matters, and a baseline to measure improvement against. You own these assets and can reuse them with any future model. Self-serve RL services bill for compute only, which leaves your team to build them; here we build them with you and price the effort, about two weeks of a four-person team.</p>
+<h4>Team effort in this phase</h4><table><thead><tr><th>Role</th><th class="num">Hours</th></tr></thead><tbody><tr><td>Forward-deployed engineers</td><td class="num">40</td></tr><tr><td>ML research engineers</td><td class="num">40</td></tr><tr><td>Infrastructure engineers</td><td class="num">12</td></tr><tr><td>Delivery and project management</td><td class="num">16</td></tr></tbody><tfoot><tr><td>Total</td><td class="num">108 hours</td></tr></tfoot></table>
+<p class="small muted">Billed: Week 2, when the go/no-go gate is signed</p>
+</article><article class="phase">
+<div class="phase-head"><div><div class="small muted">Phase 2 · Weeks 3–5</div><h3>Engineering through the cycles</h3></div><div class="phase-amt">$78,000</div></div>
+<h4>What you get</h4><ul><li>Training harness and environment integration</li><li>Grader implementation and quality checks on every cycle</li><li>Infrastructure set-up, monitoring and recovery from failed runs</li><li>Diagnostics and a written review after each cycle</li></ul>
+<h4>Why it costs this</h4><p>Named engineers keep the training loop running and diagnose each cycle. The effort follows the number of cycles, so this fee is spread across the cycle invoices rather than charged up front.</p>
+<h4>Team effort in this phase</h4><table><thead><tr><th>Role</th><th class="num">Hours</th></tr></thead><tbody><tr><td>Forward-deployed engineers</td><td class="num">120</td></tr><tr><td>ML research engineers</td><td class="num">120</td></tr><tr><td>Infrastructure engineers</td><td class="num">48</td></tr><tr><td>Delivery and project management</td><td class="num">24</td></tr></tbody><tfoot><tr><td>Total</td><td class="num">312 hours</td></tr></tfoot></table>
+<p class="small muted">Billed: Shared across the cycle invoices below</p>
+</article><article class="phase">
+<div class="phase-head"><div><div class="small muted">Phase 3 · One cycle every 1 week</div><h3>3 RL cycles</h3></div><div class="phase-amt">$72,000</div></div>
+<h4>What you get</h4><ul><li>Rollouts: 4,000 attempts per cycle</li><li>Held-out evaluation: 200 cases per cycle, run on untouched data</li><li>Managed compute: about 3,370 GPU-hours of included training compute across the engagement</li><li>A written score report and your stop or continue decision after each cycle</li></ul>
+<h4>Why it costs this</h4><p>Each cycle runs the full loop: train, generate rollouts, evaluate on held-out cases, and report. The price covers managed compute, orchestration and evaluation, so you do not receive a separate GPU bill. This price is set for a standard-size model, because larger models need more compute per cycle.</p>
+
+<p class="small muted">Billed: Invoiced as each cycle completes</p>
+</article><article class="phase">
+<div class="phase-head"><div><div class="small muted">Phase 4 · Week 6</div><h3>Handoff and independent verification</h3></div><div class="phase-amt">$30,000</div></div>
+<h4>What you get</h4><ul><li>Final evaluation on data never used in training</li><li>Checkpoint and weights package, with configuration and traces</li><li>Reproducibility report and an operating runbook</li><li>Signed handoff acceptance against the agreed evidence</li></ul>
+<h4>Why it costs this</h4><p>An independent check on data the model never trained on, plus everything your team needs to run the model without us.</p>
+
+<p class="small muted">Billed: Week 6, on signed handoff</p>
+</article>
+<h2>When you are invoiced</h2>
+<table><thead><tr><th>Invoice</th><th>When</th><th class="num">Amount</th><th class="num">Running total</th></tr></thead><tbody><tr><td>Readiness gate</td><td>Week 2</td><td class="num">$30,000</td><td class="num">$30,000</td></tr><tr><td>Cycle 1 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 3</td><td class="num">$50,000</td><td class="num">$80,000</td></tr><tr><td>Cycle 2 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 4</td><td class="num">$50,000</td><td class="num">$130,000</td></tr><tr><td>Cycle 3 of 3<div class="small muted">Cycle fee plus its share of engineering</div></td><td>Week 5</td><td class="num">$50,000</td><td class="num">$180,000</td></tr><tr><td>Handoff and verification</td><td>Week 6</td><td class="num">$30,000</td><td class="num">$210,000</td></tr></tbody><tfoot><tr class="total"><td>Total training fee</td><td></td><td class="num">$210,000</td><td class="num">$210,000</td></tr></tfoot></table>
+<h2>What changes the price</h2>
+<table><thead><tr><th>If you…</th><th class="num">Price effect</th><th>Why</th></tr></thead><tbody><tr><td><strong>One more cycle</strong></td><td class="num">+$48,000</td><td>A cycle fee and its share of extra engineering, plus about the same compute.</td></tr><tr><td><strong>One fewer cycle</strong></td><td class="num">-$24,000</td><td>You are invoiced for one fewer cycle.</td></tr><tr><td><strong>Different model size</strong></td><td class="num">Priced again</td><td>The cycle price depends on model size, so a different model is a change order.</td></tr><tr><td><strong>Another workflow, data source or region</strong></td><td class="num">Change order</td><td>Scope changes are quoted separately before any work starts.</td></tr></tbody></table>
+<h2>Not included</h2>
+<ul><li>Production model serving (a separate order, priced after a load test)</li><li>Preparing your data beyond the agreed sample (quoted as a change order)</li><li>Additional workflows, data sources or regions</li><li>Licences for the base model or any third-party tool you choose to add</li><li>Cycles beyond the approved count, and compute beyond the stated allowance</li></ul>
+
+<h2>Words used in this proposal</h2>
+<dl class="gloss"><dt>RL cycle</dt><dd>One round of training the model on its own attempts, scoring the attempts, and updating the model.</dd><dt>Rollout</dt><dd>One attempt by the model at a task, recorded with its result.</dd><dt>Held-out evaluation</dt><dd>A test set the model never trains on, used to measure real improvement.</dd><dt>Grader</dt><dd>The rules that score an attempt, for example pass or fail, or a rubric score.</dd><dt>Compute allowance</dt><dd>The training compute included in the price, stated in GPU-hours for the whole engagement.</dd><dt>Checkpoint</dt><dd>A saved version of the trained model, with its exact settings, so results can be reproduced.</dd></dl>
+<h2>Common questions</h2>
+<h3>Why do I pay for the foundation before training starts?</h3><p>Training is only as good as the test that measures it. The foundation builds that test, the grader and a baseline, and you keep them. It is the one part of the work that makes every later cycle measurable.</p><h3>Why is engineering separate from the cycles?</h3><p>Engineers keep the loop running whether or not a given cycle improves the score. Their effort follows the number of cycles, so it is billed with them.</p><h3>Why does the price depend on the model?</h3><p>Larger models need more compute and more rollouts to learn the same task, so each cycle costs more to run. The price tier reflects that.</p><h3>What if a cycle does not improve the score?</h3><p>You decide after each cycle whether to continue, change direction or stop. You pay for the cycles and milestones completed. We do not stop contracted work silently, and we do not charge for work you have stopped before it starts.</p><h3>What happens if I stop early?</h3><p>You pay for approved work completed and for any non-cancellable third-party compute committed for your engagement, net of reasonable reuse. The handoff fee is billed only on a signed handoff.</p>
 <h2>Acceptance</h2>
-<p>Each phase is accepted against the objective evidence listed in the statement of work. Payment milestones follow the same phase gates.</p>
+<p>Each phase is accepted against the objective evidence listed in the statement of work, and each invoice follows the same milestone.</p>
 <footer>Figures are planning estimates for review. Legal terms shown in [brackets] require counsel review before this document is sent. Take-home submission draft; not an official Applied Compute document.</footer>
 </main></body></html>

@@ -10,6 +10,7 @@ const pairs = [
   ['data/model_catalog.json', 'src/data/model_catalog.js', 'MODEL_CATALOG'],
   ['data/workload_presets.json', 'src/data/workload_presets.js', 'WORKLOAD_PRESETS'],
   ['data/gpu_skus.json', 'src/data/gpu_skus.js', 'GPU_SKUS'],
+  ['data/cogs_extended_presets.json', 'src/data/cogs_extended_presets.js', 'COGS_EXTENDED_PRESETS'],
 ];
 for (const [src, dst, name] of pairs) {
   const json = readFileSync(join(root, src), 'utf8');

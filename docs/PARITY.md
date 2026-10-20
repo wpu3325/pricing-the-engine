@@ -47,3 +47,17 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 - Labour loaded rates, graders, storage, platform, rework 10%, margin policy 45% / 35%.
 - Workload profile presets (`data/workload_presets.json`) and GPU HBM sizes (`data/gpu_skus.json`).
 - Model parameter counts from the supplied catalogue. Several are null and are shown as "Not verified".
+
+## 5. Deviations added with the cost ledger and the proposal redesign
+
+| ID | Workbook behaviour | MVP behaviour | Why | Evidence |
+|---|---|---|---|---|
+| D-7 | Margin floor raise shown as a separate "Proposed price adjustment" line (sheet 03 row 12) | Adjustment is folded pro rata into the four phase fees; displayed lines sum exactly to the total | A separate adjustment confused customers and the SOW milestones did not sum to the total | `buildOffer` / `foldLines` in `src/offer.js`; `test/offer.test.js` |
+| D-8 | Cost is eight buckets (`02!B73:B81`) | Same eight buckets plus about 40 ledger lines; extension inputs default to $0 | Brief asks for every cost line. Defaults keep parity | `src/engine/cogs.js`; `test/ledger.test.js`; parity suite unchanged |
+| D-9 | Marketplace and payment fees not modelled | Not modelled; documented as excluded | Those fees depend on the price, which would be circular | `docs/COGS_LEDGER.md` |
+| D-10 | Final holdout evaluation compute is not costed separately | Still not costed; flagged as a known gap | Adding it would change the workbook baseline; it should be costed before a quote | `docs/PRICING_RATIONALE.md` §6 |
+
+## 6. Artifact conflicts refreshed
+
+- **C-6 (engineering hours).** The deck quotes "300 hours" for engineering. The tool now shows effort from the labour inputs: 108 hours in the foundation and 312 across three cycles, 420 in total.
+- **Stale PayGo price.** The workbook's $3.99 H100 PayGo is the expired Together promotion (list $5.49). It is kept for parity. The illustrative extension preset uses $5.49.

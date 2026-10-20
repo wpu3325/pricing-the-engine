@@ -1,0 +1,16 @@
+{
+  "_note": "Illustrative estimates for the extended COGS lines. Labelled UNVERIFIED. They show the structure of a complete cost base; replace each with a finance-confirmed figure before any quote. Filling them is an ordinary, visible deal edit; clearing them returns the workbook baseline.",
+  "values": {
+    "devComputeGpuHours": 40, "devComputeRate": 5.49,
+    "rerunReservePct": 0.03,
+    "judgeApiPerCycle": 600, "toolApiPerCycle": 0, "sandboxPerCycle": 400,
+    "humanReviewHours": 16, "supportRate": 150,
+    "dataLabourHours": 24, "dataLabellingVendor": 1500,
+    "storageTbMonths": 6, "storageRatePerTbMonth": 25, "egressTb": 1, "egressRatePerTb": 40,
+    "piiTooling": 1000,
+    "scopingHours": 8, "csHours": 0, "securityReviewHours": 8, "legalHours": 0, "verifierHours": 16,
+    "onCallWeeks": 0, "onCallRatePerWeek": 0, "trips": 1, "tripCost": 1200,
+    "seats": 2, "seatCost": 150, "softwareLicences": 500, "baseModelLicence": 0,
+    "insurancePct": 0.02
+  }
+}

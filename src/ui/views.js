@@ -10,6 +10,8 @@ import { weeklyCapacityChart, cogsBars, marginGauge, tornadoChart, cycleChart } 
 import { fieldHtml } from './forms.js';
 import { infoButton } from './tooltip.js';
 import { scoreLog } from '../engine/gates.js';
+import { buildOffer } from '../offer.js';
+import { COGS_EXTENDED_PRESETS } from '../data/cogs_extended_presets.js';
 
 export const STEPS = [
   { id: 'deal', n: '1', name: 'Deal', sub: 'Inputs & approvals' },
@@ -48,11 +50,14 @@ export function renderDealForm(deal, r, catalog) {
     const adv = sec.fields.filter((f) => !f.essential);
     const extra = sec.id === 'rl' ? scoreEntryHtml(deal) : '';
     const body = (list) => list.map((f) => fieldHtml(f, deal, { catalog, suggestions })).join('');
+    const extrasHead = sec.id === 'extras' ? `<p class="small muted" style="margin:0 0 10px">These lines are not in the workbook baseline, so they are $0 until you add them. Fill the illustrative estimates to see a complete cost base, or enter your own figures. Every value is editable and is labelled UNVERIFIED until finance confirms it.</p>
+<div class="chips" style="margin-bottom:12px"><button type="button" class="pill dark" data-action="fill-extras">Fill illustrative estimates</button><button type="button" class="pill ghost" data-action="clear-extras">Clear to workbook baseline</button></div>` : '';
     return `<section class="card" id="sec-${sec.id}" aria-labelledby="h-${sec.id}">
 <div class="card-head"><div><div class="eyebrow" style="margin-top:0">${escapeHtml(sec.eyebrow)}</div><h2 id="h-${sec.id}">${escapeHtml(sec.title)}</h2></div></div>
+${extrasHead}
 ${ess.length ? `<div class="fields">${body(ess)}</div>` : ''}
 ${sec.id === 'customer' ? '' : ''}
-${adv.length || extra ? `<details class="adv"><summary>Advanced assumptions (${adv.length} fields)</summary><div class="fields">${body(adv)}</div>${extra}</details>` : ''}
+${adv.length || extra ? `<details class="adv"${sec.id === 'extras' ? ' open' : ''}><summary>${sec.id === 'extras' ? 'Cost lines' : 'Advanced assumptions'} (${adv.length} fields)</summary><div class="fields">${body(adv)}</div>${extra}</details>` : ''}
 </section>`;
   }).join('');
 }
@@ -108,6 +113,32 @@ export function renderUndercut(deal, r, competitor, u = undercut(r, competitor ?
 <p class="small" style="margin-top:10px">If a competitor is cheaper, <b>trade scope, not rate</b>: fewer cycles, a shorter readiness phase, or a smaller workflow, so the price per unit of work stays at or above the floor.</p>`;
 }
 
+const GROUP_ORDER = ['Compute and capacity', 'People and overhead', 'Evaluation and environments', 'Data and storage', 'Platform and tools', 'Risk'];
+export function renderLedger(r) {
+  const groups = GROUP_ORDER.map((g) => {
+    const rows = r.cogs.ledger.filter((l) => l.group === g);
+    if (!rows.length) return '';
+    const sub = rows.reduce((a, l) => a + l.value, 0);
+    const body = rows.map((l) => `<tr class="${l.value === 0 ? 'muted' : ''}"><td>${escapeHtml(l.label)}</td><td><span class="chip neutral" style="padding:3px 6px">${escapeHtml(l.phase)}</span></td><td><span class="chip ${l.source === 'workbook' ? 'neutral' : 'internal'}" style="padding:3px 6px">${l.source === 'workbook' ? 'workbook' : 'extension'}</span></td><td class="num">${money(l.value)}</td><td class="num small muted">${pct(r.cogs.cogs ? l.value / r.cogs.cogs : 0, 1)}</td></tr>`).join('');
+    return `<details open><summary><b>${escapeHtml(g)}</b> <span class="muted">${money(sub)}</span></summary><div class="scroll-x"><table class="t"><thead><tr><th>Cost line</th><th>Phase</th><th>Source</th><th class="num">Amount</th><th class="num">Share</th></tr></thead><tbody>${body}</tbody></table></div></details>`;
+  }).join('');
+  return `<div class="small muted" style="margin-bottom:8px">Workbook baseline <b>${money(r.cogs.coreTotal)}</b> + extension lines <b>${money(r.cogs.extendedTotal)}</b> + rework <b>${money(r.cogs.rework)}</b> = <b>${money(r.cogs.cogs)}</b>. Lines tagged <i>workbook</i> reproduce sheet 02 exactly.</div>${groups}`;
+}
+
+export function renderPhaseMargin(deal, r) {
+  const o = buildOffer(deal, r);
+  const L = r.cogs.phaseTotals;
+  const price = { Foundation: o.phases[0].amount, Engineering: o.phases[1].amount, Cycles: o.phases[2].amount, Handoff: o.phases[3].amount };
+  const rows = ['Foundation', 'Engineering', 'Cycles', 'Handoff'].map((ph) => {
+    const pr = price[ph], co = L[ph], m = pr - co;
+    return `<tr class="${m < 0 ? 'hl' : ''}"><td>${escapeHtml(ph)}</td><td class="num">${money(pr)}</td><td class="num">${money(co)}</td><td class="num">${money(m)}</td><td class="num">${pr ? pct(m / pr, 0) : '—'}</td></tr>`;
+  }).join('');
+  return `<table class="t"><thead><tr><th>Phase</th><th class="num">Price to customer</th><th class="num">Cost to deliver</th><th class="num">Margin</th><th class="num">Margin %</th></tr></thead><tbody>${rows}
+<tr><td>Shared overhead (storage, platform, rework)</td><td class="num">—</td><td class="num">${money(L.Shared)}</td><td class="num">${money(-L.Shared)}</td><td class="num">—</td></tr>
+<tr class="total"><td>Total</td><td class="num">${money(o.total)}</td><td class="num">${money(r.cogs.cogs)}</td><td class="num">${money(o.total - r.cogs.cogs)}</td><td class="num">${pct(r.pricing.grossMargin, 1)}</td></tr></tbody></table>
+<p class="small muted" style="margin-top:8px">Rows in red show a phase that does not cover its own cost. Shared overhead is not allocated to phases, so the total row is the real margin.</p>`;
+}
+
 export function renderEconomics(state) {
   const { deal, r, catalog, swing, competitor } = state;
   const p = r.pricing, c = r.capacity, cg = r.cogs;
@@ -135,7 +166,7 @@ export function renderEconomics(state) {
 <div>${infoButton('kpi.grossMargin', 'Gross margin')} Gross margin<b>${pct(p.grossMargin)}</b><small>target ${pct(p.targetGrossMargin, 0)}</small></div>
 </div>
 <div class="two-col">
-<div><h3>COGS by pool ${infoButton('cogs.cogs', 'COGS by pool')}</h3>${cogsBars(cg.lines, cg.cogs)}
+<div><h3>Full cost ledger ${infoButton('cogs.cogs', 'Full cost ledger')}</h3>${renderLedger(r)}
 <div class="small" style="margin-top:10px">Rework allowance ${infoButton('cogs.rework', 'Rework allowance')} <b>${money(cg.rework)}</b> · Risk-adjusted COGS <b>${money(cg.cogs)}</b></div></div>
 <div><h3>Price build-up ${infoButton('pricing.quote', 'Price build-up')}</h3>
 <div class="scroll-x"><table class="t"><tbody>${priceRows}
@@ -145,6 +176,8 @@ export function renderEconomics(state) {
 <div style="margin-top:12px"><h3>Margin against policy ${infoButton('kpi.grossMargin', 'Margin against policy')}</h3>${marginGauge(p.grossMargin, p.minGrossMargin, p.targetGrossMargin)}</div>
 </div></div>
 </section>
+
+<section class="card" aria-labelledby="h-phase"><div class="card-head"><div><div class="eyebrow" style="margin-top:0">Margin by phase</div><h2 id="h-phase">Does each part of the price cover its own cost?</h2><p class="small muted" style="margin:4px 0 0">The same phases the customer sees, compared with the cost lines tagged to each phase.</p></div></div>${renderPhaseMargin(deal, r)}</section>
 
 <section class="card" aria-labelledby="h-cap">
 <div class="card-head"><div><div class="eyebrow" style="margin-top:0">Capacity</div><h2 id="h-cap">Do we have the GPUs, in the right weeks?</h2></div>
