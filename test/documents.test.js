@@ -32,9 +32,9 @@ test('customer SOW and proposal contain no internal cost, margin or labour terms
 test('status banner blocks sending unless READY FOR REVIEW', () => {
   const deal = dealWith();
   const r = compute(deal, catalog);
-  assert.match(buildProposal(deal, r), /PRELIMINARY — DO NOT SEND CUSTOMER: HOLD - MODEL/);
+  assert.match(buildProposal(deal, r), /PRELIMINARY: DO NOT SEND CUSTOMER: HOLD - MODEL/);
   const ready = compute(dealWith({ 'approvals.benchmarkConfirmed': true, 'approvals.accessApproved': true, 'approvals.skuRateConfirmed': true }), catalog);
-  assert.match(buildSow(deal, ready), /DRAFT — commercial and legal review still required/);
+  assert.match(buildSow(deal, ready), /DRAFT: commercial and legal review still required/);
 });
 
 test('user-entered text is escaped in every document', () => {

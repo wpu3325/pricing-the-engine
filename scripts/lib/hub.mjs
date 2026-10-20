@@ -55,7 +55,7 @@ export function buildHub(headline) {
   const body = `
 <div class="mark">| · APPLIED COMPUTE · TAKE-HOME ·</div>
 <h1>Pricing the Engine</h1>
-<p class="lede">An enterprise RL post-training engagement, costed, priced and written up. Every page below is generated from one engine, and the Excel model is the reference the engine is checked against. Start with the cards, then read the requirement map.</p>
+<p class="lede">The cost, price, margin and contract for one enterprise RL post-training engagement. Every page is generated from one engine, and the Excel model is the reference the engine is checked against.</p>
 <div class="kpis" aria-label="Headline numbers, default example deal">
   <div class="kpi"><span>Delivery COGS, incl. rework</span><b>${E(money(h.cogs))}</b></div>
   <div class="kpi"><span>Quote</span><b>${E(money(h.quote))}</b></div>

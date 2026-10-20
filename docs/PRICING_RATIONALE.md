@@ -24,7 +24,7 @@ Four anchors:
 3. **Absolute band.** Vendor guides cite paid discovery at $20–60K over 2–4 weeks. The phase fits that band and ends in working assets, not only a document. One guide warns that a phase producing only a document is a weak purchase; this one does not.
 4. **Market structure.** Self-serve RL services bill for compute only. The OpenAI reinforcement fine-tuning billing guide lists $100 per hour of training time, with grader tokens billed separately; Fireworks bills reinforcement fine-tuning by GPU-second and does not charge for models under 16B parameters. In both cases the customer builds the evaluation, grader and environment. This phase is that same work, done with embedded engineers.
 
-**Honest internal view.** The phase costs about $21–23K to deliver (setup labour $19.6K, baseline graders $1.5K, baseline evaluation GPU about $0.1K, plus 10% rework), so it earns a thin margin by design. The margin is earned in the cycles. A possible negotiation lever, not the default: credit part of the fee against Phase 3 if the customer signs within 30 days.
+**Internal view.** The phase costs about $21–23K to deliver (setup labour $19.6K, baseline graders $1.5K, baseline evaluation GPU about $0.1K, plus 10% rework), so it earns a thin margin by design. The margin is earned in the cycles. A possible negotiation lever, not the default: credit part of the fee against Phase 3 if the customer signs within 30 days.
 
 ## 3. Where a competitor can undercut
 

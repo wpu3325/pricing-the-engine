@@ -94,7 +94,7 @@ export function renderSuggest(deal, r, catalog) {
   return `<div class="card soft" id="suggest-body">
 <div class="card-head"><div><h2>Suggested from your data</h2><p class="small muted" style="margin:4px 0 0">Suggestions are proxies, not measurements. Nothing changes until you press Apply.</p></div>${infoButton('model', 'Suggested from your data')}</div>
 <div class="grid-3">
-<div><h3>Training footprint</h3><div>${s.trainingFootprintGb == null ? '<span class="muted">Not verified — parameters unknown</span>' : `${decimal(s.trainingFootprintGb, 0)} GB (training) · ${escapeHtml(s.trainingSku.note)}`}</div><div class="small muted" style="margin-top:4px">Suggested SKU: <b>${escapeHtml(s.trainingSku.sku ?? '—')}</b>${s.modelMatchesHardware ? '' : ' · <span class="no">model needs B300 review</span>'}</div></div>
+<div><h3>Training footprint</h3><div>${s.trainingFootprintGb == null ? '<span class="muted">Not verified: parameters unknown</span>' : `${decimal(s.trainingFootprintGb, 0)} GB (training) · ${escapeHtml(s.trainingSku.note)}`}</div><div class="small muted" style="margin-top:4px">Suggested SKU: <b>${escapeHtml(s.trainingSku.sku ?? '—')}</b>${s.modelMatchesHardware ? '' : ' · <span class="no">model needs B300 review</span>'}</div></div>
 <div><h3>Serving footprint</h3><div>${s.servingGpusPerReplica == null ? '<span class="muted">Not verified</span>' : `≈ ${count(s.servingGpusPerReplica)} GPUs per replica`}</div><div class="small muted">Warm-floor input suggestion only.</div></div>
 <div><h3>Policy tokens (suggested)</h3><div>${s.policyTokensPerCycle == null ? '<span class="muted">Add training-example count</span>' : escapeHtml(tokens(s.policyTokensPerCycle)) + ' / cycle'}</div><div class="small muted">Examples × tokens per example × passes</div></div>
 </div>
@@ -157,7 +157,7 @@ export function renderEconomics(state) {
   return `
 <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
 <div><h2>Economics</h2><p class="small muted" style="margin:4px 0 0">Internal view. Everything here is for Applied Compute, not the customer.</p></div>
-<span class="chip internal">INTERNAL — never shared with the customer</span></div>
+<span class="chip internal">INTERNAL: never shared with the customer</span></div>
 
 <section class="card" aria-labelledby="h-cost">
 <div class="card-head"><div><div class="eyebrow" style="margin-top:0">Cost build</div><h2 id="h-cost">Demand → GPU-hours → COGS → price</h2></div></div>
@@ -219,7 +219,7 @@ export function renderProposalStep(state) {
   return `<div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
 <div><h2>Customer documents</h2><p class="small muted" style="margin:4px 0 0">Generated from the same engine run. Safe to send after review, once the status shows DRAFT.</p></div>
 <span class="chip ${r.gates.status === 'READY FOR REVIEW' ? 'ok' : ''}">${escapeHtml(r.gates.status)}</span></div>
-<div class="banner ${r.gates.status === 'READY FOR REVIEW' ? 'ok' : ''}">${escapeHtml(r.gates.status === 'READY FOR REVIEW' ? 'DRAFT — commercial and legal review still required before sending' : `PRELIMINARY — DO NOT SEND CUSTOMER: ${r.gates.status}`)}</div>
+<div class="banner ${r.gates.status === 'READY FOR REVIEW' ? 'ok' : ''}">${escapeHtml(r.gates.status === 'READY FOR REVIEW' ? 'DRAFT: commercial and legal review still required before sending' : `PRELIMINARY: DO NOT SEND CUSTOMER: ${r.gates.status}`)}</div>
 <div class="card">
 <div class="card-head"><div class="tabs" role="tablist" aria-label="Document">
 <button type="button" role="tab" data-tab="sow" aria-selected="${tab === 'sow'}">Statement of work</button>

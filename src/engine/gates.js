@@ -47,7 +47,7 @@ export function inputErrors(deal) {
   return e;
 }
 
-// '02 Economics Capacity'!B104 — the commercial approval status.
+// '02 Economics Capacity'!B104: the commercial approval status.
 export function commercialStatus(deal, { errors, readiness, capacity, pricing }) {
   if (errors.length) return 'HOLD - INPUT';
   if (readiness !== 'QUALIFIED*') return 'HOLD - MODEL';

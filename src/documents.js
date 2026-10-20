@@ -16,8 +16,8 @@ export const slug = (s) => String(s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, 
 
 export function statusBanner(status) {
   return status === 'READY FOR REVIEW'
-    ? 'DRAFT — commercial and legal review still required before sending'
-    : `PRELIMINARY — DO NOT SEND CUSTOMER: ${status}`;
+    ? 'DRAFT: commercial and legal review still required before sending'
+    : `PRELIMINARY: DO NOT SEND CUSTOMER: ${status}`;
 }
 
 const PHASES = [
@@ -53,7 +53,7 @@ function doc(title, body, status, customerName) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>${escapeHtml(title)} — ${escapeHtml(customerName)}</title>
+<title>${escapeHtml(title)}: ${escapeHtml(customerName)}</title>
 <style>
 :root{--ink:#101010;--muted:#545454;--line:#ededed;--accent:#f04a00;--bg:#fffaf7}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,sans-serif}
@@ -136,7 +136,7 @@ export function buildSow(deal, r) {
 <tr><td>Minimum warm capacity</td><td>${E(count(s.minWarmReplicas))} GPUs</td></tr>
 <tr><td>Included monthly tokens</td><td>${E(tokens(s.includedInputTokens))} input · ${E(tokens(s.includedOutputTokens))} output</td></tr>
 <tr><td>Indicative monthly price</td><td>${E(money(r.serving.price))}</td></tr>
-<tr><td>Service-level target</td><td>${E(pct(s.availabilityTarget ?? 0.999, 1))} availability target; [latency SLA — to be set after load test]</td></tr>
+<tr><td>Service-level target</td><td>${E(pct(s.availabilityTarget ?? 0.999, 1))} availability target; [latency SLA: to be set after load test]</td></tr>
 </tbody></table>` : '';
   const amend = AMENDMENTS.map(([a, b]) => `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td></tr>`).join('');
   const body = `
@@ -165,7 +165,7 @@ export function buildSow(deal, r) {
 </ul>
 
 <h2>4. Commercial schedule</h2>
-<p>Invoices follow the milestones below. Payment terms: [net terms — counsel review].</p>
+<p>Invoices follow the milestones below. Payment terms: [net terms: counsel review].</p>
 ${scheduleTable(o)}
 
 <h2>5. Amendment and re-papering triggers</h2>
@@ -179,7 +179,7 @@ ${serving.replace('<h2>6.', '<h2>6.')}
 <li>Scope is limited to the one workflow above. Material changes follow Section 5.</li>
 <li>Results are reported as measured on the frozen held-out set. A quality uplift is not guaranteed.</li>
 </ul>
-<p class="note">[Data rights and confidentiality — counsel review] · [Liability and indemnity — counsel review] · [Termination payment — counsel review] · [Governing law — counsel review]</p>
+<p class="note">[Data rights and confidentiality: counsel review] · [Liability and indemnity: counsel review] · [Termination payment: counsel review] · [Governing law: counsel review]</p>
 <h2>Signatures</h2>
 <table><tbody><tr><td>For ${escapeHtml((deal.customer.name || '[Customer name]'))}</td><td>For Applied Compute</td></tr>
 <tr><td>Name / title / date:</td><td>Name / title / date:</td></tr></tbody></table>`;
@@ -236,7 +236,7 @@ ${FAQ.map(([q, a]) => `<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join('
 
 export function buildCogsCsv(deal, r) {
   const rows = [
-    ['INTERNAL — DO NOT SEND TO CUSTOMER', '', ''],
+    ['INTERNAL: DO NOT SEND TO CUSTOMER', '', ''],
     ['Section', 'Line', 'Value (USD or unit as stated)'],
     ['Deal', 'Customer', (deal.customer.name || '[Customer name]')],
     ['Deal', 'Model', deal.model],
@@ -286,7 +286,7 @@ export function buildCogsHtml(deal, r) {
   }).join('');
   const phases = Object.entries(r.cogs.phaseTotals).map(([p, v]) => `<tr><td>${E(p)}</td><td class="num">${E(money(v))}</td></tr>`).join('');
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>INTERNAL COGS model — ${E(deal.customer.name || 'New deal')}</title>
+<meta name="robots" content="noindex"><title>INTERNAL COGS model: ${E(deal.customer.name || 'New deal')}</title>
 <style>
 :root{--ink:#101010;--muted:#666;--line:#ededed;--accent:#f04a00;--bg:#fffaf7}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
@@ -304,7 +304,7 @@ tr.total td{font-weight:700;border-top:2px solid var(--ink)}
 <div class="mark">| · APPLIED COMPUTE · INTERNAL |</div>
 <h1>COGS model: ${E(deal.customer.name || 'New deal')}</h1>
 <p class="muted">Model: ${E(deal.model || 'not yet selected')} · ${E(deal.rl.cycles)} cycles · ${E(r.work.totalWeeks)} weeks · status ${E(r.gates.status)}</p>
-<div class="banner">INTERNAL — shows cost and margin. Do not send to the customer.</div>
+<div class="banner">INTERNAL: shows cost and margin. Do not send to the customer.</div>
 <div class="kpi">
 <div><span class="muted">Delivery COGS (with rework)</span><b>${E(money(r.cogs.cogs))}</b></div>
 <div><span class="muted">Quote</span><b>${E(money(r.pricing.quote))}</b></div>
