@@ -10,7 +10,7 @@ Built for the Applied Compute take-home. Live: https://wpu3325.github.io/pricing
 
 | Take-home requirement | Answer | Where |
 |---|---|---|
-| **A. COGS model**: every cost line, assumptions, flexible per deal | Eight workbook cost pools plus about 20 extension lines, each tagged to a delivery phase. Every input has a hover explanation with its workbook cell. | Deal sections 4–6 · Economics → cost ledger · [COGS_LEDGER.md](docs/COGS_LEDGER.md) |
+| **A. COGS model**: every cost line, assumptions, flexible per deal | Eight workbook cost pools plus about 20 extension lines, each tagged to a delivery phase. Every input has a hover explanation with its workbook cell. | Deal sections 4–6 · Economics → cost ledger · [rendered COGS model](https://wpu3325.github.io/pricing-the-engine/docs/samples/INTERNAL_sample_cogs_model.html) · [COGS_LEDGER.md](docs/COGS_LEDGER.md) |
 | A.2 Assumptions | Listed per input. Illustrative defaults are tagged *default* until replaced. | Deal sections · [PRICING_RATIONALE.md](docs/PRICING_RATIONALE.md) |
 | **B. Pricing and SOW**: proposal with rationale | Four phases, each with what the customer gets, why it costs that, effort hours and when it is invoiced. | Proposal step · [rendered samples](https://wpu3325.github.io/pricing-the-engine/docs/samples/) (GitHub shows the HTML source; use the rendered link) |
 | B.2 Margin profile and reasoning | 45% target, 35% floor. The Economics step shows margin by phase and the tornado of what moves it. | Economics → margin by phase, sensitivity |

@@ -273,3 +273,49 @@ export function fileName(deal, kind, date = new Date()) {
   const d = date.toISOString().slice(0, 10);
   return `${slug((deal.customer.name || '[Customer name]'))}_${slug(deal.model)}_${kind}_${d}`;
 }
+
+// Internal COGS ledger as a readable page. Never for customers: it shows cost and margin.
+export function buildCogsHtml(deal, r) {
+  const groups = ['Compute and capacity', 'People and overhead', 'Evaluation and environments', 'Data and storage', 'Platform and tools', 'Risk'];
+  const rows = groups.map((g) => {
+    const ls = r.cogs.ledger.filter((l) => l.group === g);
+    if (!ls.length) return '';
+    const sub = ls.reduce((a, l) => a + l.value, 0);
+    const body = ls.map((l) => `<tr><td>${E(l.label)}</td><td>${E(l.phase)}</td><td>${E(l.source)}</td><td class="num">${E(money(l.value))}</td><td class="num">${E(pct(r.cogs.cogs ? l.value / r.cogs.cogs : 0, 1))}</td></tr>`).join('');
+    return `<tr class="group"><th colspan="3">${E(g)}</th><th class="num">${E(money(sub))}</th><th></th></tr>${body}`;
+  }).join('');
+  const phases = Object.entries(r.cogs.phaseTotals).map(([p, v]) => `<tr><td>${E(p)}</td><td class="num">${E(money(v))}</td></tr>`).join('');
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>INTERNAL COGS model — ${E(deal.customer.name || 'New deal')}</title>
+<style>
+:root{--ink:#101010;--muted:#666;--line:#ededed;--accent:#f04a00;--bg:#fffaf7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:40px 24px 72px}
+.mark{font:600 13px ui-monospace,Menlo,monospace;color:var(--accent)}
+h1{font:400 34px/1.15 Newsreader,Georgia,serif;margin:10px 0 6px}h2{font:400 21px Newsreader,Georgia,serif;margin:30px 0 10px}
+.banner{border:1px solid #101010;background:#101010;color:#fff;padding:10px 14px;border-radius:8px;font-weight:600;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font:600 11px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var(--muted)}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.group th{background:#fcfcf9;color:var(--ink);font:600 13px Inter,sans-serif;text-transform:none}
+tr.total td{font-weight:700;border-top:2px solid var(--ink)}
+.kpi{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}.kpi div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:170px}
+.kpi b{display:block;font:500 22px Newsreader,Georgia,serif}.muted{color:var(--muted);font-size:13px}
+</style></head><body><main>
+<div class="mark">| · APPLIED COMPUTE · INTERNAL |</div>
+<h1>COGS model: ${E(deal.customer.name || 'New deal')}</h1>
+<p class="muted">Model: ${E(deal.model || 'not yet selected')} · ${E(deal.rl.cycles)} cycles · ${E(r.work.totalWeeks)} weeks · status ${E(r.gates.status)}</p>
+<div class="banner">INTERNAL — shows cost and margin. Do not send to the customer.</div>
+<div class="kpi">
+<div><span class="muted">Delivery COGS (with rework)</span><b>${E(money(r.cogs.cogs))}</b></div>
+<div><span class="muted">Quote</span><b>${E(money(r.pricing.quote))}</b></div>
+<div><span class="muted">Gross margin</span><b>${E(pct(r.pricing.grossMargin))}</b></div>
+<div><span class="muted">Training GPU-hours</span><b>${E(count(r.work.totalGpuHours))}</b></div>
+</div>
+<h2>Cost by group</h2>
+<table><thead><tr><th>Cost line</th><th>Phase</th><th>Source</th><th class="num">Amount</th><th class="num">Share</th></tr></thead><tbody>${rows}
+<tr class="total"><td>Total delivery COGS (incl. rework)</td><td></td><td></td><td class="num">${E(money(r.cogs.cogs))}</td><td class="num">100%</td></tr></tbody></table>
+<h2>Cost by delivery phase</h2>
+<table><thead><tr><th>Phase</th><th class="num">Cost</th></tr></thead><tbody>${phases}</tbody></table>
+<p class="muted">Workbook lines reproduce the supplied configurator (sheet 02). Extension lines are additional costs the workbook does not carry; they are $0 unless filled in the tool.</p>
+</main></body></html>`;
+}
