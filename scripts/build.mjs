@@ -1,10 +1,11 @@
-// Builds index.html as ONE self-contained file: the app is bundled into a classic
+// Builds app/index.html as ONE self-contained file: the app is bundled into a classic
 // inline script, so the tool works by double-clicking the file (file://) as well
 // as from any static host. The inline script is pinned by SHA-256 in the CSP, so
-// no other script can run. Run: node scripts/build.mjs
+// no other script can run. Run: node scripts/build.mjs (the hub and deliverables are
+// built by scripts/build_deliverables.mjs)
 import { build } from 'esbuild';
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,7 +17,8 @@ const result = await build({
 const js = result.outputFiles[0].text.trim();
 if (js.includes('</script')) throw new Error('bundle would break out of the inline script');
 const hash = createHash('sha256').update(js, 'utf8').digest('base64');
-const template = readFileSync(join(root, 'index.template.html'), 'utf8');
+const template = readFileSync(join(root, 'src/app.template.html'), 'utf8');
 const html = template.replace('__APP_HASH__', hash).replace('/*__APP_BUNDLE__*/', () => js);
-writeFileSync(join(root, 'index.html'), html);
-console.log(`built index.html (${(html.length / 1024).toFixed(0)} KB, CSP sha256-${hash.slice(0, 12)}…)`);
+mkdirSync(join(root, 'app'), { recursive: true });
+writeFileSync(join(root, 'app/index.html'), html);
+console.log(`built app/index.html (${(html.length / 1024).toFixed(0)} KB, CSP sha256-${hash.slice(0, 12)}…)`);

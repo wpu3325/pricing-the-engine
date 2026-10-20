@@ -1,0 +1,8425 @@
+{
+ "source": "deliverables/downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx",
+ "sheets": [
+  {
+   "name": "01 Deal Setup",
+   "cells": [
+    {
+     "ref": "A1",
+     "value": "DEAL CONFIGURATOR",
+     "formula": null
+    },
+    {
+     "ref": "A2",
+     "value": "EDIT shaded inputs; selected model determines planning proxy, but do not issue quote until model/hardware/throughput gates clear.",
+     "formula": null
+    },
+    {
+     "ref": "A4",
+     "value": "1   CUSTOMER, SCOPE & APPROVAL",
+     "formula": null
+    },
+    {
+     "ref": "F4",
+     "value": "LIVE DEAL OUTPUTS (AUTO-CALCULATED)",
+     "formula": null
+    },
+    {
+     "ref": "A5",
+     "value": "Customer",
+     "formula": null
+    },
+    {
+     "ref": "B5",
+     "value": "Example Enterprise",
+     "formula": null
+    },
+    {
+     "ref": "C5",
+     "value": "text",
+     "formula": null
+    },
+    {
+     "ref": "D5",
+     "value": "Replace with customer legal/entity name.",
+     "formula": null
+    },
+    {
+     "ref": "F5",
+     "value": "Recommended quote",
+     "formula": null
+    },
+    {
+     "ref": "G5",
+     "value": 210000.0,
+     "formula": "'02 Economics Capacity'!B100"
+    },
+    {
+     "ref": "A6",
+     "value": "Workflow / task",
+     "formula": null
+    },
+    {
+     "ref": "B6",
+     "value": "Internal workflow automation",
+     "formula": null
+    },
+    {
+     "ref": "C6",
+     "value": "text",
+     "formula": null
+    },
+    {
+     "ref": "D6",
+     "value": "One defined use case; material changes require amendment.",
+     "formula": null
+    },
+    {
+     "ref": "F6",
+     "value": "Forecast delivery COGS",
+     "formula": null
+    },
+    {
+     "ref": "G6",
+     "value": 106590.0,
+     "formula": "'02 Economics Capacity'!B84"
+    },
+    {
+     "ref": "A7",
+     "value": "Selected open-weight model",
+     "formula": null
+    },
+    {
+     "ref": "B7",
+     "value": "Qwen3.6-35B-A3B",
+     "formula": null
+    },
+    {
+     "ref": "C7",
+     "value": "model dropdown",
+     "formula": null
+    },
+    {
+     "ref": "D7",
+     "value": "Named options from the supplied AC2 knowledge base. Training/serving eligibility may differ.",
+     "formula": null
+    },
+    {
+     "ref": "F7",
+     "value": "Target margin",
+     "formula": null
+    },
+    {
+     "ref": "G7",
+     "value": 0.45,
+     "formula": "B76"
+    },
+    {
+     "ref": "A8",
+     "value": "Total model parameters (B)",
+     "formula": null
+    },
+    {
+     "ref": "B8",
+     "value": 35.0,
+     "formula": "IFERROR(IF(VLOOKUP(B7,'04 Guide Assumptions'!$F$26:$Q$55,2,FALSE)=0,\"Not verified\",VLOOKUP(B7,'04 Guide Assumptions'!$F$26:$Q$55,2,FALSE)),\"Not verified\")"
+    },
+    {
+     "ref": "C8",
+     "value": "billion params",
+     "formula": null
+    },
+    {
+     "ref": "D8",
+     "value": "Automatically populated; total model weights, not compute cost or active parameters.",
+     "formula": null
+    },
+    {
+     "ref": "F8",
+     "value": "Expected deal margin",
+     "formula": null
+    },
+    {
+     "ref": "G8",
+     "value": 0.49242857142857144,
+     "formula": "'02 Economics Capacity'!B101"
+    },
+    {
+     "ref": "A9",
+     "value": "Training method",
+     "formula": null
+    },
+    {
+     "ref": "B9",
+     "value": "GRPO",
+     "formula": null
+    },
+    {
+     "ref": "C9",
+     "value": "▼ select",
+     "formula": null
+    },
+    {
+     "ref": "D9",
+     "value": "Only GRPO uses current RL-loop cost logic; other methods trigger HOLD until re-costed.",
+     "formula": null
+    },
+    {
+     "ref": "F9",
+     "value": "Demand GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "G9",
+     "value": 3360.000000000001,
+     "formula": "'02 Economics Capacity'!B21"
+    },
+    {
+     "ref": "A10",
+     "value": "Approved maximum RL cycles",
+     "formula": null
+    },
+    {
+     "ref": "B10",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "C10",
+     "value": "cycles",
+     "formula": null
+    },
+    {
+     "ref": "D10",
+     "value": "Contracted maximum; no unapproved experimentation.",
+     "formula": null
+    },
+    {
+     "ref": "F10",
+     "value": "Selected capacity method",
+     "formula": null
+    },
+    {
+     "ref": "G10",
+     "value": "Existing",
+     "formula": "'02 Economics Capacity'!B62"
+    },
+    {
+     "ref": "A11",
+     "value": "Cadence",
+     "formula": null
+    },
+    {
+     "ref": "B11",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "C11",
+     "value": "weeks per cycle",
+     "formula": null
+    },
+    {
+     "ref": "D11",
+     "value": "One cycle every week by default; one cycle forecast in a week.",
+     "formula": null
+    },
+    {
+     "ref": "F11",
+     "value": "New GPUs at peak",
+     "formula": null
+    },
+    {
+     "ref": "G11",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B55"
+    },
+    {
+     "ref": "A12",
+     "value": "Readiness period",
+     "formula": null
+    },
+    {
+     "ref": "B12",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "C12",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "D12",
+     "value": "Time to baseline, prepare evals, approve grader.",
+     "formula": null
+    },
+    {
+     "ref": "F12",
+     "value": "Procurement commitment",
+     "formula": null
+    },
+    {
+     "ref": "G12",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B63"
+    },
+    {
+     "ref": "A13",
+     "value": "Handoff period",
+     "formula": null
+    },
+    {
+     "ref": "B13",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "C13",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "D13",
+     "value": "Final independent eval, checkpoint handoff and signoff.",
+     "formula": null
+    },
+    {
+     "ref": "F13",
+     "value": "Customer budget headroom",
+     "formula": null
+    },
+    {
+     "ref": "G13",
+     "value": 50000.0,
+     "formula": "'02 Economics Capacity'!B103"
+    },
+    {
+     "ref": "A14",
+     "value": "RL jobs scheduled",
+     "formula": null
+    },
+    {
+     "ref": "B14",
+     "value": "Sequential",
+     "formula": null
+    },
+    {
+     "ref": "C14",
+     "value": "Sequential / Concurrent",
+     "formula": null
+    },
+    {
+     "ref": "D14",
+     "value": "Sequential avoids overlap capacity; concurrent requires both fleets at once.",
+     "formula": null
+    },
+    {
+     "ref": "A15",
+     "value": "Success metric",
+     "formula": null
+    },
+    {
+     "ref": "B15",
+     "value": "Held-out pass rate",
+     "formula": null
+    },
+    {
+     "ref": "C15",
+     "value": "▼ select",
+     "formula": null
+    },
+    {
+     "ref": "D15",
+     "value": "Only 0–1 scores with higher = better. Customer approves frozen eval and target.",
+     "formula": null
+    },
+    {
+     "ref": "F15",
+     "value": "DEAL READINESS / DECISION SIGNALS",
+     "formula": null
+    },
+    {
+     "ref": "A16",
+     "value": "Baseline score",
+     "formula": null
+    },
+    {
+     "ref": "B16",
+     "value": 0.6,
+     "formula": null
+    },
+    {
+     "ref": "C16",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D16",
+     "value": "Illustrative pre-training score; use reproducible baseline.",
+     "formula": null
+    },
+    {
+     "ref": "F16",
+     "value": "Schedule / availability",
+     "formula": null
+    },
+    {
+     "ref": "G16",
+     "value": "FEASIBLE*",
+     "formula": "'02 Economics Capacity'!B70"
+    },
+    {
+     "ref": "A17",
+     "value": "Target acceptance score",
+     "formula": null
+    },
+    {
+     "ref": "B17",
+     "value": 0.8,
+     "formula": null
+    },
+    {
+     "ref": "C17",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D17",
+     "value": "Target for recommendation to stop, not guaranteed research outcome.",
+     "formula": null
+    },
+    {
+     "ref": "F17",
+     "value": "Price / budget",
+     "formula": null
+    },
+    {
+     "ref": "G17",
+     "value": "HOLD - MODEL",
+     "formula": "'02 Economics Capacity'!B104"
+    },
+    {
+     "ref": "A18",
+     "value": "Minimum meaningful gain",
+     "formula": null
+    },
+    {
+     "ref": "B18",
+     "value": 0.01,
+     "formula": null
+    },
+    {
+     "ref": "C18",
+     "value": "absolute points",
+     "formula": null
+    },
+    {
+     "ref": "D18",
+     "value": "Plateau threshold per cycle (1 pp = 0.01).",
+     "formula": null
+    },
+    {
+     "ref": "F18",
+     "value": "Suggested stop action",
+     "formula": null
+    },
+    {
+     "ref": "G18",
+     "value": "NO RESULTS YET",
+     "formula": "IF(B21=\"Stop\",\"STOP - CUSTOMER DECISION\",IF(B20=0,\"NO RESULTS YET\",IF(INDEX(G37:G44,B20)>=B17,\"REVIEW - TARGET REACHED\",IF(B20>=B10,\"REVIEW - CYCLE CAP\",IF(AND(B20>=B19,INDEX(H37:H44,B20)<B18,INDEX(H37:H44,B20-1)<B18),\"REVIEW - PLATEAU\",\"CONTINUE; CUSTOMER APPROVAL\")))))"
+    },
+    {
+     "ref": "A19",
+     "value": "Consecutive slow cycles",
+     "formula": null
+    },
+    {
+     "ref": "B19",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "C19",
+     "value": "cycles",
+     "formula": null
+    },
+    {
+     "ref": "D19",
+     "value": "Review when 2 successive gains fall below threshold.",
+     "formula": null
+    },
+    {
+     "ref": "F19",
+     "value": "Production quote (if Yes)",
+     "formula": null
+    },
+    {
+     "ref": "G19",
+     "value": "NOT IN SCOPE",
+     "formula": "IF(B23=\"Yes\",'02 Economics Capacity'!B124,\"NOT IN SCOPE\")"
+    },
+    {
+     "ref": "A20",
+     "value": "Cycles with scores entered",
+     "formula": null
+    },
+    {
+     "ref": "B20",
+     "value": 0.0,
+     "formula": "COUNT(G37:G44)"
+    },
+    {
+     "ref": "C20",
+     "value": "completed",
+     "formula": null
+    },
+    {
+     "ref": "D20",
+     "value": "Score log right -> automatically counts entered outcomes.",
+     "formula": null
+    },
+    {
+     "ref": "A21",
+     "value": "Customer continuation decision",
+     "formula": null
+    },
+    {
+     "ref": "B21",
+     "value": "Pending",
+     "formula": null
+    },
+    {
+     "ref": "C21",
+     "value": "Pending / Continue / Stop",
+     "formula": null
+    },
+    {
+     "ref": "D21",
+     "value": "Customer is decision maker after each cycle; forecast is advisory.",
+     "formula": null
+    },
+    {
+     "ref": "A22",
+     "value": "Maximum deal approval budget",
+     "formula": null
+    },
+    {
+     "ref": "B22",
+     "value": 260000.0,
+     "formula": null
+    },
+    {
+     "ref": "C22",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D22",
+     "value": "Signals when quote needs scope/budget change.",
+     "formula": null
+    },
+    {
+     "ref": "F22",
+     "value": "MODEL QUALIFICATION  |  REQUIRED BEFORE QUOTE",
+     "formula": null
+    },
+    {
+     "ref": "A23",
+     "value": "Include production proposal?",
+     "formula": null
+    },
+    {
+     "ref": "B23",
+     "value": "No",
+     "formula": null
+    },
+    {
+     "ref": "C23",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D23",
+     "value": "Separate prospective monthly quote, not part of training value.",
+     "formula": null
+    },
+    {
+     "ref": "F23",
+     "value": "Active parameters (B)",
+     "formula": null
+    },
+    {
+     "ref": "G23",
+     "value": 3.0,
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,3,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A24",
+     "value": "Serving contract type",
+     "formula": null
+    },
+    {
+     "ref": "B24",
+     "value": "Dedicated",
+     "formula": null
+    },
+    {
+     "ref": "C24",
+     "value": "Shared / Dedicated",
+     "formula": null
+    },
+    {
+     "ref": "D24",
+     "value": "Shared usage minimum vs dedicated warm-replica subscription.",
+     "formula": null
+    },
+    {
+     "ref": "F24",
+     "value": "Architecture",
+     "formula": null
+    },
+    {
+     "ref": "G24",
+     "value": "MoE",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,4,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A25",
+     "value": "Monthly input tokens",
+     "formula": null
+    },
+    {
+     "ref": "B25",
+     "value": 20000000.0,
+     "formula": null
+    },
+    {
+     "ref": "C25",
+     "value": "tokens/month",
+     "formula": null
+    },
+    {
+     "ref": "D25",
+     "value": "Forecast only; contract includes named allowances.",
+     "formula": null
+    },
+    {
+     "ref": "F25",
+     "value": "RL training status",
+     "formula": null
+    },
+    {
+     "ref": "G25",
+     "value": "Listed",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,5,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A26",
+     "value": "Monthly output tokens",
+     "formula": null
+    },
+    {
+     "ref": "B26",
+     "value": 10000000.0,
+     "formula": null
+    },
+    {
+     "ref": "C26",
+     "value": "tokens/month",
+     "formula": null
+    },
+    {
+     "ref": "D26",
+     "value": "Outputs usually have higher serving cost.",
+     "formula": null
+    },
+    {
+     "ref": "F26",
+     "value": "Serving status",
+     "formula": null
+    },
+    {
+     "ref": "G26",
+     "value": "Listed",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,6,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A27",
+     "value": "Peak / average traffic",
+     "formula": null
+    },
+    {
+     "ref": "B27",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "C27",
+     "value": "x",
+     "formula": null
+    },
+    {
+     "ref": "D27",
+     "value": "Capacity planning proxy; benchmark peak latency before launch.",
+     "formula": null
+    },
+    {
+     "ref": "F27",
+     "value": "Catalog evidence",
+     "formula": null
+    },
+    {
+     "ref": "G27",
+     "value": "Model-named",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,7,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A28",
+     "value": "Minimum warm replicas",
+     "formula": null
+    },
+    {
+     "ref": "B28",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "C28",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "D28",
+     "value": "Latency / availability floor independent of token volume.",
+     "formula": null
+    },
+    {
+     "ref": "F28",
+     "value": "GPU class to confirm",
+     "formula": null
+    },
+    {
+     "ref": "G28",
+     "value": "Validate",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,9,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A29",
+     "value": "Availability target",
+     "formula": null
+    },
+    {
+     "ref": "B29",
+     "value": 0.999,
+     "formula": null
+    },
+    {
+     "ref": "C29",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D29",
+     "value": "Planning assumption, not an SLA until service order signed.",
+     "formula": null
+    },
+    {
+     "ref": "F29",
+     "value": "Parameter source URL",
+     "formula": null
+    },
+    {
+     "ref": "G29",
+     "value": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,10,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A30",
+     "value": "Customer accountable owner",
+     "formula": null
+    },
+    {
+     "ref": "B30",
+     "value": "Customer product / SME lead",
+     "formula": null
+    },
+    {
+     "ref": "C30",
+     "value": "owner",
+     "formula": null
+    },
+    {
+     "ref": "D30",
+     "value": "Owns base model, grader, continue/stop and acceptance decisions.",
+     "formula": null
+    },
+    {
+     "ref": "F30",
+     "value": "Model readiness",
+     "formula": null
+    },
+    {
+     "ref": "G30",
+     "value": "HOLD - BENCHMARK",
+     "formula": "IF($B$9<>\"GRPO\",\"HOLD - METHOD RE-SCOPE\",IF(OR($B$33=\"Access pending\",$B$33=\"Not available\"),\"HOLD - DATA ACCESS\",IF(NOT(ISNUMBER($B$8)),\"HOLD - PARAMETERS\",IF($B$101<>\"Yes\",\"HOLD - BENCHMARK\",IF($B$102<>\"Yes\",\"HOLD - ACCESS\",IF($B$104<>\"Yes\",\"HOLD - SKU RATE\",IF(AND($G$28=\"B300\",$B$103<>\"B300\"),\"HOLD - GPU FAMILY\",IF(OR($G$25=\"Not listed\",$G$25=\"Research only\",$G$25=\"Legacy mention\",$G$25=\"Family - verify\",$G$25=\"Access required\"),\"HOLD - TRAINING ELIGIBILITY\",\"QUALIFIED*\"))))))))"
+    },
+    {
+     "ref": "A31",
+     "value": "Applied Compute delivery owner",
+     "formula": null
+    },
+    {
+     "ref": "B31",
+     "value": "AC engagement lead",
+     "formula": null
+    },
+    {
+     "ref": "C31",
+     "value": "owner",
+     "formula": null
+    },
+    {
+     "ref": "D31",
+     "value": "Builds, runs, measures, and recommends.",
+     "formula": null
+    },
+    {
+     "ref": "F31",
+     "value": "Planning proxy class",
+     "formula": null
+    },
+    {
+     "ref": "G31",
+     "value": 2.0,
+     "formula": "IFERROR(VLOOKUP($B$7,'04 Guide Assumptions'!$F$26:$Q$55,8,FALSE),\"Not verified\")"
+    },
+    {
+     "ref": "A32",
+     "value": "Hosting region",
+     "formula": null
+    },
+    {
+     "ref": "B32",
+     "value": "US region TBD",
+     "formula": null
+    },
+    {
+     "ref": "C32",
+     "value": "region",
+     "formula": null
+    },
+    {
+     "ref": "D32",
+     "value": "Data residency and supply feasibility must be confirmed.",
+     "formula": null
+    },
+    {
+     "ref": "F32",
+     "value": "Model suitability",
+     "formula": null
+    },
+    {
+     "ref": "G32",
+     "value": "PROVISIONAL ESTIMATE",
+     "formula": "IF(OR($G$25=\"Not listed\",$G$25=\"Research only\",$G$25=\"Legacy mention\"),\"TRAINING NOT CONFIRMED\",IF($G$25=\"Family - verify\",\"VARIANT ACCESS CHECK\",IF($B$8=\"Not verified\",\"PARAMETERS NEED VERIFICATION\",IF($G$28=\"Multi-node\",\"MULTI-NODE REVIEW\",\"PROVISIONAL ESTIMATE\"))))"
+    },
+    {
+     "ref": "A33",
+     "value": "Data/access readiness",
+     "formula": null
+    },
+    {
+     "ref": "B33",
+     "value": "Customer supplies by kickoff",
+     "formula": null
+    },
+    {
+     "ref": "C33",
+     "value": "▼ select",
+     "formula": null
+    },
+    {
+     "ref": "D33",
+     "value": "Ready / validated or by kickoff are allowed; pending/unavailable block approval.",
+     "formula": null
+    },
+    {
+     "ref": "F33",
+     "value": "OPTIONAL: ENTER ACTUAL HELD-OUT EVALS EACH CYCLE",
+     "formula": null
+    },
+    {
+     "ref": "A34",
+     "value": "2   DEMAND + GPU PERFORMANCE ASSUMPTIONS",
+     "formula": null
+    },
+    {
+     "ref": "A35",
+     "value": "Policy-update tokens per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B35",
+     "value": 42666666.6666667,
+     "formula": null
+    },
+    {
+     "ref": "C35",
+     "value": "tokens/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D35",
+     "value": "Training tokens; benchmark replaces heuristic.",
+     "formula": null
+    },
+    {
+     "ref": "A36",
+     "value": "Rollout attempts per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B36",
+     "value": 4000.0,
+     "formula": null
+    },
+    {
+     "ref": "C36",
+     "value": "attempts/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D36",
+     "value": "Include retries, sampled traces and intended exploration.",
+     "formula": null
+    },
+    {
+     "ref": "F36",
+     "value": "Cycle #",
+     "formula": null
+    },
+    {
+     "ref": "G36",
+     "value": "Actual score",
+     "formula": null
+    },
+    {
+     "ref": "H36",
+     "value": "Gain vs prior",
+     "formula": null
+    },
+    {
+     "ref": "I36",
+     "value": "Cycle status",
+     "formula": null
+    },
+    {
+     "ref": "A37",
+     "value": "Mean rollout input tokens",
+     "formula": null
+    },
+    {
+     "ref": "B37",
+     "value": 12000.0,
+     "formula": null
+    },
+    {
+     "ref": "C37",
+     "value": "tokens/attempt",
+     "formula": null
+    },
+    {
+     "ref": "D37",
+     "value": "Estimate from a representative agent trace sample.",
+     "formula": null
+    },
+    {
+     "ref": "F37",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "H37",
+     "value": null,
+     "formula": "IF(G37=\"\",\"\",G37-$B$16)"
+    },
+    {
+     "ref": "I37",
+     "value": "NOT RUN",
+     "formula": "IF(G37=\"\",\"NOT RUN\",IF(G37>=$B$17,\"TARGET HIT\",IF(F37>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A38",
+     "value": "Mean rollout output tokens",
+     "formula": null
+    },
+    {
+     "ref": "B38",
+     "value": 10000.0,
+     "formula": null
+    },
+    {
+     "ref": "C38",
+     "value": "tokens/attempt",
+     "formula": null
+    },
+    {
+     "ref": "D38",
+     "value": "Generation volume; avoid counting only successful rollouts.",
+     "formula": null
+    },
+    {
+     "ref": "F38",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "H38",
+     "value": null,
+     "formula": "IF(G38=\"\",\"\",IF(G37=\"\",\"\",G38-G37))"
+    },
+    {
+     "ref": "I38",
+     "value": "NOT RUN",
+     "formula": "IF(G38=\"\",\"NOT RUN\",IF(G38>=$B$17,\"TARGET HIT\",IF(F38>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A39",
+     "value": "Input-token work factor",
+     "formula": null
+    },
+    {
+     "ref": "B39",
+     "value": 0.5,
+     "formula": null
+    },
+    {
+     "ref": "C39",
+     "value": "equivalent/token",
+     "formula": null
+    },
+    {
+     "ref": "D39",
+     "value": "Simplified prefill weight relative to decode; benchmark required.",
+     "formula": null
+    },
+    {
+     "ref": "F39",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "H39",
+     "value": null,
+     "formula": "IF(G39=\"\",\"\",IF(G38=\"\",\"\",G39-G38))"
+    },
+    {
+     "ref": "I39",
+     "value": "NOT RUN",
+     "formula": "IF(G39=\"\",\"NOT RUN\",IF(G39>=$B$17,\"TARGET HIT\",IF(F39>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A40",
+     "value": "Evaluation cases / cycle",
+     "formula": null
+    },
+    {
+     "ref": "B40",
+     "value": 200.0,
+     "formula": null
+    },
+    {
+     "ref": "C40",
+     "value": "cases/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D40",
+     "value": "Held-out evaluation repeated at each checkpoint.",
+     "formula": null
+    },
+    {
+     "ref": "F40",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "H40",
+     "value": null,
+     "formula": "IF(G40=\"\",\"\",IF(G39=\"\",\"\",G40-G39))"
+    },
+    {
+     "ref": "I40",
+     "value": "NOT RUN",
+     "formula": "IF(G40=\"\",\"NOT RUN\",IF(G40>=$B$17,\"TARGET HIT\",IF(F40>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A41",
+     "value": "Baseline evaluation cases",
+     "formula": null
+    },
+    {
+     "ref": "B41",
+     "value": 200.0,
+     "formula": null
+    },
+    {
+     "ref": "C41",
+     "value": "cases",
+     "formula": null
+    },
+    {
+     "ref": "D41",
+     "value": "Run before training; included in the evaluation budget.",
+     "formula": null
+    },
+    {
+     "ref": "F41",
+     "value": 5.0,
+     "formula": null
+    },
+    {
+     "ref": "H41",
+     "value": null,
+     "formula": "IF(G41=\"\",\"\",IF(G40=\"\",\"\",G41-G40))"
+    },
+    {
+     "ref": "I41",
+     "value": "NOT RUN",
+     "formula": "IF(G41=\"\",\"NOT RUN\",IF(G41>=$B$17,\"TARGET HIT\",IF(F41>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A42",
+     "value": "Work-equivalent tokens / eval",
+     "formula": null
+    },
+    {
+     "ref": "B42",
+     "value": 20000.0,
+     "formula": null
+    },
+    {
+     "ref": "C42",
+     "value": "tokens/case",
+     "formula": null
+    },
+    {
+     "ref": "D42",
+     "value": "Simplified GPU work incl. judge inference; external graders separately.",
+     "formula": null
+    },
+    {
+     "ref": "F42",
+     "value": 6.0,
+     "formula": null
+    },
+    {
+     "ref": "H42",
+     "value": null,
+     "formula": "IF(G42=\"\",\"\",IF(G41=\"\",\"\",G42-G41))"
+    },
+    {
+     "ref": "I42",
+     "value": "NOT RUN",
+     "formula": "IF(G42=\"\",\"NOT RUN\",IF(G42>=$B$17,\"TARGET HIT\",IF(F42>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A43",
+     "value": "Policy throughput (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B43",
+     "value": 100000.0,
+     "formula": null
+    },
+    {
+     "ref": "C43",
+     "value": "tokens/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D43",
+     "value": "Unverified benchmark for 32B-class configuration.",
+     "formula": null
+    },
+    {
+     "ref": "F43",
+     "value": 7.0,
+     "formula": null
+    },
+    {
+     "ref": "H43",
+     "value": null,
+     "formula": "IF(G43=\"\",\"\",IF(G42=\"\",\"\",G43-G42))"
+    },
+    {
+     "ref": "I43",
+     "value": "NOT RUN",
+     "formula": "IF(G43=\"\",\"NOT RUN\",IF(G43>=$B$17,\"TARGET HIT\",IF(F43>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A44",
+     "value": "Rollout throughput (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B44",
+     "value": 100000.0,
+     "formula": null
+    },
+    {
+     "ref": "C44",
+     "value": "equiv tokens/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D44",
+     "value": "Unverified benchmark; input/output mix influences value.",
+     "formula": null
+    },
+    {
+     "ref": "F44",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "H44",
+     "value": null,
+     "formula": "IF(G44=\"\",\"\",IF(G43=\"\",\"\",G44-G43))"
+    },
+    {
+     "ref": "I44",
+     "value": "NOT RUN",
+     "formula": "IF(G44=\"\",\"NOT RUN\",IF(G44>=$B$17,\"TARGET HIT\",IF(F44>=$B$10,\"BEYOND SCOPE\",\"CHECK CONTINUE\")))"
+    },
+    {
+     "ref": "A45",
+     "value": "Eval throughput (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B45",
+     "value": 100000.0,
+     "formula": null
+    },
+    {
+     "ref": "C45",
+     "value": "equiv tokens/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D45",
+     "value": "Unverified benchmark; grader APIs budgeted separately.",
+     "formula": null
+    },
+    {
+     "ref": "A46",
+     "value": "Policy GPUs (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B46",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "C46",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "D46",
+     "value": "Illustrative 32B distributed training job size.",
+     "formula": null
+    },
+    {
+     "ref": "F46",
+     "value": "Stop rule",
+     "formula": null
+    },
+    {
+     "ref": "G46",
+     "value": "Target OR plateau OR cycle cap. Customer must approve the actual stop/continue decision.",
+     "formula": null
+    },
+    {
+     "ref": "A47",
+     "value": "Rollout GPUs (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B47",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "C47",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "D47",
+     "value": "Illustrative 32B rollout fleet size.",
+     "formula": null
+    },
+    {
+     "ref": "A48",
+     "value": "Evaluation GPUs (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B48",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "C48",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "D48",
+     "value": "Illustrative GPU group for held-out eval.",
+     "formula": null
+    },
+    {
+     "ref": "A49",
+     "value": "3   DIRECT DELIVERY COST ASSUMPTIONS",
+     "formula": null
+    },
+    {
+     "ref": "A50",
+     "value": "FDE setup hours",
+     "formula": null
+    },
+    {
+     "ref": "B50",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "C50",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "D50",
+     "value": "One-off integration, workflow and harness scoping.",
+     "formula": null
+    },
+    {
+     "ref": "A51",
+     "value": "FDE hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B51",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "C51",
+     "value": "hours/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D51",
+     "value": "Direct delivery load scales with approved loops.",
+     "formula": null
+    },
+    {
+     "ref": "A52",
+     "value": "FDE loaded cost",
+     "formula": null
+    },
+    {
+     "ref": "B52",
+     "value": 180.0,
+     "formula": null
+    },
+    {
+     "ref": "C52",
+     "value": "$/hour",
+     "formula": null
+    },
+    {
+     "ref": "D52",
+     "value": "Illustrative loaded labor cost, not customer sell rate.",
+     "formula": null
+    },
+    {
+     "ref": "A53",
+     "value": "Research setup hours",
+     "formula": null
+    },
+    {
+     "ref": "B53",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "C53",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "D53",
+     "value": "Baseline, grader and model selection support.",
+     "formula": null
+    },
+    {
+     "ref": "A54",
+     "value": "Research hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B54",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "C54",
+     "value": "hours/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D54",
+     "value": "Training diagnostics and quality review.",
+     "formula": null
+    },
+    {
+     "ref": "A55",
+     "value": "Research loaded cost",
+     "formula": null
+    },
+    {
+     "ref": "B55",
+     "value": 200.0,
+     "formula": null
+    },
+    {
+     "ref": "C55",
+     "value": "$/hour",
+     "formula": null
+    },
+    {
+     "ref": "D55",
+     "value": "Illustrative loaded labor cost.",
+     "formula": null
+    },
+    {
+     "ref": "A56",
+     "value": "Infra setup hours",
+     "formula": null
+    },
+    {
+     "ref": "B56",
+     "value": 12.0,
+     "formula": null
+    },
+    {
+     "ref": "C56",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "D56",
+     "value": "Initial deployment, storage and capacity provisioning.",
+     "formula": null
+    },
+    {
+     "ref": "A57",
+     "value": "Infra hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B57",
+     "value": 16.0,
+     "formula": null
+    },
+    {
+     "ref": "C57",
+     "value": "hours/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D57",
+     "value": "Runtime support and operational monitoring.",
+     "formula": null
+    },
+    {
+     "ref": "A58",
+     "value": "Infra loaded cost",
+     "formula": null
+    },
+    {
+     "ref": "B58",
+     "value": 170.0,
+     "formula": null
+    },
+    {
+     "ref": "C58",
+     "value": "$/hour",
+     "formula": null
+    },
+    {
+     "ref": "D58",
+     "value": "Illustrative loaded labor cost.",
+     "formula": null
+    },
+    {
+     "ref": "A59",
+     "value": "Delivery setup hours",
+     "formula": null
+    },
+    {
+     "ref": "B59",
+     "value": 16.0,
+     "formula": null
+    },
+    {
+     "ref": "C59",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "D59",
+     "value": "Customer milestones and coordinating approvals.",
+     "formula": null
+    },
+    {
+     "ref": "A60",
+     "value": "Delivery hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B60",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "C60",
+     "value": "hours/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D60",
+     "value": "Status, review meeting, completion evidence.",
+     "formula": null
+    },
+    {
+     "ref": "A61",
+     "value": "Delivery loaded cost",
+     "formula": null
+    },
+    {
+     "ref": "B61",
+     "value": 150.0,
+     "formula": null
+    },
+    {
+     "ref": "C61",
+     "value": "$/hour",
+     "formula": null
+    },
+    {
+     "ref": "D61",
+     "value": "Illustrative loaded labor cost.",
+     "formula": null
+    },
+    {
+     "ref": "A62",
+     "value": "Baseline graders / environments",
+     "formula": null
+    },
+    {
+     "ref": "B62",
+     "value": 1500.0,
+     "formula": null
+    },
+    {
+     "ref": "C62",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D62",
+     "value": "One-time APIs, sandbox, human quality checks.",
+     "formula": null
+    },
+    {
+     "ref": "A63",
+     "value": "Grader / environment per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B63",
+     "value": 1500.0,
+     "formula": null
+    },
+    {
+     "ref": "C63",
+     "value": "$/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D63",
+     "value": "Some judge and tool costs are NOT GPU based.",
+     "formula": null
+    },
+    {
+     "ref": "A64",
+     "value": "Storage / networking",
+     "formula": null
+    },
+    {
+     "ref": "B64",
+     "value": 1500.0,
+     "formula": null
+    },
+    {
+     "ref": "C64",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D64",
+     "value": "Illustrative checkpoint, transfer, logs and object storage.",
+     "formula": null
+    },
+    {
+     "ref": "A65",
+     "value": "Direct platform support",
+     "formula": null
+    },
+    {
+     "ref": "B65",
+     "value": 4000.0,
+     "formula": null
+    },
+    {
+     "ref": "C65",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D65",
+     "value": "Deal-specific operating cost, not corporate overhead.",
+     "formula": null
+    },
+    {
+     "ref": "A66",
+     "value": "Expected rework allowance",
+     "formula": null
+    },
+    {
+     "ref": "B66",
+     "value": 0.1,
+     "formula": null
+    },
+    {
+     "ref": "C66",
+     "value": "% COGS",
+     "formula": null
+    },
+    {
+     "ref": "D66",
+     "value": "Expected delivery variation; forecast, not booked accounting expense.",
+     "formula": null
+    },
+    {
+     "ref": "A67",
+     "value": "4   CUSTOMER QUOTE + MARGIN POLICY",
+     "formula": null
+    },
+    {
+     "ref": "A68",
+     "value": "Readiness fixed fee",
+     "formula": null
+    },
+    {
+     "ref": "B68",
+     "value": 30000.0,
+     "formula": null
+    },
+    {
+     "ref": "C68",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D68",
+     "value": "Customer-facing fixed feasibility, baseline and grader design.",
+     "formula": null
+    },
+    {
+     "ref": "A69",
+     "value": "Engineering setup fee",
+     "formula": null
+    },
+    {
+     "ref": "B69",
+     "value": 78000.0,
+     "formula": null
+    },
+    {
+     "ref": "C69",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D69",
+     "value": "Customer-facing engineering/harness delivery across engagement.",
+     "formula": null
+    },
+    {
+     "ref": "A70",
+     "value": "RL cycle fee (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B70",
+     "value": 24000.0,
+     "formula": null
+    },
+    {
+     "ref": "C70",
+     "value": "$/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D70",
+     "value": "Customer fee per approved baseline-size cycle.",
+     "formula": null
+    },
+    {
+     "ref": "A71",
+     "value": "Included cycles before added labor",
+     "formula": null
+    },
+    {
+     "ref": "B71",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "C71",
+     "value": "cycles",
+     "formula": null
+    },
+    {
+     "ref": "D71",
+     "value": "Extra cycle also needs named incremental engineering allocation.",
+     "formula": null
+    },
+    {
+     "ref": "A72",
+     "value": "Added engineering fee / extra cycle",
+     "formula": null
+    },
+    {
+     "ref": "B72",
+     "value": 24000.0,
+     "formula": null
+    },
+    {
+     "ref": "C72",
+     "value": "$/cycle",
+     "formula": null
+    },
+    {
+     "ref": "D72",
+     "value": "Only for loops above included engineering scope.",
+     "formula": null
+    },
+    {
+     "ref": "A73",
+     "value": "Independent final validation fee",
+     "formula": null
+    },
+    {
+     "ref": "B73",
+     "value": 30000.0,
+     "formula": null
+    },
+    {
+     "ref": "C73",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D73",
+     "value": "Held-out results, reproducibility and model handoff.",
+     "formula": null
+    },
+    {
+     "ref": "A75",
+     "value": "Negotiated project discount",
+     "formula": null
+    },
+    {
+     "ref": "B75",
+     "value": 0.0,
+     "formula": null
+    },
+    {
+     "ref": "C75",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D75",
+     "value": "Discount reduces commercial margin; no hidden cost reduction.",
+     "formula": null
+    },
+    {
+     "ref": "A76",
+     "value": "Target engagement gross margin",
+     "formula": null
+    },
+    {
+     "ref": "B76",
+     "value": 0.45,
+     "formula": null
+    },
+    {
+     "ref": "C76",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D76",
+     "value": "Illustrative policy to test, not company-provided target.",
+     "formula": null
+    },
+    {
+     "ref": "A77",
+     "value": "Minimum acceptable GM",
+     "formula": null
+    },
+    {
+     "ref": "B77",
+     "value": 0.35,
+     "formula": null
+    },
+    {
+     "ref": "C77",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D77",
+     "value": "Triggers warning in discount/underpricing scenario.",
+     "formula": null
+    },
+    {
+     "ref": "A78",
+     "value": "5   GPU CAPACITY + PROCUREMENT",
+     "formula": null
+    },
+    {
+     "ref": "A79",
+     "value": "Use compatible existing GPUs?",
+     "formula": null
+    },
+    {
+     "ref": "B79",
+     "value": "Yes",
+     "formula": null
+    },
+    {
+     "ref": "C79",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D79",
+     "value": "Existing must be spare and topology/region compatible.",
+     "formula": null
+    },
+    {
+     "ref": "A80",
+     "value": "New capacity acquisition",
+     "formula": null
+    },
+    {
+     "ref": "B80",
+     "value": "Auto",
+     "formula": null
+    },
+    {
+     "ref": "C80",
+     "value": "Auto / PayGo / Extend / Reserve / Existing only / BYOC",
+     "formula": null
+    },
+    {
+     "ref": "D80",
+     "value": "Auto minimizes modeled incremental vendor cash (not risk-adjusted opportunity).",
+     "formula": null
+    },
+    {
+     "ref": "A81",
+     "value": "Extra capacity can be obtained?",
+     "formula": null
+    },
+    {
+     "ref": "B81",
+     "value": "No",
+     "formula": null
+    },
+    {
+     "ref": "C81",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D81",
+     "value": "Supplier availability NOT verified; No blocks uncovered workloads.",
+     "formula": null
+    },
+    {
+     "ref": "A82",
+     "value": "PayGo unit price",
+     "formula": null
+    },
+    {
+     "ref": "B82",
+     "value": 3.99,
+     "formula": null
+    },
+    {
+     "ref": "C82",
+     "value": "$/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D82",
+     "value": "Illustrative public H100 benchmark; not AC internal contracted price.",
+     "formula": null
+    },
+    {
+     "ref": "A83",
+     "value": "One-week extension unit price",
+     "formula": null
+    },
+    {
+     "ref": "B83",
+     "value": 2.75,
+     "formula": null
+    },
+    {
+     "ref": "C83",
+     "value": "$/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D83",
+     "value": "Illustrative; extensions must actually be available.",
+     "formula": null
+    },
+    {
+     "ref": "A84",
+     "value": "New reservation unit price",
+     "formula": null
+    },
+    {
+     "ref": "B84",
+     "value": 2.5,
+     "formula": null
+    },
+    {
+     "ref": "C84",
+     "value": "$/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D84",
+     "value": "Illustrative price subject to 4-week minimum.",
+     "formula": null
+    },
+    {
+     "ref": "A85",
+     "value": "Minimum new reservation",
+     "formula": null
+    },
+    {
+     "ref": "B85",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "C85",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "D85",
+     "value": "Reservation cash paid even when unused.",
+     "formula": null
+    },
+    {
+     "ref": "A86",
+     "value": "Hours per scheduled week",
+     "formula": null
+    },
+    {
+     "ref": "B86",
+     "value": 168.0,
+     "formula": null
+    },
+    {
+     "ref": "C86",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "D86",
+     "value": "Upper bound; operations/maintenance reduce usable hours.",
+     "formula": null
+    },
+    {
+     "ref": "A87",
+     "value": "Existing capacity allocation cost",
+     "formula": null
+    },
+    {
+     "ref": "B87",
+     "value": 2.5,
+     "formula": null
+    },
+    {
+     "ref": "C87",
+     "value": "$/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D87",
+     "value": "Managerial COGS for already-paid GPU hours; not incremental cash.",
+     "formula": null
+    },
+    {
+     "ref": "A88",
+     "value": "Existing capacity opportunity value",
+     "formula": null
+    },
+    {
+     "ref": "B88",
+     "value": 0.0,
+     "formula": null
+    },
+    {
+     "ref": "C88",
+     "value": "$/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D88",
+     "value": "Value lost from displacing real alternative; not accounting COGS.",
+     "formula": null
+    },
+    {
+     "ref": "A89",
+     "value": "New provisioning / setup",
+     "formula": null
+    },
+    {
+     "ref": "B89",
+     "value": 0.0,
+     "formula": null
+    },
+    {
+     "ref": "C89",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "D89",
+     "value": "Reserved to add one-off cluster integration fees.",
+     "formula": null
+    },
+    {
+     "ref": "A90",
+     "value": "6   OPTIONAL PRODUCTION INFERENCE",
+     "formula": null
+    },
+    {
+     "ref": "A91",
+     "value": "Shared minimum monthly",
+     "formula": null
+    },
+    {
+     "ref": "B91",
+     "value": 15000.0,
+     "formula": null
+    },
+    {
+     "ref": "C91",
+     "value": "$/month",
+     "formula": null
+    },
+    {
+     "ref": "D91",
+     "value": "Illustrative contracted minimum for managed shared inference.",
+     "formula": null
+    },
+    {
+     "ref": "A92",
+     "value": "Dedicated warm GPU fee",
+     "formula": null
+    },
+    {
+     "ref": "B92",
+     "value": 6000.0,
+     "formula": null
+    },
+    {
+     "ref": "C92",
+     "value": "$/GPU-month",
+     "formula": null
+    },
+    {
+     "ref": "D92",
+     "value": "Illustrative capacity subscription; check utilization and SLA.",
+     "formula": null
+    },
+    {
+     "ref": "A93",
+     "value": "Input token overage rate",
+     "formula": null
+    },
+    {
+     "ref": "B93",
+     "value": 1.2,
+     "formula": null
+    },
+    {
+     "ref": "C93",
+     "value": "$/1M tokens",
+     "formula": null
+    },
+    {
+     "ref": "D93",
+     "value": "Charge beyond included input token allowance.",
+     "formula": null
+    },
+    {
+     "ref": "A94",
+     "value": "Output token overage rate",
+     "formula": null
+    },
+    {
+     "ref": "B94",
+     "value": 4.5,
+     "formula": null
+    },
+    {
+     "ref": "C94",
+     "value": "$/1M tokens",
+     "formula": null
+    },
+    {
+     "ref": "D94",
+     "value": "Charge beyond included output token allowance.",
+     "formula": null
+    },
+    {
+     "ref": "A95",
+     "value": "Included monthly input tokens",
+     "formula": null
+    },
+    {
+     "ref": "B95",
+     "value": 20000000.0,
+     "formula": null
+    },
+    {
+     "ref": "C95",
+     "value": "tokens/month",
+     "formula": null
+    },
+    {
+     "ref": "D95",
+     "value": "Customer service-order threshold; overage beyond this.",
+     "formula": null
+    },
+    {
+     "ref": "A96",
+     "value": "Included monthly output tokens",
+     "formula": null
+    },
+    {
+     "ref": "B96",
+     "value": 10000000.0,
+     "formula": null
+    },
+    {
+     "ref": "C96",
+     "value": "tokens/month",
+     "formula": null
+    },
+    {
+     "ref": "D96",
+     "value": "Customer service-order threshold; overage beyond this.",
+     "formula": null
+    },
+    {
+     "ref": "A97",
+     "value": "Serving engineering support",
+     "formula": null
+    },
+    {
+     "ref": "B97",
+     "value": 2500.0,
+     "formula": null
+    },
+    {
+     "ref": "C97",
+     "value": "$/month",
+     "formula": null
+    },
+    {
+     "ref": "D97",
+     "value": "Direct production support and observability forecast.",
+     "formula": null
+    },
+    {
+     "ref": "A98",
+     "value": "Serving throughput (standard)",
+     "formula": null
+    },
+    {
+     "ref": "B98",
+     "value": 100000.0,
+     "formula": null
+    },
+    {
+     "ref": "C98",
+     "value": "equiv tokens/GPU-hour",
+     "formula": null
+    },
+    {
+     "ref": "D98",
+     "value": "Must benchmark SLO-compliant serving throughput.",
+     "formula": null
+    },
+    {
+     "ref": "A99",
+     "value": "Shared capacity share",
+     "formula": null
+    },
+    {
+     "ref": "B99",
+     "value": 0.35,
+     "formula": null
+    },
+    {
+     "ref": "C99",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "D99",
+     "value": "Allocated share of shared serving fleet; finance assumption.",
+     "formula": null
+    },
+    {
+     "ref": "A100",
+     "value": "MODEL AND HARDWARE APPROVAL GATES (scenario prices still calculate when No)",
+     "formula": null
+    },
+    {
+     "ref": "A101",
+     "value": "AC workload benchmark confirmed?",
+     "formula": null
+    },
+    {
+     "ref": "B101",
+     "value": "No",
+     "formula": null
+    },
+    {
+     "ref": "C101",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D101",
+     "value": "Includes measured trainer, rollout and eval throughput for selected model and GPU class.",
+     "formula": null
+    },
+    {
+     "ref": "A102",
+     "value": "Training access / licensing approved?",
+     "formula": null
+    },
+    {
+     "ref": "B102",
+     "value": "No",
+     "formula": null
+    },
+    {
+     "ref": "C102",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D102",
+     "value": "Customer + AC confirm weights, license and AC2 training access.",
+     "formula": null
+    },
+    {
+     "ref": "A103",
+     "value": "GPU accelerator planned",
+     "formula": null
+    },
+    {
+     "ref": "B103",
+     "value": "H100",
+     "formula": null
+    },
+    {
+     "ref": "C103",
+     "value": "H100 / B200 / B300 / Other",
+     "formula": null
+    },
+    {
+     "ref": "D103",
+     "value": "Existing capacity pools must be same SKU family or separately benchmarked.",
+     "formula": null
+    },
+    {
+     "ref": "A104",
+     "value": "GPU SKU-specific rate confirmed?",
+     "formula": null
+    },
+    {
+     "ref": "B104",
+     "value": "No",
+     "formula": null
+    },
+    {
+     "ref": "C104",
+     "value": "Yes / No",
+     "formula": null
+    },
+    {
+     "ref": "D104",
+     "value": "H100 starter rate must not silently price B200/B300; verify supplier cost and allocation rate.",
+     "formula": null
+    },
+    {
+     "ref": "A107",
+     "value": "7   EXISTING CAPACITY  |  SUPPLY TYPE MUST MATCH GPU FAMILY IN B103",
+     "formula": null
+    },
+    {
+     "ref": "A108",
+     "value": "Pool / contract",
+     "formula": null
+    },
+    {
+     "ref": "B108",
+     "value": "Free GPU units",
+     "formula": null
+    },
+    {
+     "ref": "C108",
+     "value": "Start week",
+     "formula": null
+    },
+    {
+     "ref": "D108",
+     "value": "Expiry week",
+     "formula": null
+    },
+    {
+     "ref": "E108",
+     "value": "Comment",
+     "formula": null
+    },
+    {
+     "ref": "F108",
+     "value": "Region / fit",
+     "formula": null
+    },
+    {
+     "ref": "G108",
+     "value": "GPU family",
+     "formula": null
+    },
+    {
+     "ref": "H108",
+     "value": "▼ Fit status",
+     "formula": null
+    },
+    {
+     "ref": "A109",
+     "value": "Prepaid cluster A",
+     "formula": null
+    },
+    {
+     "ref": "B109",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "C109",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "D109",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "E109",
+     "value": "Already paid; check topology",
+     "formula": null
+    },
+    {
+     "ref": "F109",
+     "value": "Compatible",
+     "formula": null
+    },
+    {
+     "ref": "G109",
+     "value": "H100",
+     "formula": null
+    },
+    {
+     "ref": "A110",
+     "value": "Other pool B",
+     "formula": null
+    },
+    {
+     "ref": "B110",
+     "value": 0.0,
+     "formula": null
+    },
+    {
+     "ref": "C110",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "D110",
+     "value": 5.0,
+     "formula": null
+    },
+    {
+     "ref": "E110",
+     "value": "Optional second tranche",
+     "formula": null
+    },
+    {
+     "ref": "F110",
+     "value": "Compatible",
+     "formula": null
+    },
+    {
+     "ref": "G110",
+     "value": "H100",
+     "formula": null
+    },
+    {
+     "ref": "A111",
+     "value": "Other pool C",
+     "formula": null
+    },
+    {
+     "ref": "B111",
+     "value": 0.0,
+     "formula": null
+    },
+    {
+     "ref": "C111",
+     "value": 5.0,
+     "formula": null
+    },
+    {
+     "ref": "D111",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "E111",
+     "value": "Optional third tranche",
+     "formula": null
+    },
+    {
+     "ref": "F111",
+     "value": "Compatible",
+     "formula": null
+    },
+    {
+     "ref": "G111",
+     "value": "H100",
+     "formula": null
+    }
+   ]
+  },
+  {
+   "name": "02 Economics Capacity",
+   "cells": [
+    {
+     "ref": "A1",
+     "value": "DEAL ECONOMICS + GPU CAPACITY",
+     "formula": null
+    },
+    {
+     "ref": "A2",
+     "value": "Automatic calculations - demand, feasible capacity, incremental cash, fully loaded delivery COGS, and recommended quote.",
+     "formula": null
+    },
+    {
+     "ref": "A4",
+     "value": "1   DEMAND -> GPU-HOURS",
+     "formula": null
+    },
+    {
+     "ref": "F4",
+     "value": "HOW TO INTERPRET THE COSTS",
+     "formula": null
+    },
+    {
+     "ref": "A5",
+     "value": "Selected model",
+     "formula": null
+    },
+    {
+     "ref": "B5",
+     "value": "Qwen3.6-35B-A3B",
+     "formula": "'01 Deal Setup'!B7"
+    },
+    {
+     "ref": "F5",
+     "value": "Demand",
+     "formula": null
+    },
+    {
+     "ref": "G5",
+     "value": "Tokens, rollouts, evals",
+     "formula": null
+    },
+    {
+     "ref": "H5",
+     "value": "Customer-controlled scope",
+     "formula": null
+    },
+    {
+     "ref": "A6",
+     "value": "Proxy throughput factor (benchmark required)",
+     "formula": null
+    },
+    {
+     "ref": "B6",
+     "value": 1.0,
+     "formula": "IF('01 Deal Setup'!$G$31=1,2.5,IF('01 Deal Setup'!$G$31=2,1,0.5))"
+    },
+    {
+     "ref": "C6",
+     "value": "x",
+     "formula": null
+    },
+    {
+     "ref": "F6",
+     "value": "Performance",
+     "formula": null
+    },
+    {
+     "ref": "G6",
+     "value": "Model-specific throughput",
+     "formula": null
+    },
+    {
+     "ref": "H6",
+     "value": "Replace with measured benchmarks",
+     "formula": null
+    },
+    {
+     "ref": "A7",
+     "value": "Planning trainer GPUs",
+     "formula": null
+    },
+    {
+     "ref": "B7",
+     "value": 8.0,
+     "formula": "MAX(1,ROUND('01 Deal Setup'!B46*IF('01 Deal Setup'!$G$31=1,0.5,IF('01 Deal Setup'!$G$31=2,1,2)),0))"
+    },
+    {
+     "ref": "C7",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "F7",
+     "value": "Capacity",
+     "formula": null
+    },
+    {
+     "ref": "G7",
+     "value": "Peak GPUs and timing",
+     "formula": null
+    },
+    {
+     "ref": "H7",
+     "value": "Availability is not GPU-hours alone",
+     "formula": null
+    },
+    {
+     "ref": "A8",
+     "value": "Planning rollout GPUs",
+     "formula": null
+    },
+    {
+     "ref": "B8",
+     "value": 8.0,
+     "formula": "MAX(1,ROUND('01 Deal Setup'!B47*IF('01 Deal Setup'!$G$31=1,0.5,IF('01 Deal Setup'!$G$31=2,1,2)),0))"
+    },
+    {
+     "ref": "C8",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "F8",
+     "value": "New capacity cash",
+     "formula": null
+    },
+    {
+     "ref": "G8",
+     "value": "What we must newly buy",
+     "formula": null
+    },
+    {
+     "ref": "H8",
+     "value": "PayGo vs extension vs reservation",
+     "formula": null
+    },
+    {
+     "ref": "A9",
+     "value": "Planning eval GPUs",
+     "formula": null
+    },
+    {
+     "ref": "B9",
+     "value": 4.0,
+     "formula": "MAX(1,ROUND('01 Deal Setup'!B48*IF('01 Deal Setup'!$G$31=1,0.5,IF('01 Deal Setup'!$G$31=2,1,2)),0))"
+    },
+    {
+     "ref": "C9",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "F9",
+     "value": "Allocated existing",
+     "formula": null
+    },
+    {
+     "ref": "G9",
+     "value": "Already-paid GPU value",
+     "formula": null
+    },
+    {
+     "ref": "H9",
+     "value": "Gross-margin lens, not new cash",
+     "formula": null
+    },
+    {
+     "ref": "A10",
+     "value": "Authorized RL cycles",
+     "formula": null
+    },
+    {
+     "ref": "B10",
+     "value": 3.0,
+     "formula": "'01 Deal Setup'!B10"
+    },
+    {
+     "ref": "C10",
+     "value": "cycles",
+     "formula": null
+    },
+    {
+     "ref": "F10",
+     "value": "Opportunity",
+     "formula": null
+    },
+    {
+     "ref": "G10",
+     "value": "Lost alternative contribution",
+     "formula": null
+    },
+    {
+     "ref": "H10",
+     "value": "Economic choice, not accounting COGS",
+     "formula": null
+    },
+    {
+     "ref": "F11",
+     "value": "Customer quote",
+     "formula": null
+    },
+    {
+     "ref": "G11",
+     "value": "Itemized fee + explicit uplift",
+     "formula": null
+    },
+    {
+     "ref": "H11",
+     "value": "Margin target is a proposed policy",
+     "formula": null
+    },
+    {
+     "ref": "A12",
+     "value": "2   TOTAL WORKLOAD (ALL APPROVED CYCLES)",
+     "formula": null
+    },
+    {
+     "ref": "A13",
+     "value": "Policy update tokens",
+     "formula": null
+    },
+    {
+     "ref": "B13",
+     "value": 128000000.0000001,
+     "formula": "'01 Deal Setup'!B35*B10"
+    },
+    {
+     "ref": "C13",
+     "value": "tokens",
+     "formula": null
+    },
+    {
+     "ref": "A14",
+     "value": "RL rollout attempts",
+     "formula": null
+    },
+    {
+     "ref": "B14",
+     "value": 12000.0,
+     "formula": "'01 Deal Setup'!B36*B10"
+    },
+    {
+     "ref": "C14",
+     "value": "attempts",
+     "formula": null
+    },
+    {
+     "ref": "F14",
+     "value": "Supplier rates, GPU fit, commitment dates, and throughput are unverified sample inputs; DO NOT issue a live quote without checking them.",
+     "formula": null
+    },
+    {
+     "ref": "A15",
+     "value": "Rollout equivalent tokens",
+     "formula": null
+    },
+    {
+     "ref": "B15",
+     "value": 192000000.0,
+     "formula": "B14*('01 Deal Setup'!B37*'01 Deal Setup'!B39+'01 Deal Setup'!B38)"
+    },
+    {
+     "ref": "C15",
+     "value": "equiv tokens",
+     "formula": null
+    },
+    {
+     "ref": "A16",
+     "value": "Total eval cases",
+     "formula": null
+    },
+    {
+     "ref": "B16",
+     "value": 800.0,
+     "formula": "'01 Deal Setup'!B41+B10*'01 Deal Setup'!B40"
+    },
+    {
+     "ref": "C16",
+     "value": "cases",
+     "formula": null
+    },
+    {
+     "ref": "A17",
+     "value": "Eval equivalent tokens",
+     "formula": null
+    },
+    {
+     "ref": "B17",
+     "value": 16000000.0,
+     "formula": "B16*'01 Deal Setup'!B42"
+    },
+    {
+     "ref": "C17",
+     "value": "equiv tokens",
+     "formula": null
+    },
+    {
+     "ref": "A18",
+     "value": "Policy update GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B18",
+     "value": 1280.0000000000011,
+     "formula": "IF('01 Deal Setup'!B43<=0,0,B13/('01 Deal Setup'!B43*B6))"
+    },
+    {
+     "ref": "C18",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A19",
+     "value": "Rollout GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B19",
+     "value": 1920.0,
+     "formula": "IF('01 Deal Setup'!B44<=0,0,B15/('01 Deal Setup'!B44*B6))"
+    },
+    {
+     "ref": "C19",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A20",
+     "value": "Evaluation GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B20",
+     "value": 160.0,
+     "formula": "IF('01 Deal Setup'!B45<=0,0,B17/('01 Deal Setup'!B45*B6))"
+    },
+    {
+     "ref": "C20",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A21",
+     "value": "Total workload GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B21",
+     "value": 3360.000000000001,
+     "formula": "SUM(B18:B20)"
+    },
+    {
+     "ref": "C21",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A22",
+     "value": "Trainer GPU-hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B22",
+     "value": 426.666666666667,
+     "formula": "IF(B10=0,0,B18/B10)"
+    },
+    {
+     "ref": "C22",
+     "value": "GPUh / cycle",
+     "formula": null
+    },
+    {
+     "ref": "A23",
+     "value": "Rollout GPU-hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B23",
+     "value": 640.0,
+     "formula": "IF(B10=0,0,B19/B10)"
+    },
+    {
+     "ref": "C23",
+     "value": "GPUh / cycle",
+     "formula": null
+    },
+    {
+     "ref": "A24",
+     "value": "Evaluation GPU-hours per cycle",
+     "formula": null
+    },
+    {
+     "ref": "B24",
+     "value": 40.0,
+     "formula": "IF('01 Deal Setup'!B45<=0,0,'01 Deal Setup'!B40*'01 Deal Setup'!B42/('01 Deal Setup'!B45*B6))"
+    },
+    {
+     "ref": "C24",
+     "value": "GPUh / cycle",
+     "formula": null
+    },
+    {
+     "ref": "A25",
+     "value": "Baseline evaluation GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B25",
+     "value": 40.0,
+     "formula": "IF('01 Deal Setup'!B45<=0,0,'01 Deal Setup'!B41*'01 Deal Setup'!B42/('01 Deal Setup'!B45*B6))"
+    },
+    {
+     "ref": "C25",
+     "value": "GPUh",
+     "formula": null
+    },
+    {
+     "ref": "A26",
+     "value": "Peak GPU units in RL",
+     "formula": null
+    },
+    {
+     "ref": "B26",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!B14=\"Concurrent\",B7+B8,MAX(B7,B8))"
+    },
+    {
+     "ref": "C26",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "A27",
+     "value": "RL activity wall-hours / cycle",
+     "formula": null
+    },
+    {
+     "ref": "B27",
+     "value": 143.33333333333337,
+     "formula": "IF('01 Deal Setup'!B14=\"Concurrent\",MAX(B22/B7,B23/B8),B22/B7+B23/B8)+B24/B9"
+    },
+    {
+     "ref": "C27",
+     "value": "hours",
+     "formula": null
+    },
+    {
+     "ref": "A28",
+     "value": "Total planned weeks",
+     "formula": null
+    },
+    {
+     "ref": "B28",
+     "value": 6.0,
+     "formula": "'01 Deal Setup'!B12+'01 Deal Setup'!B10*'01 Deal Setup'!B11+'01 Deal Setup'!B13"
+    },
+    {
+     "ref": "C28",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "A30",
+     "value": "3   WEEK-BY-WEEK CAPACITY (WEEKS 1-16)",
+     "formula": null
+    },
+    {
+     "ref": "B31",
+     "value": "Week",
+     "formula": null
+    },
+    {
+     "ref": "C31",
+     "value": "RL cycle?",
+     "formula": null
+    },
+    {
+     "ref": "D31",
+     "value": "Policy GPUh",
+     "formula": null
+    },
+    {
+     "ref": "E31",
+     "value": "Rollout GPUh",
+     "formula": null
+    },
+    {
+     "ref": "F31",
+     "value": "Eval GPUh",
+     "formula": null
+    },
+    {
+     "ref": "G31",
+     "value": "Total GPUh",
+     "formula": null
+    },
+    {
+     "ref": "H31",
+     "value": "Peak GPUs",
+     "formula": null
+    },
+    {
+     "ref": "I31",
+     "value": "Existing GPUs",
+     "formula": null
+    },
+    {
+     "ref": "J31",
+     "value": "Need GPUs",
+     "formula": null
+    },
+    {
+     "ref": "K31",
+     "value": "New GPUh",
+     "formula": null
+    },
+    {
+     "ref": "L31",
+     "value": "Existing GPUh",
+     "formula": null
+    },
+    {
+     "ref": "M31",
+     "value": "1wk cost",
+     "formula": null
+    },
+    {
+     "ref": "N31",
+     "value": "First wk helper",
+     "formula": null
+    },
+    {
+     "ref": "O31",
+     "value": "Last wk helper",
+     "formula": null
+    },
+    {
+     "ref": "P31",
+     "value": "Status",
+     "formula": null
+    },
+    {
+     "ref": "B32",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "C32",
+     "value": 0.0,
+     "formula": "IF(AND(B32>'01 Deal Setup'!$B$12,B32<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B32-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D32",
+     "value": 0.0,
+     "formula": "C32*$B$22"
+    },
+    {
+     "ref": "E32",
+     "value": 0.0,
+     "formula": "C32*$B$23"
+    },
+    {
+     "ref": "F32",
+     "value": 0.0,
+     "formula": "IF(B32='01 Deal Setup'!$B$12,$B$25,0)+IF(C32=1,$B$24,0)"
+    },
+    {
+     "ref": "G32",
+     "value": 0.0,
+     "formula": "SUM(D32:F32)"
+    },
+    {
+     "ref": "H32",
+     "value": 0.0,
+     "formula": "IF(C32=1,MAX($B$26,$B$9),IF(F32>0,$B$9,0))"
+    },
+    {
+     "ref": "I32",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B32>='01 Deal Setup'!$C$109,B32<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B32>='01 Deal Setup'!$C$110,B32<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B32>='01 Deal Setup'!$C$111,B32<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J32",
+     "value": 0.0,
+     "formula": "MAX(0,H32-I32)"
+    },
+    {
+     "ref": "K32",
+     "value": 0.0,
+     "formula": "IF(C32=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I32)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I32-$B$8))*$B$22/$B$7,MAX(0,H32-I32)*SUM(D32:E32)/MAX(1,H32)),0)+IF(F32>0,MAX(0,$B$9-I32)*$F32/$B$9,0)"
+    },
+    {
+     "ref": "L32",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G32-K32)"
+    },
+    {
+     "ref": "M32",
+     "value": 0.0,
+     "formula": "J32*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N32",
+     "value": 999.0,
+     "formula": "IF(J32>0,B32,999)"
+    },
+    {
+     "ref": "O32",
+     "value": 0.0,
+     "formula": "IF(J32>0,B32,0)"
+    },
+    {
+     "ref": "P32",
+     "value": "-",
+     "formula": "IF(AND(J32>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C32=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G32=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B33",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "C33",
+     "value": 0.0,
+     "formula": "IF(AND(B33>'01 Deal Setup'!$B$12,B33<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B33-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D33",
+     "value": 0.0,
+     "formula": "C33*$B$22"
+    },
+    {
+     "ref": "E33",
+     "value": 0.0,
+     "formula": "C33*$B$23"
+    },
+    {
+     "ref": "F33",
+     "value": 40.0,
+     "formula": "IF(B33='01 Deal Setup'!$B$12,$B$25,0)+IF(C33=1,$B$24,0)"
+    },
+    {
+     "ref": "G33",
+     "value": 40.0,
+     "formula": "SUM(D33:F33)"
+    },
+    {
+     "ref": "H33",
+     "value": 4.0,
+     "formula": "IF(C33=1,MAX($B$26,$B$9),IF(F33>0,$B$9,0))"
+    },
+    {
+     "ref": "I33",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B33>='01 Deal Setup'!$C$109,B33<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B33>='01 Deal Setup'!$C$110,B33<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B33>='01 Deal Setup'!$C$111,B33<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J33",
+     "value": 0.0,
+     "formula": "MAX(0,H33-I33)"
+    },
+    {
+     "ref": "K33",
+     "value": 0.0,
+     "formula": "IF(C33=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I33)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I33-$B$8))*$B$22/$B$7,MAX(0,H33-I33)*SUM(D33:E33)/MAX(1,H33)),0)+IF(F33>0,MAX(0,$B$9-I33)*$F33/$B$9,0)"
+    },
+    {
+     "ref": "L33",
+     "value": 40.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G33-K33)"
+    },
+    {
+     "ref": "M33",
+     "value": 0.0,
+     "formula": "J33*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N33",
+     "value": 999.0,
+     "formula": "IF(J33>0,B33,999)"
+    },
+    {
+     "ref": "O33",
+     "value": 0.0,
+     "formula": "IF(J33>0,B33,0)"
+    },
+    {
+     "ref": "P33",
+     "value": "PLANNED",
+     "formula": "IF(AND(J33>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C33=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G33=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B34",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "C34",
+     "value": 1.0,
+     "formula": "IF(AND(B34>'01 Deal Setup'!$B$12,B34<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B34-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D34",
+     "value": 426.666666666667,
+     "formula": "C34*$B$22"
+    },
+    {
+     "ref": "E34",
+     "value": 640.0,
+     "formula": "C34*$B$23"
+    },
+    {
+     "ref": "F34",
+     "value": 40.0,
+     "formula": "IF(B34='01 Deal Setup'!$B$12,$B$25,0)+IF(C34=1,$B$24,0)"
+    },
+    {
+     "ref": "G34",
+     "value": 1106.666666666667,
+     "formula": "SUM(D34:F34)"
+    },
+    {
+     "ref": "H34",
+     "value": 8.0,
+     "formula": "IF(C34=1,MAX($B$26,$B$9),IF(F34>0,$B$9,0))"
+    },
+    {
+     "ref": "I34",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B34>='01 Deal Setup'!$C$109,B34<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B34>='01 Deal Setup'!$C$110,B34<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B34>='01 Deal Setup'!$C$111,B34<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J34",
+     "value": 0.0,
+     "formula": "MAX(0,H34-I34)"
+    },
+    {
+     "ref": "K34",
+     "value": 0.0,
+     "formula": "IF(C34=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I34)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I34-$B$8))*$B$22/$B$7,MAX(0,H34-I34)*SUM(D34:E34)/MAX(1,H34)),0)+IF(F34>0,MAX(0,$B$9-I34)*$F34/$B$9,0)"
+    },
+    {
+     "ref": "L34",
+     "value": 1106.666666666667,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G34-K34)"
+    },
+    {
+     "ref": "M34",
+     "value": 0.0,
+     "formula": "J34*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N34",
+     "value": 999.0,
+     "formula": "IF(J34>0,B34,999)"
+    },
+    {
+     "ref": "O34",
+     "value": 0.0,
+     "formula": "IF(J34>0,B34,0)"
+    },
+    {
+     "ref": "P34",
+     "value": "PLANNED",
+     "formula": "IF(AND(J34>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C34=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G34=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B35",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "C35",
+     "value": 1.0,
+     "formula": "IF(AND(B35>'01 Deal Setup'!$B$12,B35<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B35-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D35",
+     "value": 426.666666666667,
+     "formula": "C35*$B$22"
+    },
+    {
+     "ref": "E35",
+     "value": 640.0,
+     "formula": "C35*$B$23"
+    },
+    {
+     "ref": "F35",
+     "value": 40.0,
+     "formula": "IF(B35='01 Deal Setup'!$B$12,$B$25,0)+IF(C35=1,$B$24,0)"
+    },
+    {
+     "ref": "G35",
+     "value": 1106.666666666667,
+     "formula": "SUM(D35:F35)"
+    },
+    {
+     "ref": "H35",
+     "value": 8.0,
+     "formula": "IF(C35=1,MAX($B$26,$B$9),IF(F35>0,$B$9,0))"
+    },
+    {
+     "ref": "I35",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B35>='01 Deal Setup'!$C$109,B35<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B35>='01 Deal Setup'!$C$110,B35<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B35>='01 Deal Setup'!$C$111,B35<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J35",
+     "value": 0.0,
+     "formula": "MAX(0,H35-I35)"
+    },
+    {
+     "ref": "K35",
+     "value": 0.0,
+     "formula": "IF(C35=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I35)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I35-$B$8))*$B$22/$B$7,MAX(0,H35-I35)*SUM(D35:E35)/MAX(1,H35)),0)+IF(F35>0,MAX(0,$B$9-I35)*$F35/$B$9,0)"
+    },
+    {
+     "ref": "L35",
+     "value": 1106.666666666667,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G35-K35)"
+    },
+    {
+     "ref": "M35",
+     "value": 0.0,
+     "formula": "J35*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N35",
+     "value": 999.0,
+     "formula": "IF(J35>0,B35,999)"
+    },
+    {
+     "ref": "O35",
+     "value": 0.0,
+     "formula": "IF(J35>0,B35,0)"
+    },
+    {
+     "ref": "P35",
+     "value": "PLANNED",
+     "formula": "IF(AND(J35>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C35=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G35=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B36",
+     "value": 5.0,
+     "formula": null
+    },
+    {
+     "ref": "C36",
+     "value": 1.0,
+     "formula": "IF(AND(B36>'01 Deal Setup'!$B$12,B36<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B36-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D36",
+     "value": 426.666666666667,
+     "formula": "C36*$B$22"
+    },
+    {
+     "ref": "E36",
+     "value": 640.0,
+     "formula": "C36*$B$23"
+    },
+    {
+     "ref": "F36",
+     "value": 40.0,
+     "formula": "IF(B36='01 Deal Setup'!$B$12,$B$25,0)+IF(C36=1,$B$24,0)"
+    },
+    {
+     "ref": "G36",
+     "value": 1106.666666666667,
+     "formula": "SUM(D36:F36)"
+    },
+    {
+     "ref": "H36",
+     "value": 8.0,
+     "formula": "IF(C36=1,MAX($B$26,$B$9),IF(F36>0,$B$9,0))"
+    },
+    {
+     "ref": "I36",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B36>='01 Deal Setup'!$C$109,B36<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B36>='01 Deal Setup'!$C$110,B36<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B36>='01 Deal Setup'!$C$111,B36<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J36",
+     "value": 0.0,
+     "formula": "MAX(0,H36-I36)"
+    },
+    {
+     "ref": "K36",
+     "value": 0.0,
+     "formula": "IF(C36=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I36)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I36-$B$8))*$B$22/$B$7,MAX(0,H36-I36)*SUM(D36:E36)/MAX(1,H36)),0)+IF(F36>0,MAX(0,$B$9-I36)*$F36/$B$9,0)"
+    },
+    {
+     "ref": "L36",
+     "value": 1106.666666666667,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G36-K36)"
+    },
+    {
+     "ref": "M36",
+     "value": 0.0,
+     "formula": "J36*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N36",
+     "value": 999.0,
+     "formula": "IF(J36>0,B36,999)"
+    },
+    {
+     "ref": "O36",
+     "value": 0.0,
+     "formula": "IF(J36>0,B36,0)"
+    },
+    {
+     "ref": "P36",
+     "value": "PLANNED",
+     "formula": "IF(AND(J36>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C36=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G36=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B37",
+     "value": 6.0,
+     "formula": null
+    },
+    {
+     "ref": "C37",
+     "value": 0.0,
+     "formula": "IF(AND(B37>'01 Deal Setup'!$B$12,B37<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B37-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D37",
+     "value": 0.0,
+     "formula": "C37*$B$22"
+    },
+    {
+     "ref": "E37",
+     "value": 0.0,
+     "formula": "C37*$B$23"
+    },
+    {
+     "ref": "F37",
+     "value": 0.0,
+     "formula": "IF(B37='01 Deal Setup'!$B$12,$B$25,0)+IF(C37=1,$B$24,0)"
+    },
+    {
+     "ref": "G37",
+     "value": 0.0,
+     "formula": "SUM(D37:F37)"
+    },
+    {
+     "ref": "H37",
+     "value": 0.0,
+     "formula": "IF(C37=1,MAX($B$26,$B$9),IF(F37>0,$B$9,0))"
+    },
+    {
+     "ref": "I37",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B37>='01 Deal Setup'!$C$109,B37<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B37>='01 Deal Setup'!$C$110,B37<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B37>='01 Deal Setup'!$C$111,B37<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J37",
+     "value": 0.0,
+     "formula": "MAX(0,H37-I37)"
+    },
+    {
+     "ref": "K37",
+     "value": 0.0,
+     "formula": "IF(C37=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I37)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I37-$B$8))*$B$22/$B$7,MAX(0,H37-I37)*SUM(D37:E37)/MAX(1,H37)),0)+IF(F37>0,MAX(0,$B$9-I37)*$F37/$B$9,0)"
+    },
+    {
+     "ref": "L37",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G37-K37)"
+    },
+    {
+     "ref": "M37",
+     "value": 0.0,
+     "formula": "J37*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N37",
+     "value": 999.0,
+     "formula": "IF(J37>0,B37,999)"
+    },
+    {
+     "ref": "O37",
+     "value": 0.0,
+     "formula": "IF(J37>0,B37,0)"
+    },
+    {
+     "ref": "P37",
+     "value": "-",
+     "formula": "IF(AND(J37>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C37=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G37=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B38",
+     "value": 7.0,
+     "formula": null
+    },
+    {
+     "ref": "C38",
+     "value": 0.0,
+     "formula": "IF(AND(B38>'01 Deal Setup'!$B$12,B38<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B38-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D38",
+     "value": 0.0,
+     "formula": "C38*$B$22"
+    },
+    {
+     "ref": "E38",
+     "value": 0.0,
+     "formula": "C38*$B$23"
+    },
+    {
+     "ref": "F38",
+     "value": 0.0,
+     "formula": "IF(B38='01 Deal Setup'!$B$12,$B$25,0)+IF(C38=1,$B$24,0)"
+    },
+    {
+     "ref": "G38",
+     "value": 0.0,
+     "formula": "SUM(D38:F38)"
+    },
+    {
+     "ref": "H38",
+     "value": 0.0,
+     "formula": "IF(C38=1,MAX($B$26,$B$9),IF(F38>0,$B$9,0))"
+    },
+    {
+     "ref": "I38",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B38>='01 Deal Setup'!$C$109,B38<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B38>='01 Deal Setup'!$C$110,B38<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B38>='01 Deal Setup'!$C$111,B38<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J38",
+     "value": 0.0,
+     "formula": "MAX(0,H38-I38)"
+    },
+    {
+     "ref": "K38",
+     "value": 0.0,
+     "formula": "IF(C38=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I38)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I38-$B$8))*$B$22/$B$7,MAX(0,H38-I38)*SUM(D38:E38)/MAX(1,H38)),0)+IF(F38>0,MAX(0,$B$9-I38)*$F38/$B$9,0)"
+    },
+    {
+     "ref": "L38",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G38-K38)"
+    },
+    {
+     "ref": "M38",
+     "value": 0.0,
+     "formula": "J38*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N38",
+     "value": 999.0,
+     "formula": "IF(J38>0,B38,999)"
+    },
+    {
+     "ref": "O38",
+     "value": 0.0,
+     "formula": "IF(J38>0,B38,0)"
+    },
+    {
+     "ref": "P38",
+     "value": "-",
+     "formula": "IF(AND(J38>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C38=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G38=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B39",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "C39",
+     "value": 0.0,
+     "formula": "IF(AND(B39>'01 Deal Setup'!$B$12,B39<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B39-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D39",
+     "value": 0.0,
+     "formula": "C39*$B$22"
+    },
+    {
+     "ref": "E39",
+     "value": 0.0,
+     "formula": "C39*$B$23"
+    },
+    {
+     "ref": "F39",
+     "value": 0.0,
+     "formula": "IF(B39='01 Deal Setup'!$B$12,$B$25,0)+IF(C39=1,$B$24,0)"
+    },
+    {
+     "ref": "G39",
+     "value": 0.0,
+     "formula": "SUM(D39:F39)"
+    },
+    {
+     "ref": "H39",
+     "value": 0.0,
+     "formula": "IF(C39=1,MAX($B$26,$B$9),IF(F39>0,$B$9,0))"
+    },
+    {
+     "ref": "I39",
+     "value": 8.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B39>='01 Deal Setup'!$C$109,B39<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B39>='01 Deal Setup'!$C$110,B39<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B39>='01 Deal Setup'!$C$111,B39<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J39",
+     "value": 0.0,
+     "formula": "MAX(0,H39-I39)"
+    },
+    {
+     "ref": "K39",
+     "value": 0.0,
+     "formula": "IF(C39=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I39)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I39-$B$8))*$B$22/$B$7,MAX(0,H39-I39)*SUM(D39:E39)/MAX(1,H39)),0)+IF(F39>0,MAX(0,$B$9-I39)*$F39/$B$9,0)"
+    },
+    {
+     "ref": "L39",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G39-K39)"
+    },
+    {
+     "ref": "M39",
+     "value": 0.0,
+     "formula": "J39*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N39",
+     "value": 999.0,
+     "formula": "IF(J39>0,B39,999)"
+    },
+    {
+     "ref": "O39",
+     "value": 0.0,
+     "formula": "IF(J39>0,B39,0)"
+    },
+    {
+     "ref": "P39",
+     "value": "-",
+     "formula": "IF(AND(J39>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C39=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G39=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B40",
+     "value": 9.0,
+     "formula": null
+    },
+    {
+     "ref": "C40",
+     "value": 0.0,
+     "formula": "IF(AND(B40>'01 Deal Setup'!$B$12,B40<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B40-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D40",
+     "value": 0.0,
+     "formula": "C40*$B$22"
+    },
+    {
+     "ref": "E40",
+     "value": 0.0,
+     "formula": "C40*$B$23"
+    },
+    {
+     "ref": "F40",
+     "value": 0.0,
+     "formula": "IF(B40='01 Deal Setup'!$B$12,$B$25,0)+IF(C40=1,$B$24,0)"
+    },
+    {
+     "ref": "G40",
+     "value": 0.0,
+     "formula": "SUM(D40:F40)"
+    },
+    {
+     "ref": "H40",
+     "value": 0.0,
+     "formula": "IF(C40=1,MAX($B$26,$B$9),IF(F40>0,$B$9,0))"
+    },
+    {
+     "ref": "I40",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B40>='01 Deal Setup'!$C$109,B40<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B40>='01 Deal Setup'!$C$110,B40<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B40>='01 Deal Setup'!$C$111,B40<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J40",
+     "value": 0.0,
+     "formula": "MAX(0,H40-I40)"
+    },
+    {
+     "ref": "K40",
+     "value": 0.0,
+     "formula": "IF(C40=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I40)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I40-$B$8))*$B$22/$B$7,MAX(0,H40-I40)*SUM(D40:E40)/MAX(1,H40)),0)+IF(F40>0,MAX(0,$B$9-I40)*$F40/$B$9,0)"
+    },
+    {
+     "ref": "L40",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G40-K40)"
+    },
+    {
+     "ref": "M40",
+     "value": 0.0,
+     "formula": "J40*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N40",
+     "value": 999.0,
+     "formula": "IF(J40>0,B40,999)"
+    },
+    {
+     "ref": "O40",
+     "value": 0.0,
+     "formula": "IF(J40>0,B40,0)"
+    },
+    {
+     "ref": "P40",
+     "value": "-",
+     "formula": "IF(AND(J40>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C40=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G40=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B41",
+     "value": 10.0,
+     "formula": null
+    },
+    {
+     "ref": "C41",
+     "value": 0.0,
+     "formula": "IF(AND(B41>'01 Deal Setup'!$B$12,B41<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B41-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D41",
+     "value": 0.0,
+     "formula": "C41*$B$22"
+    },
+    {
+     "ref": "E41",
+     "value": 0.0,
+     "formula": "C41*$B$23"
+    },
+    {
+     "ref": "F41",
+     "value": 0.0,
+     "formula": "IF(B41='01 Deal Setup'!$B$12,$B$25,0)+IF(C41=1,$B$24,0)"
+    },
+    {
+     "ref": "G41",
+     "value": 0.0,
+     "formula": "SUM(D41:F41)"
+    },
+    {
+     "ref": "H41",
+     "value": 0.0,
+     "formula": "IF(C41=1,MAX($B$26,$B$9),IF(F41>0,$B$9,0))"
+    },
+    {
+     "ref": "I41",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B41>='01 Deal Setup'!$C$109,B41<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B41>='01 Deal Setup'!$C$110,B41<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B41>='01 Deal Setup'!$C$111,B41<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J41",
+     "value": 0.0,
+     "formula": "MAX(0,H41-I41)"
+    },
+    {
+     "ref": "K41",
+     "value": 0.0,
+     "formula": "IF(C41=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I41)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I41-$B$8))*$B$22/$B$7,MAX(0,H41-I41)*SUM(D41:E41)/MAX(1,H41)),0)+IF(F41>0,MAX(0,$B$9-I41)*$F41/$B$9,0)"
+    },
+    {
+     "ref": "L41",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G41-K41)"
+    },
+    {
+     "ref": "M41",
+     "value": 0.0,
+     "formula": "J41*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N41",
+     "value": 999.0,
+     "formula": "IF(J41>0,B41,999)"
+    },
+    {
+     "ref": "O41",
+     "value": 0.0,
+     "formula": "IF(J41>0,B41,0)"
+    },
+    {
+     "ref": "P41",
+     "value": "-",
+     "formula": "IF(AND(J41>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C41=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G41=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B42",
+     "value": 11.0,
+     "formula": null
+    },
+    {
+     "ref": "C42",
+     "value": 0.0,
+     "formula": "IF(AND(B42>'01 Deal Setup'!$B$12,B42<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B42-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D42",
+     "value": 0.0,
+     "formula": "C42*$B$22"
+    },
+    {
+     "ref": "E42",
+     "value": 0.0,
+     "formula": "C42*$B$23"
+    },
+    {
+     "ref": "F42",
+     "value": 0.0,
+     "formula": "IF(B42='01 Deal Setup'!$B$12,$B$25,0)+IF(C42=1,$B$24,0)"
+    },
+    {
+     "ref": "G42",
+     "value": 0.0,
+     "formula": "SUM(D42:F42)"
+    },
+    {
+     "ref": "H42",
+     "value": 0.0,
+     "formula": "IF(C42=1,MAX($B$26,$B$9),IF(F42>0,$B$9,0))"
+    },
+    {
+     "ref": "I42",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B42>='01 Deal Setup'!$C$109,B42<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B42>='01 Deal Setup'!$C$110,B42<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B42>='01 Deal Setup'!$C$111,B42<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J42",
+     "value": 0.0,
+     "formula": "MAX(0,H42-I42)"
+    },
+    {
+     "ref": "K42",
+     "value": 0.0,
+     "formula": "IF(C42=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I42)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I42-$B$8))*$B$22/$B$7,MAX(0,H42-I42)*SUM(D42:E42)/MAX(1,H42)),0)+IF(F42>0,MAX(0,$B$9-I42)*$F42/$B$9,0)"
+    },
+    {
+     "ref": "L42",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G42-K42)"
+    },
+    {
+     "ref": "M42",
+     "value": 0.0,
+     "formula": "J42*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N42",
+     "value": 999.0,
+     "formula": "IF(J42>0,B42,999)"
+    },
+    {
+     "ref": "O42",
+     "value": 0.0,
+     "formula": "IF(J42>0,B42,0)"
+    },
+    {
+     "ref": "P42",
+     "value": "-",
+     "formula": "IF(AND(J42>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C42=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G42=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B43",
+     "value": 12.0,
+     "formula": null
+    },
+    {
+     "ref": "C43",
+     "value": 0.0,
+     "formula": "IF(AND(B43>'01 Deal Setup'!$B$12,B43<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B43-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D43",
+     "value": 0.0,
+     "formula": "C43*$B$22"
+    },
+    {
+     "ref": "E43",
+     "value": 0.0,
+     "formula": "C43*$B$23"
+    },
+    {
+     "ref": "F43",
+     "value": 0.0,
+     "formula": "IF(B43='01 Deal Setup'!$B$12,$B$25,0)+IF(C43=1,$B$24,0)"
+    },
+    {
+     "ref": "G43",
+     "value": 0.0,
+     "formula": "SUM(D43:F43)"
+    },
+    {
+     "ref": "H43",
+     "value": 0.0,
+     "formula": "IF(C43=1,MAX($B$26,$B$9),IF(F43>0,$B$9,0))"
+    },
+    {
+     "ref": "I43",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B43>='01 Deal Setup'!$C$109,B43<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B43>='01 Deal Setup'!$C$110,B43<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B43>='01 Deal Setup'!$C$111,B43<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J43",
+     "value": 0.0,
+     "formula": "MAX(0,H43-I43)"
+    },
+    {
+     "ref": "K43",
+     "value": 0.0,
+     "formula": "IF(C43=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I43)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I43-$B$8))*$B$22/$B$7,MAX(0,H43-I43)*SUM(D43:E43)/MAX(1,H43)),0)+IF(F43>0,MAX(0,$B$9-I43)*$F43/$B$9,0)"
+    },
+    {
+     "ref": "L43",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G43-K43)"
+    },
+    {
+     "ref": "M43",
+     "value": 0.0,
+     "formula": "J43*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N43",
+     "value": 999.0,
+     "formula": "IF(J43>0,B43,999)"
+    },
+    {
+     "ref": "O43",
+     "value": 0.0,
+     "formula": "IF(J43>0,B43,0)"
+    },
+    {
+     "ref": "P43",
+     "value": "-",
+     "formula": "IF(AND(J43>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C43=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G43=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B44",
+     "value": 13.0,
+     "formula": null
+    },
+    {
+     "ref": "C44",
+     "value": 0.0,
+     "formula": "IF(AND(B44>'01 Deal Setup'!$B$12,B44<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B44-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D44",
+     "value": 0.0,
+     "formula": "C44*$B$22"
+    },
+    {
+     "ref": "E44",
+     "value": 0.0,
+     "formula": "C44*$B$23"
+    },
+    {
+     "ref": "F44",
+     "value": 0.0,
+     "formula": "IF(B44='01 Deal Setup'!$B$12,$B$25,0)+IF(C44=1,$B$24,0)"
+    },
+    {
+     "ref": "G44",
+     "value": 0.0,
+     "formula": "SUM(D44:F44)"
+    },
+    {
+     "ref": "H44",
+     "value": 0.0,
+     "formula": "IF(C44=1,MAX($B$26,$B$9),IF(F44>0,$B$9,0))"
+    },
+    {
+     "ref": "I44",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B44>='01 Deal Setup'!$C$109,B44<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B44>='01 Deal Setup'!$C$110,B44<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B44>='01 Deal Setup'!$C$111,B44<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J44",
+     "value": 0.0,
+     "formula": "MAX(0,H44-I44)"
+    },
+    {
+     "ref": "K44",
+     "value": 0.0,
+     "formula": "IF(C44=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I44)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I44-$B$8))*$B$22/$B$7,MAX(0,H44-I44)*SUM(D44:E44)/MAX(1,H44)),0)+IF(F44>0,MAX(0,$B$9-I44)*$F44/$B$9,0)"
+    },
+    {
+     "ref": "L44",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G44-K44)"
+    },
+    {
+     "ref": "M44",
+     "value": 0.0,
+     "formula": "J44*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N44",
+     "value": 999.0,
+     "formula": "IF(J44>0,B44,999)"
+    },
+    {
+     "ref": "O44",
+     "value": 0.0,
+     "formula": "IF(J44>0,B44,0)"
+    },
+    {
+     "ref": "P44",
+     "value": "-",
+     "formula": "IF(AND(J44>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C44=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G44=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B45",
+     "value": 14.0,
+     "formula": null
+    },
+    {
+     "ref": "C45",
+     "value": 0.0,
+     "formula": "IF(AND(B45>'01 Deal Setup'!$B$12,B45<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B45-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D45",
+     "value": 0.0,
+     "formula": "C45*$B$22"
+    },
+    {
+     "ref": "E45",
+     "value": 0.0,
+     "formula": "C45*$B$23"
+    },
+    {
+     "ref": "F45",
+     "value": 0.0,
+     "formula": "IF(B45='01 Deal Setup'!$B$12,$B$25,0)+IF(C45=1,$B$24,0)"
+    },
+    {
+     "ref": "G45",
+     "value": 0.0,
+     "formula": "SUM(D45:F45)"
+    },
+    {
+     "ref": "H45",
+     "value": 0.0,
+     "formula": "IF(C45=1,MAX($B$26,$B$9),IF(F45>0,$B$9,0))"
+    },
+    {
+     "ref": "I45",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B45>='01 Deal Setup'!$C$109,B45<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B45>='01 Deal Setup'!$C$110,B45<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B45>='01 Deal Setup'!$C$111,B45<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J45",
+     "value": 0.0,
+     "formula": "MAX(0,H45-I45)"
+    },
+    {
+     "ref": "K45",
+     "value": 0.0,
+     "formula": "IF(C45=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I45)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I45-$B$8))*$B$22/$B$7,MAX(0,H45-I45)*SUM(D45:E45)/MAX(1,H45)),0)+IF(F45>0,MAX(0,$B$9-I45)*$F45/$B$9,0)"
+    },
+    {
+     "ref": "L45",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G45-K45)"
+    },
+    {
+     "ref": "M45",
+     "value": 0.0,
+     "formula": "J45*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N45",
+     "value": 999.0,
+     "formula": "IF(J45>0,B45,999)"
+    },
+    {
+     "ref": "O45",
+     "value": 0.0,
+     "formula": "IF(J45>0,B45,0)"
+    },
+    {
+     "ref": "P45",
+     "value": "-",
+     "formula": "IF(AND(J45>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C45=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G45=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B46",
+     "value": 15.0,
+     "formula": null
+    },
+    {
+     "ref": "C46",
+     "value": 0.0,
+     "formula": "IF(AND(B46>'01 Deal Setup'!$B$12,B46<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B46-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D46",
+     "value": 0.0,
+     "formula": "C46*$B$22"
+    },
+    {
+     "ref": "E46",
+     "value": 0.0,
+     "formula": "C46*$B$23"
+    },
+    {
+     "ref": "F46",
+     "value": 0.0,
+     "formula": "IF(B46='01 Deal Setup'!$B$12,$B$25,0)+IF(C46=1,$B$24,0)"
+    },
+    {
+     "ref": "G46",
+     "value": 0.0,
+     "formula": "SUM(D46:F46)"
+    },
+    {
+     "ref": "H46",
+     "value": 0.0,
+     "formula": "IF(C46=1,MAX($B$26,$B$9),IF(F46>0,$B$9,0))"
+    },
+    {
+     "ref": "I46",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B46>='01 Deal Setup'!$C$109,B46<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B46>='01 Deal Setup'!$C$110,B46<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B46>='01 Deal Setup'!$C$111,B46<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J46",
+     "value": 0.0,
+     "formula": "MAX(0,H46-I46)"
+    },
+    {
+     "ref": "K46",
+     "value": 0.0,
+     "formula": "IF(C46=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I46)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I46-$B$8))*$B$22/$B$7,MAX(0,H46-I46)*SUM(D46:E46)/MAX(1,H46)),0)+IF(F46>0,MAX(0,$B$9-I46)*$F46/$B$9,0)"
+    },
+    {
+     "ref": "L46",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G46-K46)"
+    },
+    {
+     "ref": "M46",
+     "value": 0.0,
+     "formula": "J46*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N46",
+     "value": 999.0,
+     "formula": "IF(J46>0,B46,999)"
+    },
+    {
+     "ref": "O46",
+     "value": 0.0,
+     "formula": "IF(J46>0,B46,0)"
+    },
+    {
+     "ref": "P46",
+     "value": "-",
+     "formula": "IF(AND(J46>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C46=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G46=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "B47",
+     "value": 16.0,
+     "formula": null
+    },
+    {
+     "ref": "C47",
+     "value": 0.0,
+     "formula": "IF(AND(B47>'01 Deal Setup'!$B$12,B47<='01 Deal Setup'!$B$12+'01 Deal Setup'!$B$10*'01 Deal Setup'!$B$11,MOD(B47-'01 Deal Setup'!$B$12-1,'01 Deal Setup'!$B$11)=0),1,0)"
+    },
+    {
+     "ref": "D47",
+     "value": 0.0,
+     "formula": "C47*$B$22"
+    },
+    {
+     "ref": "E47",
+     "value": 0.0,
+     "formula": "C47*$B$23"
+    },
+    {
+     "ref": "F47",
+     "value": 0.0,
+     "formula": "IF(B47='01 Deal Setup'!$B$12,$B$25,0)+IF(C47=1,$B$24,0)"
+    },
+    {
+     "ref": "G47",
+     "value": 0.0,
+     "formula": "SUM(D47:F47)"
+    },
+    {
+     "ref": "H47",
+     "value": 0.0,
+     "formula": "IF(C47=1,MAX($B$26,$B$9),IF(F47>0,$B$9,0))"
+    },
+    {
+     "ref": "I47",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$79=\"No\",0,IF(AND(B47>='01 Deal Setup'!$C$109,B47<='01 Deal Setup'!$D$109,'01 Deal Setup'!$F$109=\"Compatible\",'01 Deal Setup'!$G$109='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$109,0)+IF(AND(B47>='01 Deal Setup'!$C$110,B47<='01 Deal Setup'!$D$110,'01 Deal Setup'!$F$110=\"Compatible\",'01 Deal Setup'!$G$110='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$110,0)+IF(AND(B47>='01 Deal Setup'!$C$111,B47<='01 Deal Setup'!$D$111,'01 Deal Setup'!$F$111=\"Compatible\",'01 Deal Setup'!$G$111='01 Deal Setup'!$B$103),'01 Deal Setup'!$B$111,0))"
+    },
+    {
+     "ref": "J47",
+     "value": 0.0,
+     "formula": "MAX(0,H47-I47)"
+    },
+    {
+     "ref": "K47",
+     "value": 0.0,
+     "formula": "IF(C47=1,IF('01 Deal Setup'!$B$14=\"Concurrent\",MAX(0,$B$8-I47)*$B$23/$B$8+MAX(0,$B$7-MAX(0,I47-$B$8))*$B$22/$B$7,MAX(0,H47-I47)*SUM(D47:E47)/MAX(1,H47)),0)+IF(F47>0,MAX(0,$B$9-I47)*$F47/$B$9,0)"
+    },
+    {
+     "ref": "L47",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!$B$80=\"BYOC\",0,G47-K47)"
+    },
+    {
+     "ref": "M47",
+     "value": 0.0,
+     "formula": "J47*'01 Deal Setup'!$B$86*'01 Deal Setup'!$B$83"
+    },
+    {
+     "ref": "N47",
+     "value": 999.0,
+     "formula": "IF(J47>0,B47,999)"
+    },
+    {
+     "ref": "O47",
+     "value": 0.0,
+     "formula": "IF(J47>0,B47,0)"
+    },
+    {
+     "ref": "P47",
+     "value": "-",
+     "formula": "IF(AND(J47>0,OR('01 Deal Setup'!$B$80=\"Existing only\",'01 Deal Setup'!$B$81=\"No\")),\"UNFUNDED\",IF(AND(C47=1,$B$27>'01 Deal Setup'!$B$86),\"SLOW CYCLE\",IF(G47=0,\"-\",\"PLANNED\")))"
+    },
+    {
+     "ref": "A49",
+     "value": "4   EXISTING VS NEW CAPACITY ECONOMICS",
+     "formula": null
+    },
+    {
+     "ref": "A52",
+     "value": "Weeks needing new GPUs",
+     "formula": null
+    },
+    {
+     "ref": "B52",
+     "value": 0.0,
+     "formula": "COUNTIF(J32:J47,\">0\")"
+    },
+    {
+     "ref": "C52",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "A53",
+     "value": "First shortage week",
+     "formula": null
+    },
+    {
+     "ref": "B53",
+     "value": 0.0,
+     "formula": "IF(B52=0,0,MIN(N32:N47))"
+    },
+    {
+     "ref": "C53",
+     "value": "week",
+     "formula": null
+    },
+    {
+     "ref": "A54",
+     "value": "Last shortage week",
+     "formula": null
+    },
+    {
+     "ref": "B54",
+     "value": 0.0,
+     "formula": "MAX(O32:O47)"
+    },
+    {
+     "ref": "C54",
+     "value": "week",
+     "formula": null
+    },
+    {
+     "ref": "A55",
+     "value": "Peak additional GPU units",
+     "formula": null
+    },
+    {
+     "ref": "B55",
+     "value": 0.0,
+     "formula": "MAX(J32:J47)"
+    },
+    {
+     "ref": "C55",
+     "value": "GPUs",
+     "formula": null
+    },
+    {
+     "ref": "A56",
+     "value": "New workload GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B56",
+     "value": 0.0,
+     "formula": "SUM(K32:K47)"
+    },
+    {
+     "ref": "C56",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A57",
+     "value": "Existing assigned GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B57",
+     "value": 3360.000000000001,
+     "formula": "SUM(L32:L47)"
+    },
+    {
+     "ref": "C57",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A58",
+     "value": "PayGo acquisition cost",
+     "formula": null
+    },
+    {
+     "ref": "B58",
+     "value": 0.0,
+     "formula": "B56*'01 Deal Setup'!B82+IF(B55>0,'01 Deal Setup'!B89,0)"
+    },
+    {
+     "ref": "C58",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A59",
+     "value": "Weekly extension acquisition cost",
+     "formula": null
+    },
+    {
+     "ref": "B59",
+     "value": 0.0,
+     "formula": "SUM(M32:M47)+IF(B55>0,'01 Deal Setup'!B89,0)"
+    },
+    {
+     "ref": "C59",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A60",
+     "value": "New reservation committed cost",
+     "formula": null
+    },
+    {
+     "ref": "B60",
+     "value": 0.0,
+     "formula": "B55*MAX('01 Deal Setup'!B85,IF(B52=0,0,B54-B53+1))*'01 Deal Setup'!B86*'01 Deal Setup'!B84+IF(B55>0,'01 Deal Setup'!B89,0)"
+    },
+    {
+     "ref": "C60",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A61",
+     "value": "Cheapest incremental cash",
+     "formula": null
+    },
+    {
+     "ref": "B61",
+     "value": 0.0,
+     "formula": "MIN(B58:B60)"
+    },
+    {
+     "ref": "C61",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A62",
+     "value": "Selected purchase method",
+     "formula": null
+    },
+    {
+     "ref": "B62",
+     "value": "Existing",
+     "formula": "IF('01 Deal Setup'!B80=\"BYOC\",\"BYOC\",IF(B55=0,\"Existing\",IF('01 Deal Setup'!B80=\"Auto\",IF(B58<=MIN(B59,B60),\"PayGo\",IF(B59<=B60,\"Extend\",\"Reserve\")),'01 Deal Setup'!B80)))"
+    },
+    {
+     "ref": "A63",
+     "value": "Cash cost of new capacity",
+     "formula": null
+    },
+    {
+     "ref": "B63",
+     "value": 0.0,
+     "formula": "IF(OR(B62=\"BYOC\",B62=\"Existing only\"),0,IF(B62=\"PayGo\",B58,IF(B62=\"Extend\",B59,B60)))"
+    },
+    {
+     "ref": "C63",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A64",
+     "value": "New GPU-hours paid / committed",
+     "formula": null
+    },
+    {
+     "ref": "B64",
+     "value": 0.0,
+     "formula": "IF(B62=\"Extend\",SUM(J32:J47)*'01 Deal Setup'!B86,IF(B62=\"Reserve\",B55*MAX('01 Deal Setup'!B85,IF(B52=0,0,B54-B53+1))*'01 Deal Setup'!B86,IF(B62=\"PayGo\",B56,0)))"
+    },
+    {
+     "ref": "C64",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A65",
+     "value": "Unused new commitment hours",
+     "formula": null
+    },
+    {
+     "ref": "B65",
+     "value": 0.0,
+     "formula": "MAX(0,B64-B56)"
+    },
+    {
+     "ref": "C65",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A66",
+     "value": "Managerial allocation of existing",
+     "formula": null
+    },
+    {
+     "ref": "B66",
+     "value": 8400.000000000002,
+     "formula": "IF(B62=\"BYOC\",0,B57*'01 Deal Setup'!B87)"
+    },
+    {
+     "ref": "C66",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A67",
+     "value": "New capacity cash exposure",
+     "formula": null
+    },
+    {
+     "ref": "B67",
+     "value": 0.0,
+     "formula": "B63"
+    },
+    {
+     "ref": "C67",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A68",
+     "value": "Existing alternative-use value",
+     "formula": null
+    },
+    {
+     "ref": "B68",
+     "value": 0.0,
+     "formula": "IF(B62=\"BYOC\",0,B57*'01 Deal Setup'!B88)"
+    },
+    {
+     "ref": "C68",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A69",
+     "value": "Economic decision cost (cash + opportunity)",
+     "formula": null
+    },
+    {
+     "ref": "B69",
+     "value": 0.0,
+     "formula": "B67+B68"
+    },
+    {
+     "ref": "C69",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A70",
+     "value": "Capacity / schedule verdict",
+     "formula": null
+    },
+    {
+     "ref": "B70",
+     "value": "FEASIBLE*",
+     "formula": "IF(AND('01 Deal Setup'!G28=\"B300\",'01 Deal Setup'!B103<>\"B300\"),\"HARDWARE MISMATCH\",IF(B28>16,\"EXTEND CALENDAR\",IF(B27>'01 Deal Setup'!B86,\"SCHEDULE RISK\",IF(COUNTIF(P32:P47,\"UNFUNDED\")>0,\"UNFUNDED CAPACITY\",\"FEASIBLE*\"))))"
+    },
+    {
+     "ref": "A72",
+     "value": "5   FULL DEAL COGS (MANAGERIAL COST VIEW)",
+     "formula": null
+    },
+    {
+     "ref": "A73",
+     "value": "Forward deployed engineering",
+     "formula": null
+    },
+    {
+     "ref": "B73",
+     "value": 28800.0,
+     "formula": "('01 Deal Setup'!B50+B10*'01 Deal Setup'!B51)*'01 Deal Setup'!B52"
+    },
+    {
+     "ref": "C73",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A74",
+     "value": "ML research engineering",
+     "formula": null
+    },
+    {
+     "ref": "B74",
+     "value": 32000.0,
+     "formula": "('01 Deal Setup'!B53+B10*'01 Deal Setup'!B54)*'01 Deal Setup'!B55"
+    },
+    {
+     "ref": "C74",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A75",
+     "value": "Infrastructure engineering",
+     "formula": null
+    },
+    {
+     "ref": "B75",
+     "value": 10200.0,
+     "formula": "('01 Deal Setup'!B56+B10*'01 Deal Setup'!B57)*'01 Deal Setup'!B58"
+    },
+    {
+     "ref": "C75",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A76",
+     "value": "Delivery coordination",
+     "formula": null
+    },
+    {
+     "ref": "B76",
+     "value": 6000.0,
+     "formula": "('01 Deal Setup'!B59+B10*'01 Deal Setup'!B60)*'01 Deal Setup'!B61"
+    },
+    {
+     "ref": "C76",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A77",
+     "value": "Total attributable engineering",
+     "formula": null
+    },
+    {
+     "ref": "B77",
+     "value": 77000.0,
+     "formula": "SUM(B73:B76)"
+    },
+    {
+     "ref": "C77",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A78",
+     "value": "Graders, sandboxes and external APIs",
+     "formula": null
+    },
+    {
+     "ref": "B78",
+     "value": 6000.0,
+     "formula": "'01 Deal Setup'!B62+'01 Deal Setup'!B63*B10"
+    },
+    {
+     "ref": "C78",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A79",
+     "value": "Storage and networking",
+     "formula": null
+    },
+    {
+     "ref": "B79",
+     "value": 1500.0,
+     "formula": "'01 Deal Setup'!B64"
+    },
+    {
+     "ref": "C79",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A80",
+     "value": "Direct platform support",
+     "formula": null
+    },
+    {
+     "ref": "B80",
+     "value": 4000.0,
+     "formula": "'01 Deal Setup'!B65"
+    },
+    {
+     "ref": "C80",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A81",
+     "value": "GPU COGS (allocated + new cash)",
+     "formula": null
+    },
+    {
+     "ref": "B81",
+     "value": 8400.000000000002,
+     "formula": "B66+B63"
+    },
+    {
+     "ref": "C81",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A82",
+     "value": "Base cost to deliver",
+     "formula": null
+    },
+    {
+     "ref": "B82",
+     "value": 96900.0,
+     "formula": "SUM(B77:B81)"
+    },
+    {
+     "ref": "C82",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A83",
+     "value": "Expected rework / failure allowance",
+     "formula": null
+    },
+    {
+     "ref": "B83",
+     "value": 9690.0,
+     "formula": "B82*'01 Deal Setup'!B66"
+    },
+    {
+     "ref": "C83",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A84",
+     "value": "Risk-adjusted expected COGS",
+     "formula": null
+    },
+    {
+     "ref": "B84",
+     "value": 106590.0,
+     "formula": "SUM(B82:B83)"
+    },
+    {
+     "ref": "C84",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A85",
+     "value": "COGS + opportunity view",
+     "formula": null
+    },
+    {
+     "ref": "B85",
+     "value": 106590.0,
+     "formula": "B84+B68"
+    },
+    {
+     "ref": "C85",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A89",
+     "value": "6   RECOMMENDED PRICE / GROSS MARGIN",
+     "formula": null
+    },
+    {
+     "ref": "A91",
+     "value": "Readiness / baseline",
+     "formula": null
+    },
+    {
+     "ref": "B91",
+     "value": 30000.0,
+     "formula": "'01 Deal Setup'!B68"
+    },
+    {
+     "ref": "C91",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A92",
+     "value": "Engineering and integration",
+     "formula": null
+    },
+    {
+     "ref": "B92",
+     "value": 78000.0,
+     "formula": "'01 Deal Setup'!B69"
+    },
+    {
+     "ref": "C92",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A93",
+     "value": "Authorized RL cycles",
+     "formula": null
+    },
+    {
+     "ref": "B93",
+     "value": 72000.0,
+     "formula": "B10*'01 Deal Setup'!B70*IF('01 Deal Setup'!$G$31=1,0.65,IF('01 Deal Setup'!$G$31=2,1,2.5))"
+    },
+    {
+     "ref": "C93",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A94",
+     "value": "Extra-cycle engineering",
+     "formula": null
+    },
+    {
+     "ref": "B94",
+     "value": 0.0,
+     "formula": "MAX(0,B10-'01 Deal Setup'!B71)*'01 Deal Setup'!B72"
+    },
+    {
+     "ref": "C94",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A95",
+     "value": "Independent acceptance / handoff",
+     "formula": null
+    },
+    {
+     "ref": "B95",
+     "value": 30000.0,
+     "formula": "'01 Deal Setup'!B73"
+    },
+    {
+     "ref": "C95",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A96",
+     "value": "Negotiated discount",
+     "formula": null
+    },
+    {
+     "ref": "B96",
+     "value": 0.0,
+     "formula": "-SUM(B91:B95)*'01 Deal Setup'!B75"
+    },
+    {
+     "ref": "C96",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A97",
+     "value": "Base customer proposal",
+     "formula": null
+    },
+    {
+     "ref": "B97",
+     "value": 210000.0,
+     "formula": "SUM(B91:B96)"
+    },
+    {
+     "ref": "C97",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A98",
+     "value": "Target-margin price floor",
+     "formula": null
+    },
+    {
+     "ref": "B98",
+     "value": 193799.99999999997,
+     "formula": "B84/MAX(0.01,1-'01 Deal Setup'!B76)"
+    },
+    {
+     "ref": "C98",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A99",
+     "value": "Transparent capacity / risk adjustment",
+     "formula": null
+    },
+    {
+     "ref": "B99",
+     "value": 0.0,
+     "formula": "MAX(0,B98-B97)"
+    },
+    {
+     "ref": "C99",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A100",
+     "value": "SUGGESTED CUSTOMER QUOTE",
+     "formula": null
+    },
+    {
+     "ref": "B100",
+     "value": 210000.0,
+     "formula": "SUM(B97,B99)"
+    },
+    {
+     "ref": "C100",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A101",
+     "value": "Expected deal gross margin",
+     "formula": null
+    },
+    {
+     "ref": "B101",
+     "value": 0.49242857142857144,
+     "formula": "IF(B100=0,0,1-B84/B100)"
+    },
+    {
+     "ref": "C101",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "A102",
+     "value": "Budget ceiling",
+     "formula": null
+    },
+    {
+     "ref": "B102",
+     "value": 260000.0,
+     "formula": "'01 Deal Setup'!B22"
+    },
+    {
+     "ref": "C102",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A103",
+     "value": "Remaining approved budget",
+     "formula": null
+    },
+    {
+     "ref": "B103",
+     "value": 50000.0,
+     "formula": "B102-B100"
+    },
+    {
+     "ref": "C103",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A104",
+     "value": "Commercial approval status",
+     "formula": null
+    },
+    {
+     "ref": "B104",
+     "value": "HOLD - MODEL",
+     "formula": "IF(OR('01 Deal Setup'!B43<=0,'01 Deal Setup'!B44<=0,'01 Deal Setup'!B45<=0,'01 Deal Setup'!B98<=0,'01 Deal Setup'!B10<1,'01 Deal Setup'!B10>10,'01 Deal Setup'!B35<0,'01 Deal Setup'!B36<0,'01 Deal Setup'!B37<0,'01 Deal Setup'!B38<0,'01 Deal Setup'!B40<0,'01 Deal Setup'!B82<0,'01 Deal Setup'!B84<0),\"HOLD - INPUT\",IF('01 Deal Setup'!G30<>\"QUALIFIED*\",\"HOLD - MODEL\",IF(B70<>\"FEASIBLE*\",\"HOLD - CAPACITY\",IF(B103<0,\"HOLD - BUDGET\",IF(B101<'01 Deal Setup'!B77,\"HOLD - MARGIN\",\"READY FOR REVIEW\")))))"
+    },
+    {
+     "ref": "A109",
+     "value": "7   PRODUCTION INFERENCE - SEPARATE SERVICE ORDER",
+     "formula": null
+    },
+    {
+     "ref": "A111",
+     "value": "Input + output equivalent tokens / month",
+     "formula": null
+    },
+    {
+     "ref": "B111",
+     "value": 20000000.0,
+     "formula": "'01 Deal Setup'!B25*'01 Deal Setup'!B39+'01 Deal Setup'!B26"
+    },
+    {
+     "ref": "C111",
+     "value": "equiv tokens",
+     "formula": null
+    },
+    {
+     "ref": "A112",
+     "value": "Variable serving demand GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B112",
+     "value": 200.0,
+     "formula": "IF(OR('01 Deal Setup'!B98<=0,B6<=0),0,B111/('01 Deal Setup'!B98*B6))"
+    },
+    {
+     "ref": "C112",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A113",
+     "value": "Warm capacity floor GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B113",
+     "value": 1440.0,
+     "formula": "'01 Deal Setup'!B28*720*IF('01 Deal Setup'!B24=\"Shared\",'01 Deal Setup'!B99,1)"
+    },
+    {
+     "ref": "C113",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A114",
+     "value": "Provisioned / allocated serving GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B114",
+     "value": 1440.0,
+     "formula": "MAX(B112,B113)"
+    },
+    {
+     "ref": "C114",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "A115",
+     "value": "Serving GPU vendor COGS",
+     "formula": null
+    },
+    {
+     "ref": "B115",
+     "value": 5745.6,
+     "formula": "IF(B62=\"BYOC\",0,B114*'01 Deal Setup'!B82)"
+    },
+    {
+     "ref": "C115",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A116",
+     "value": "Expected monthly serving COGS",
+     "formula": null
+    },
+    {
+     "ref": "B116",
+     "value": 8245.6,
+     "formula": "B115+'01 Deal Setup'!B97"
+    },
+    {
+     "ref": "C116",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A117",
+     "value": "Suggested monthly serving invoice",
+     "formula": null
+    },
+    {
+     "ref": "B117",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!B23=\"No\",0,IF('01 Deal Setup'!B24=\"Shared\",MAX('01 Deal Setup'!B91,MAX(0,'01 Deal Setup'!B25-'01 Deal Setup'!B95)/1000000*'01 Deal Setup'!B93+MAX(0,'01 Deal Setup'!B26-'01 Deal Setup'!B96)/1000000*'01 Deal Setup'!B94),MAX('01 Deal Setup'!B91,'01 Deal Setup'!B28*'01 Deal Setup'!B92)+MAX(0,'01 Deal Setup'!B25-'01 Deal Setup'!B95)/1000000*'01 Deal Setup'!B93+MAX(0,'01 Deal Setup'!B26-'01 Deal Setup'!B96)/1000000*'01 Deal Setup'!B94))"
+    },
+    {
+     "ref": "C117",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A118",
+     "value": "Pre-adjustment serving gross margin",
+     "formula": null
+    },
+    {
+     "ref": "B118",
+     "value": 0.0,
+     "formula": "IF(B117=0,0,1-B116/B117)"
+    },
+    {
+     "ref": "C118",
+     "value": "%",
+     "formula": null
+    },
+    {
+     "ref": "A119",
+     "value": "Serving size / SLO validation",
+     "formula": null
+    },
+    {
+     "ref": "B119",
+     "value": "NOT SCOPED",
+     "formula": "IF('01 Deal Setup'!B23=\"No\",\"NOT SCOPED\",IF('01 Deal Setup'!G26<>\"Listed\",\"HOLD - SERVING ACCESS\",IF('01 Deal Setup'!B101<>\"Yes\",\"HOLD - SERVING BENCHMARK\",IF('01 Deal Setup'!B27>3,\"BENCHMARK PEAK FIRST\",\"BENCHMARK / SLO SIGNOFF\"))))"
+    },
+    {
+     "ref": "A120",
+     "value": "Peak vs current warm capacity",
+     "formula": null
+    },
+    {
+     "ref": "B120",
+     "value": 0.4166666666666667,
+     "formula": "IF(B113=0,0,B112*'01 Deal Setup'!B27/B113)"
+    },
+    {
+     "ref": "C120",
+     "value": "x",
+     "formula": null
+    },
+    {
+     "ref": "A121",
+     "value": "Scaling / re-paper recommendation",
+     "formula": null
+    },
+    {
+     "ref": "B121",
+     "value": "NOT SCOPED",
+     "formula": "IF('01 Deal Setup'!B23=\"No\",\"NOT SCOPED\",IF(B120>=1,\"AMEND CAPACITY / REPLICAS\",IF(B120>=0.8,\"START SCALE REVIEW\",\"WITHIN PLANNING ENVELOPE\")))"
+    },
+    {
+     "ref": "A122",
+     "value": "Target-margin serving floor",
+     "formula": null
+    },
+    {
+     "ref": "B122",
+     "value": 0.0,
+     "formula": "IF('01 Deal Setup'!B23=\"No\",0,B116/MAX(0.01,1-'01 Deal Setup'!B76))"
+    },
+    {
+     "ref": "C122",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A123",
+     "value": "Visible production uplift",
+     "formula": null
+    },
+    {
+     "ref": "B123",
+     "value": 0.0,
+     "formula": "MAX(0,B122-B117)"
+    },
+    {
+     "ref": "C123",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A124",
+     "value": "SUGGESTED MONTHLY SERVING PRICE",
+     "formula": null
+    },
+    {
+     "ref": "B124",
+     "value": 0.0,
+     "formula": "B117+B123"
+    },
+    {
+     "ref": "C124",
+     "value": "$",
+     "formula": null
+    },
+    {
+     "ref": "A125",
+     "value": "Expected production gross margin",
+     "formula": null
+    },
+    {
+     "ref": "B125",
+     "value": 0.0,
+     "formula": "IF(B124=0,0,1-B116/B124)"
+    },
+    {
+     "ref": "C125",
+     "value": "%",
+     "formula": null
+    }
+   ]
+  },
+  {
+   "name": "03 Offer and SOW",
+   "cells": [
+    {
+     "ref": "A1",
+     "value": "CUSTOMER OFFER + STATEMENT OF WORK",
+     "formula": null
+    },
+    {
+     "ref": "A2",
+     "value": "Customer: Example Enterprise   |   Workflow: Internal workflow automation",
+     "formula": "\"Customer: \"&'01 Deal Setup'!B5&\"   |   Workflow: \"&'01 Deal Setup'!B6"
+    },
+    {
+     "ref": "A3",
+     "value": "PRELIMINARY - DO NOT SEND CUSTOMER: HOLD - MODEL",
+     "formula": "IF('02 Economics Capacity'!B104=\"READY FOR REVIEW\",\"DRAFT - commercial/legal review still required\",\"PRELIMINARY - DO NOT SEND CUSTOMER: \"&'02 Economics Capacity'!B104)"
+    },
+    {
+     "ref": "A4",
+     "value": "A   COMMERCIAL ORDER: WHAT THE CUSTOMER PAYS",
+     "formula": null
+    },
+    {
+     "ref": "A5",
+     "value": "Paid service",
+     "formula": null
+    },
+    {
+     "ref": "B5",
+     "value": "Quantity / unit",
+     "formula": null
+    },
+    {
+     "ref": "C5",
+     "value": "Price ($)",
+     "formula": null
+    },
+    {
+     "ref": "D5",
+     "value": "Customer receives",
+     "formula": null
+    },
+    {
+     "ref": "A6",
+     "value": "Readiness and baseline",
+     "formula": null
+    },
+    {
+     "ref": "B6",
+     "value": "Once",
+     "formula": null
+    },
+    {
+     "ref": "C6",
+     "value": 30000.0,
+     "formula": "'02 Economics Capacity'!B91"
+    },
+    {
+     "ref": "D6",
+     "value": "Workflow definition, model/eval plan, baseline score and feasibility gate",
+     "formula": null
+    },
+    {
+     "ref": "A7",
+     "value": "Engineering + integration",
+     "formula": null
+    },
+    {
+     "ref": "B7",
+     "value": "Fixed engagement",
+     "formula": null
+    },
+    {
+     "ref": "C7",
+     "value": 78000.0,
+     "formula": "'02 Economics Capacity'!B92"
+    },
+    {
+     "ref": "D7",
+     "value": "Harness integration, grader implementation, research and infra support",
+     "formula": null
+    },
+    {
+     "ref": "A8",
+     "value": "Approved RL cycles",
+     "formula": null
+    },
+    {
+     "ref": "B8",
+     "value": "Cycles x proposed model rate",
+     "formula": null
+    },
+    {
+     "ref": "C8",
+     "value": 72000.0,
+     "formula": "'02 Economics Capacity'!B93"
+    },
+    {
+     "ref": "D8",
+     "value": "Scheduled train / rollout / measure / review cycles",
+     "formula": null
+    },
+    {
+     "ref": "A9",
+     "value": "Extra-cycle engineering",
+     "formula": null
+    },
+    {
+     "ref": "B9",
+     "value": "Additional cycles only",
+     "formula": null
+    },
+    {
+     "ref": "C9",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B94"
+    },
+    {
+     "ref": "D9",
+     "value": "Incremental assigned engineers above included loop count",
+     "formula": null
+    },
+    {
+     "ref": "A10",
+     "value": "Final independent verification",
+     "formula": null
+    },
+    {
+     "ref": "B10",
+     "value": "Once",
+     "formula": null
+    },
+    {
+     "ref": "C10",
+     "value": 30000.0,
+     "formula": "'02 Economics Capacity'!B95"
+    },
+    {
+     "ref": "D10",
+     "value": "Holdout evaluation, checkpoint, report and handoff",
+     "formula": null
+    },
+    {
+     "ref": "A11",
+     "value": "Discount",
+     "formula": null
+    },
+    {
+     "ref": "B11",
+     "value": "Once",
+     "formula": null
+    },
+    {
+     "ref": "C11",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B96"
+    },
+    {
+     "ref": "D11",
+     "value": "Explicit negotiated discount",
+     "formula": null
+    },
+    {
+     "ref": "A12",
+     "value": "Proposed price adjustment*",
+     "formula": null
+    },
+    {
+     "ref": "B12",
+     "value": "If needed",
+     "formula": null
+    },
+    {
+     "ref": "C12",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B99"
+    },
+    {
+     "ref": "D12",
+     "value": "*Requires explicit customer agreement; not an automatic surcharge.",
+     "formula": null
+    },
+    {
+     "ref": "A13",
+     "value": "TOTAL PROPOSED TRAINING FEE",
+     "formula": null
+    },
+    {
+     "ref": "C13",
+     "value": 210000.0,
+     "formula": "'02 Economics Capacity'!B100"
+    },
+    {
+     "ref": "A15",
+     "value": "Selected model",
+     "formula": null
+    },
+    {
+     "ref": "B15",
+     "value": "Qwen3.6-35B-A3B",
+     "formula": "'01 Deal Setup'!B7"
+    },
+    {
+     "ref": "D15",
+     "value": "Total params: 35.0B; MoE. Exact hardware requires benchmark.",
+     "formula": "\"Total params: \"&IF(ISNUMBER('01 Deal Setup'!B8),TEXT('01 Deal Setup'!B8,\"#,##0.0\")&\"B\",\"unverified\")&\"; \"&'01 Deal Setup'!G24&\". Exact hardware requires benchmark.\""
+    },
+    {
+     "ref": "A16",
+     "value": "Authorized RL cycles",
+     "formula": null
+    },
+    {
+     "ref": "B16",
+     "value": 3.0,
+     "formula": "'01 Deal Setup'!B10"
+    },
+    {
+     "ref": "A17",
+     "value": "Cycle schedule",
+     "formula": null
+    },
+    {
+     "ref": "B17",
+     "value": "Every 1 week(s)",
+     "formula": "\"Every \"&'01 Deal Setup'!B11&\" week(s)\""
+    },
+    {
+     "ref": "A18",
+     "value": "Planned duration",
+     "formula": null
+    },
+    {
+     "ref": "B18",
+     "value": 6.0,
+     "formula": "'02 Economics Capacity'!B28"
+    },
+    {
+     "ref": "C18",
+     "value": "weeks",
+     "formula": null
+    },
+    {
+     "ref": "A19",
+     "value": "Production inference",
+     "formula": null
+    },
+    {
+     "ref": "B19",
+     "value": "NOT INCLUDED",
+     "formula": "IF('01 Deal Setup'!B23=\"Yes\",\"OPTIONAL SEPARATE ORDER\",\"NOT INCLUDED\")"
+    },
+    {
+     "ref": "A21",
+     "value": "B   OPTIONAL SERVING COMMERCIALS (NOT IN TRAINING TOTAL)",
+     "formula": null
+    },
+    {
+     "ref": "A22",
+     "value": "Service type",
+     "formula": null
+    },
+    {
+     "ref": "B22",
+     "value": "Dedicated",
+     "formula": "'01 Deal Setup'!B24"
+    },
+    {
+     "ref": "D22",
+     "value": "Shared usage minimum or dedicated replica commitment",
+     "formula": null
+    },
+    {
+     "ref": "A23",
+     "value": "Monthly serving proposal",
+     "formula": null
+    },
+    {
+     "ref": "B23",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B124"
+    },
+    {
+     "ref": "D23",
+     "value": "Zero when production option is No",
+     "formula": null
+    },
+    {
+     "ref": "A24",
+     "value": "Monthly input allowance",
+     "formula": null
+    },
+    {
+     "ref": "B24",
+     "value": 20000000.0,
+     "formula": "'01 Deal Setup'!B95"
+    },
+    {
+     "ref": "D24",
+     "value": "Excess charged per million input tokens",
+     "formula": null
+    },
+    {
+     "ref": "A25",
+     "value": "Monthly output allowance",
+     "formula": null
+    },
+    {
+     "ref": "B25",
+     "value": 10000000.0,
+     "formula": "'01 Deal Setup'!B96"
+    },
+    {
+     "ref": "D25",
+     "value": "Excess charged per million output tokens",
+     "formula": null
+    },
+    {
+     "ref": "A26",
+     "value": "Peak / replica assumption",
+     "formula": null
+    },
+    {
+     "ref": "B26",
+     "value": 2.0,
+     "formula": "'01 Deal Setup'!B28"
+    },
+    {
+     "ref": "D26",
+     "value": "Replicas and peak traffic must be benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "A27",
+     "value": "Serving next step",
+     "formula": null
+    },
+    {
+     "ref": "B27",
+     "value": "NOT SCOPED",
+     "formula": "'02 Economics Capacity'!B121"
+    },
+    {
+     "ref": "D27",
+     "value": "Review at 80% of capacity; amendment to add GPUs/replicas",
+     "formula": null
+    },
+    {
+     "ref": "A28",
+     "value": "Serving capacity adjustment",
+     "formula": null
+    },
+    {
+     "ref": "B28",
+     "value": 0.0,
+     "formula": "'02 Economics Capacity'!B123"
+    },
+    {
+     "ref": "D28",
+     "value": "Any added committed capacity requires a separately approved order.",
+     "formula": null
+    },
+    {
+     "ref": "A29",
+     "value": "Serving performance gate",
+     "formula": null
+    },
+    {
+     "ref": "B29",
+     "value": "NOT SCOPED",
+     "formula": "'02 Economics Capacity'!B119"
+    },
+    {
+     "ref": "D29",
+     "value": "Load test and service levels must be approved before contracting.",
+     "formula": null
+    },
+    {
+     "ref": "A30",
+     "value": "C   SCOPE: RESPONSIBILITY, ACCEPTANCE & PHASE GATES",
+     "formula": null
+    },
+    {
+     "ref": "A31",
+     "value": "Phase + timing",
+     "formula": null
+    },
+    {
+     "ref": "B31",
+     "value": "Applied Compute delivers",
+     "formula": null
+    },
+    {
+     "ref": "C31",
+     "value": "Customer owns / approves",
+     "formula": null
+    },
+    {
+     "ref": "D31",
+     "value": "Evidence to accept",
+     "formula": null
+    },
+    {
+     "ref": "A32",
+     "value": "0 · Readiness",
+     "formula": null
+    },
+    {
+     "ref": "B32",
+     "value": "Scope workflow, assess data quality, compare base model options and estimate capacity.",
+     "formula": null
+    },
+    {
+     "ref": "C32",
+     "value": "Provides data, SME and decides initial base model and success metric.",
+     "formula": null
+    },
+    {
+     "ref": "D32",
+     "value": "Signed workflow/eval charter; dataset sample; frozen baseline score and review findings.",
+     "formula": null
+    },
+    {
+     "ref": "A33",
+     "value": "1 · Graders + harness",
+     "formula": null
+    },
+    {
+     "ref": "B33",
+     "value": "Build environment, grader version, rollout instrumentation and held-out evaluation.",
+     "formula": null
+    },
+    {
+     "ref": "C33",
+     "value": "Approves graders, thresholds, privacy assumptions and success/stop rules.",
+     "formula": null
+    },
+    {
+     "ref": "D33",
+     "value": "Versioned grader/harness, reproducible baseline run ID, acceptance signoff.",
+     "formula": null
+    },
+    {
+     "ref": "A34",
+     "value": "2 · RL cycle (repeat)",
+     "formula": null
+    },
+    {
+     "ref": "B34",
+     "value": "Train checkpoint; sample rollouts; compute cost, reward and held-out score; investigate failures.",
+     "formula": null
+    },
+    {
+     "ref": "C34",
+     "value": "Reviews score and research evidence; explicitly chooses Stop or Continue.",
+     "formula": null
+    },
+    {
+     "ref": "D34",
+     "value": "Checkpoint/run ID, GPU and token ledger, graded metrics, failure samples, signed cycle decision.",
+     "formula": null
+    },
+    {
+     "ref": "A35",
+     "value": "3 · Independent handoff",
+     "formula": null
+    },
+    {
+     "ref": "B35",
+     "value": "Evaluate untouched holdout; package checkpoint/weights, traces, config, results and runbook.",
+     "formula": null
+    },
+    {
+     "ref": "C35",
+     "value": "Accepts delivery by checking objective artifacts, not guaranteed quality uplift.",
+     "formula": null
+    },
+    {
+     "ref": "D35",
+     "value": "Reproducibility report, model registry/version, delivered files and signed handoff.",
+     "formula": null
+    },
+    {
+     "ref": "A36",
+     "value": "4 · Inference pilot (opt.)",
+     "formula": null
+    },
+    {
+     "ref": "B36",
+     "value": "Benchmark representative traffic, SLO throughput, warm replicas, cost and autoscale policy.",
+     "formula": null
+    },
+    {
+     "ref": "C36",
+     "value": "Approves traffic forecast, deployment posture, SLA and commercial service order.",
+     "formula": null
+    },
+    {
+     "ref": "D36",
+     "value": "Load-test results, capacity envelope and approved serving order before production.",
+     "formula": null
+    },
+    {
+     "ref": "A39",
+     "value": "D   STOPPING RULES + DECISION AUTHORITY",
+     "formula": null
+    },
+    {
+     "ref": "A40",
+     "value": "Success score required",
+     "formula": null
+    },
+    {
+     "ref": "B40",
+     "value": 0.8,
+     "formula": "'01 Deal Setup'!B17"
+    },
+    {
+     "ref": "D40",
+     "value": "A score threshold, plateau, cycle cap or budget limit triggers a review; only the customer authorizes continuing/ending work.",
+     "formula": null
+    },
+    {
+     "ref": "A41",
+     "value": "Plateau trigger",
+     "formula": null
+    },
+    {
+     "ref": "B41",
+     "value": "<1.0% gain for 2 cycles",
+     "formula": "\"<\"&TEXT('01 Deal Setup'!B18,\"0.0%\")&\" gain for \"&'01 Deal Setup'!B19&\" cycles\""
+    },
+    {
+     "ref": "A42",
+     "value": "Max preauthorized cycles",
+     "formula": null
+    },
+    {
+     "ref": "B42",
+     "value": 3.0,
+     "formula": "'01 Deal Setup'!B10"
+    },
+    {
+     "ref": "A43",
+     "value": "Current review status",
+     "formula": null
+    },
+    {
+     "ref": "B43",
+     "value": "NO RESULTS YET",
+     "formula": "'01 Deal Setup'!G18"
+    },
+    {
+     "ref": "A44",
+     "value": "Formal decision owner",
+     "formula": null
+    },
+    {
+     "ref": "B44",
+     "value": "Customer product / SME lead",
+     "formula": "'01 Deal Setup'!B30"
+    },
+    {
+     "ref": "A47",
+     "value": "E   AMENDMENTS AND SCALE TRIGGERS",
+     "formula": null
+    },
+    {
+     "ref": "A48",
+     "value": "New base model or method",
+     "formula": null
+    },
+    {
+     "ref": "B48",
+     "value": "Re-benchmark model fit, memory, unit rates, training throughput and evaluator comparability.",
+     "formula": null
+    },
+    {
+     "ref": "A49",
+     "value": "More cycles / higher token volume",
+     "formula": null
+    },
+    {
+     "ref": "B49",
+     "value": "Written change order before exceeding the approved cycle count or compute allowance.",
+     "formula": null
+    },
+    {
+     "ref": "A50",
+     "value": "New workflow, data regime or grader",
+     "formula": null
+    },
+    {
+     "ref": "B50",
+     "value": "Re-scope data rights, acceptance benchmarks, engineering and deadline.",
+     "formula": null
+    },
+    {
+     "ref": "A51",
+     "value": "Different region, isolation or GPU topology",
+     "formula": null
+    },
+    {
+     "ref": "B51",
+     "value": "Reassess availability, security posture, commitments and price.",
+     "formula": null
+    },
+    {
+     "ref": "A52",
+     "value": "Production launch or SLA upgrade",
+     "formula": null
+    },
+    {
+     "ref": "B52",
+     "value": "Separate serving order with p95/p99 target, traffic envelope, availability, and minimums.",
+     "formula": null
+    },
+    {
+     "ref": "A53",
+     "value": "Production demand exceeds contracted envelope",
+     "formula": null
+    },
+    {
+     "ref": "B53",
+     "value": "Review at 80% capacity; amendment before adding replicas, GPUs or >20% contracted traffic / concurrency.",
+     "formula": null
+    },
+    {
+     "ref": "A54",
+     "value": "Customer pause / termination",
+     "formula": null
+    },
+    {
+     "ref": "B54",
+     "value": "Customer covers approved work and uncancelable new supplier commitments, net of reasonable redeployment.",
+     "formula": null
+    }
+   ]
+  },
+  {
+   "name": "04 Guide Assumptions",
+   "cells": [
+    {
+     "ref": "A1",
+     "value": "USER GUIDE + ASSUMPTION REGISTER",
+     "formula": null
+    },
+    {
+     "ref": "A2",
+     "value": "The spreadsheet is an editable prototype of a deal-underwriting product; assumptions are explicitly illustrative, not disclosed company rates.",
+     "formula": null
+    },
+    {
+     "ref": "A4",
+     "value": "HOW TO USE (UNDER 5 MINUTES)",
+     "formula": null
+    },
+    {
+     "ref": "A5",
+     "value": "1 · Start",
+     "formula": null
+    },
+    {
+     "ref": "B5",
+     "value": "01 Deal Setup",
+     "formula": null
+    },
+    {
+     "ref": "C5",
+     "value": "Edit orange/blue inputs for customer, model, cycles, demand and stop rules.",
+     "formula": null
+    },
+    {
+     "ref": "A6",
+     "value": "2 · Capacity",
+     "formula": null
+    },
+    {
+     "ref": "B6",
+     "value": "01 Deal Setup rows 78-111",
+     "formula": null
+    },
+    {
+     "ref": "C6",
+     "value": "Enter usable GPUs per contract, valid dates (week numbers), and acquisition choice.",
+     "formula": null
+    },
+    {
+     "ref": "A7",
+     "value": "3 · Actual evals",
+     "formula": null
+    },
+    {
+     "ref": "B7",
+     "value": "01 Deal Setup score log",
+     "formula": null
+    },
+    {
+     "ref": "C7",
+     "value": "Enter scores in order, then record the customer's Stop/Continue decision. This updates guidance, NOT the signed commercial commitment.",
+     "formula": null
+    },
+    {
+     "ref": "A8",
+     "value": "4 · Economics",
+     "formula": null
+    },
+    {
+     "ref": "B8",
+     "value": "02 Economics Capacity",
+     "formula": null
+    },
+    {
+     "ref": "C8",
+     "value": "Review GPU-hours, weekly shortage, cash/allocated/opportunity cost and margin.",
+     "formula": null
+    },
+    {
+     "ref": "A9",
+     "value": "5 · Client documents",
+     "formula": null
+    },
+    {
+     "ref": "B9",
+     "value": "03 Offer and SOW",
+     "formula": null
+    },
+    {
+     "ref": "C9",
+     "value": "Use the offer + SOW as review drafts. If the customer stops early, any contractual credit or re-scope requires mutual approval.",
+     "formula": null
+    },
+    {
+     "ref": "A10",
+     "value": "6 · Decision",
+     "formula": null
+    },
+    {
+     "ref": "B10",
+     "value": "01 Deal Setup summary",
+     "formula": null
+    },
+    {
+     "ref": "C10",
+     "value": "Do not send pricing if HOLD, supplier unconfirmed, or quality/throughput unbenchmarked.",
+     "formula": null
+    },
+    {
+     "ref": "A12",
+     "value": "KEY MODEL EQUATIONS (SIMPLIFIED)",
+     "formula": null
+    },
+    {
+     "ref": "A13",
+     "value": "RL rollout work",
+     "formula": null
+    },
+    {
+     "ref": "B13",
+     "value": "Attempts x (input tokens x input weight + output tokens)",
+     "formula": null
+    },
+    {
+     "ref": "D13",
+     "value": "Equivalent tokens, not raw token cost",
+     "formula": null
+    },
+    {
+     "ref": "A14",
+     "value": "GPU-hours",
+     "formula": null
+    },
+    {
+     "ref": "B14",
+     "value": "(training + rollout + eval work) / separate measured GPU throughput",
+     "formula": null
+    },
+    {
+     "ref": "C14",
+     "value": "Training, rollouts and each-cycle evaluations use separate benchmark throughput.",
+     "formula": null
+    },
+    {
+     "ref": "D14",
+     "value": "Model-size performance affects hours",
+     "formula": null
+    },
+    {
+     "ref": "A15",
+     "value": "Required capacity",
+     "formula": null
+    },
+    {
+     "ref": "B15",
+     "value": "Peak GPUs x week availability; sequential jobs reduce peaks",
+     "formula": null
+    },
+    {
+     "ref": "D15",
+     "value": "GPU-hours alone do not prove feasibility",
+     "formula": null
+    },
+    {
+     "ref": "A16",
+     "value": "Incremental supplier cost",
+     "formula": null
+    },
+    {
+     "ref": "B16",
+     "value": "Cheapest eligible PayGo / extension / reservation on uncovered capacity",
+     "formula": null
+    },
+    {
+     "ref": "D16",
+     "value": "Reserved contracts charge for idle time",
+     "formula": null
+    },
+    {
+     "ref": "A17",
+     "value": "Risk-adjusted delivery COGS",
+     "formula": null
+    },
+    {
+     "ref": "B17",
+     "value": "Labor + external graders + storage + platform + allocated GPU + new commitment + expected rework",
+     "formula": null
+    },
+    {
+     "ref": "D17",
+     "value": "Opportunity cost shown separately",
+     "formula": null
+    },
+    {
+     "ref": "A18",
+     "value": "Suggested customer quote",
+     "formula": null
+    },
+    {
+     "ref": "B18",
+     "value": "MAX(itemized fees, forecast COGS / (1-target margin))",
+     "formula": null
+    },
+    {
+     "ref": "C18",
+     "value": "Uplift is a proposed revised fee; client must approve before billing.",
+     "formula": null
+    },
+    {
+     "ref": "D18",
+     "value": "Client offer row 12 explicitly requires written approval.",
+     "formula": null
+    },
+    {
+     "ref": "A19",
+     "value": "Production COGS",
+     "formula": null
+    },
+    {
+     "ref": "B19",
+     "value": "MAX(token work / SLO throughput, warm-replica floor) x GPU rate + direct support",
+     "formula": null
+    },
+    {
+     "ref": "D19",
+     "value": "Requires benchmark; separate service agreement",
+     "formula": null
+    },
+    {
+     "ref": "A22",
+     "value": "ASSUMPTIONS - DEFAULT, JUSTIFICATION AND REQUIRED EVIDENCE",
+     "formula": null
+    },
+    {
+     "ref": "F22",
+     "value": "DOCUMENTED MODEL OPTIONS  |  2026-10-18 KB SNAPSHOT + PUBLIC MODEL SPECS (NOT LIVE AC2 INVENTORY)",
+     "formula": null
+    },
+    {
+     "ref": "A23",
+     "value": "Inputs / cells",
+     "formula": null
+    },
+    {
+     "ref": "B23",
+     "value": "Default / key assumption",
+     "formula": null
+    },
+    {
+     "ref": "C23",
+     "value": "Why used",
+     "formula": null
+    },
+    {
+     "ref": "D23",
+     "value": "Replace with / source",
+     "formula": null
+    },
+    {
+     "ref": "A24",
+     "value": "Model + sizes · B7/B8",
+     "formula": null
+    },
+    {
+     "ref": "B24",
+     "value": "Named models, total/active B, eligibility",
+     "formula": null
+    },
+    {
+     "ref": "C24",
+     "value": "Parameters are factual when sourced; class factor is not a performance benchmark.",
+     "formula": null
+    },
+    {
+     "ref": "D24",
+     "value": "Guide F:Q has model-by-model provenance; AC2 sources list named models, not exhaustive live support.",
+     "formula": null
+    },
+    {
+     "ref": "F24",
+     "value": "Model selection",
+     "formula": null
+    },
+    {
+     "ref": "G24",
+     "value": "Total params (B)",
+     "formula": null
+    },
+    {
+     "ref": "H24",
+     "value": "Active params (B)",
+     "formula": null
+    },
+    {
+     "ref": "I24",
+     "value": "Architecture",
+     "formula": null
+    },
+    {
+     "ref": "J24",
+     "value": "RL training",
+     "formula": null
+    },
+    {
+     "ref": "K24",
+     "value": "Serving",
+     "formula": null
+    },
+    {
+     "ref": "L24",
+     "value": "Evidence",
+     "formula": null
+    },
+    {
+     "ref": "M24",
+     "value": "Proxy class",
+     "formula": null
+    },
+    {
+     "ref": "N24",
+     "value": "HW to qualify",
+     "formula": null
+    },
+    {
+     "ref": "O24",
+     "value": "Parameters source / URL",
+     "formula": null
+    },
+    {
+     "ref": "P24",
+     "value": "AC2 catalog / URL",
+     "formula": null
+    },
+    {
+     "ref": "Q24",
+     "value": "Qualification note",
+     "formula": null
+    },
+    {
+     "ref": "A25",
+     "value": "Method · B9",
+     "formula": null
+    },
+    {
+     "ref": "B25",
+     "value": "GRPO (other methods selectable; require revised COGS before approval)",
+     "formula": null
+    },
+    {
+     "ref": "C25",
+     "value": "The included rollout/policy/eval formulas describe GRPO only; non-GRPO cannot be quoted from unchanged assumptions.",
+     "formula": null
+    },
+    {
+     "ref": "D25",
+     "value": "Document the selected method, optimizer, workloads and benchmarked GPU efficiency; then approve revised cost model.",
+     "formula": null
+    },
+    {
+     "ref": "A26",
+     "value": "Cycles/cadence · B10:B14",
+     "formula": null
+    },
+    {
+     "ref": "B26",
+     "value": "3 weekly; 2-week readiness; 1-week handoff",
+     "formula": null
+    },
+    {
+     "ref": "C26",
+     "value": "Bounded change-control program; weekly units",
+     "formula": null
+    },
+    {
+     "ref": "D26",
+     "value": "Approved customer timeline and env/runtime plan",
+     "formula": null
+    },
+    {
+     "ref": "F26",
+     "value": "Qwen3.6-35B-A3B",
+     "formula": null
+    },
+    {
+     "ref": "G26",
+     "value": 35.0,
+     "formula": null
+    },
+    {
+     "ref": "H26",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "I26",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J26",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K26",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L26",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M26",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N26",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O26",
+     "value": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+     "formula": null
+    },
+    {
+     "ref": "P26",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q26",
+     "value": "Training & serving named; illustrative benchmark only",
+     "formula": null
+    },
+    {
+     "ref": "A27",
+     "value": "Stop/go · B15:B21",
+     "formula": null
+    },
+    {
+     "ref": "B27",
+     "value": "Normalized 0–1, higher-is-better score; 60% baseline / 80% target / 1 pp plateau",
+     "formula": null
+    },
+    {
+     "ref": "C27",
+     "value": "Permits multiple metric labels without changing stop rules; lower-is-better metrics need a model redesign.",
+     "formula": null
+    },
+    {
+     "ref": "D27",
+     "value": "Frozen held-out dataset, signed rubric, human decision",
+     "formula": null
+    },
+    {
+     "ref": "F27",
+     "value": "Qwen3.8-27B",
+     "formula": null
+    },
+    {
+     "ref": "G27",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "H27",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "I27",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J27",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K27",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L27",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M27",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N27",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O27",
+     "value": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models",
+     "formula": null
+    },
+    {
+     "ref": "P27",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q27",
+     "value": "Text model; compare vision model license separately",
+     "formula": null
+    },
+    {
+     "ref": "A28",
+     "value": "Deal cap · B22",
+     "formula": null
+    },
+    {
+     "ref": "B28",
+     "value": "$260k",
+     "formula": null
+    },
+    {
+     "ref": "C28",
+     "value": "Illustrative customer approval budget",
+     "formula": null
+    },
+    {
+     "ref": "D28",
+     "value": "Confirmed purchasing authority",
+     "formula": null
+    },
+    {
+     "ref": "F28",
+     "value": "Qwen3.5-4B",
+     "formula": null
+    },
+    {
+     "ref": "G28",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "H28",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "I28",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J28",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K28",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L28",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M28",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "N28",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O28",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P28",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q28",
+     "value": "Exact training catalog entry not established",
+     "formula": null
+    },
+    {
+     "ref": "A29",
+     "value": "Production · B23:B29",
+     "formula": null
+    },
+    {
+     "ref": "B29",
+     "value": "Optional; 20M in/10M out; 2 warm replicas",
+     "formula": null
+    },
+    {
+     "ref": "C29",
+     "value": "Shows fixed availability cost even with low tokens",
+     "formula": null
+    },
+    {
+     "ref": "D29",
+     "value": "Traffic traces, latency SLO, load test",
+     "formula": null
+    },
+    {
+     "ref": "F29",
+     "value": "Qwen3.5-9B",
+     "formula": null
+    },
+    {
+     "ref": "G29",
+     "value": 9.0,
+     "formula": null
+    },
+    {
+     "ref": "H29",
+     "value": 9.0,
+     "formula": null
+    },
+    {
+     "ref": "I29",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J29",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K29",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L29",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M29",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "N29",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O29",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P29",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q29",
+     "value": "Exact training catalog entry not established",
+     "formula": null
+    },
+    {
+     "ref": "A30",
+     "value": "Policy tokens · B35",
+     "formula": null
+    },
+    {
+     "ref": "B30",
+     "value": "42.67M / cycle",
+     "formula": null
+    },
+    {
+     "ref": "C30",
+     "value": "Illustrative 128M total at 3 cycles",
+     "formula": null
+    },
+    {
+     "ref": "D30",
+     "value": "Measured training profiler and step configuration",
+     "formula": null
+    },
+    {
+     "ref": "F30",
+     "value": "Qwen3.5-27B",
+     "formula": null
+    },
+    {
+     "ref": "G30",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "H30",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "I30",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J30",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K30",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L30",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M30",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N30",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O30",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P30",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q30",
+     "value": "Exact training catalog entry not established",
+     "formula": null
+    },
+    {
+     "ref": "A31",
+     "value": "Rollout demand · B36:B39",
+     "formula": null
+    },
+    {
+     "ref": "B31",
+     "value": "4k attempts; 12k in/10k out; prefill 0.5",
+     "formula": null
+    },
+    {
+     "ref": "C31",
+     "value": "Covers agentic token shape and asynchronous rollout work",
+     "formula": null
+    },
+    {
+     "ref": "D31",
+     "value": "Representative task traces; benchmark engine throughput",
+     "formula": null
+    },
+    {
+     "ref": "F31",
+     "value": "Qwen3.5-35B-A3B",
+     "formula": null
+    },
+    {
+     "ref": "G31",
+     "value": 35.0,
+     "formula": null
+    },
+    {
+     "ref": "H31",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "I31",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J31",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K31",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L31",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M31",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N31",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O31",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P31",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q31",
+     "value": "Exact training catalog entry not established",
+     "formula": null
+    },
+    {
+     "ref": "A32",
+     "value": "Eval demand · B40:B42",
+     "formula": null
+    },
+    {
+     "ref": "B32",
+     "value": "200 cases/cycle + 200 baseline; 20k equiv tokens",
+     "formula": null
+    },
+    {
+     "ref": "C32",
+     "value": "Recurring tests run after each RL cycle; baseline test precedes training.",
+     "formula": null
+    },
+    {
+     "ref": "D32",
+     "value": "Grader time, API tokens, eval profile",
+     "formula": null
+    },
+    {
+     "ref": "F32",
+     "value": "Qwen3.5-122B-A10B",
+     "formula": null
+    },
+    {
+     "ref": "G32",
+     "value": 122.0,
+     "formula": null
+    },
+    {
+     "ref": "H32",
+     "value": 10.0,
+     "formula": null
+    },
+    {
+     "ref": "I32",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J32",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K32",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L32",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M32",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N32",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O32",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P32",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q32",
+     "value": "Large model: topology/throughput must be benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "A33",
+     "value": "Throughput · B43:B48",
+     "formula": null
+    },
+    {
+     "ref": "B33",
+     "value": "100k work tokens/GPU-hour; 8/8/4 GPUs",
+     "formula": null
+    },
+    {
+     "ref": "C33",
+     "value": "Backsolves an illustrative 3,360 GPUh; NOT an AC measured rate",
+     "formula": null
+    },
+    {
+     "ref": "D33",
+     "value": "AC model+SKU-specific benchmark, cluster topology",
+     "formula": null
+    },
+    {
+     "ref": "F33",
+     "value": "Qwen3.5-397B-A17B",
+     "formula": null
+    },
+    {
+     "ref": "G33",
+     "value": 397.0,
+     "formula": null
+    },
+    {
+     "ref": "H33",
+     "value": 17.0,
+     "formula": null
+    },
+    {
+     "ref": "I33",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J33",
+     "value": "Family - verify",
+     "formula": null
+    },
+    {
+     "ref": "K33",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L33",
+     "value": "Family-only",
+     "formula": null
+    },
+    {
+     "ref": "M33",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N33",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O33",
+     "value": "https://huggingface.co/Qwen",
+     "formula": null
+    },
+    {
+     "ref": "P33",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q33",
+     "value": "Large model: topology/throughput must be benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "A34",
+     "value": "Engineer effort/rates · B50:B61",
+     "formula": null
+    },
+    {
+     "ref": "B34",
+     "value": "FDE/ML/Infra/PM hours; $150-$200/hr",
+     "formula": null
+    },
+    {
+     "ref": "C34",
+     "value": "Fully burdened, directly attributable delivery cost",
+     "formula": null
+    },
+    {
+     "ref": "D34",
+     "value": "Staffing plan, finance labor rates",
+     "formula": null
+    },
+    {
+     "ref": "F34",
+     "value": "Qwen3.5-9B-VL",
+     "formula": null
+    },
+    {
+     "ref": "G34",
+     "value": 9.0,
+     "formula": null
+    },
+    {
+     "ref": "H34",
+     "value": 9.0,
+     "formula": null
+    },
+    {
+     "ref": "I34",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J34",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K34",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L34",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M34",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "N34",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O34",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "P34",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "Q34",
+     "value": "Vision inputs add image/encoder cost not captured by token-only scenario",
+     "formula": null
+    },
+    {
+     "ref": "A35",
+     "value": "External costs · B62:B66",
+     "formula": null
+    },
+    {
+     "ref": "B35",
+     "value": "$1.5k fixed + $1.5k/cycle; $1.5k storage; $4k support; 10% rework",
+     "formula": null
+    },
+    {
+     "ref": "C35",
+     "value": "Avoids GPU-only undercount and prices uncertain rework",
+     "formula": null
+    },
+    {
+     "ref": "D35",
+     "value": "Vendor API invoices, object storage, historical delivery",
+     "formula": null
+    },
+    {
+     "ref": "F35",
+     "value": "Qwen3.6-35B-A3B-VL",
+     "formula": null
+    },
+    {
+     "ref": "G35",
+     "value": 35.0,
+     "formula": null
+    },
+    {
+     "ref": "H35",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "I35",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J35",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K35",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L35",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M35",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N35",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O35",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "P35",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "Q35",
+     "value": "Vision workload must be separately benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "A36",
+     "value": "Quote rate card · B68:B75",
+     "formula": null
+    },
+    {
+     "ref": "B36",
+     "value": "$30k readiness; $78k eng; $24k/cycle; $30k handoff",
+     "formula": null
+    },
+    {
+     "ref": "C36",
+     "value": "Illustrative itemized fee totaling $210k for base 3 cycles",
+     "formula": null
+    },
+    {
+     "ref": "D36",
+     "value": "Approved commercial rate card + customer proposal",
+     "formula": null
+    },
+    {
+     "ref": "F36",
+     "value": "Qwen3.8-27B-VL",
+     "formula": null
+    },
+    {
+     "ref": "G36",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "H36",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "I36",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J36",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K36",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L36",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M36",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N36",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O36",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "P36",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "Q36",
+     "value": "Vision workload must be separately benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "A37",
+     "value": "Target margin · B76:B77",
+     "formula": null
+    },
+    {
+     "ref": "B37",
+     "value": "45% target; 35% warning floor",
+     "formula": null
+    },
+    {
+     "ref": "C37",
+     "value": "Explicit quote guardrail, not company-published policy",
+     "formula": null
+    },
+    {
+     "ref": "D37",
+     "value": "Internal policy, win/loss and expansion economics",
+     "formula": null
+    },
+    {
+     "ref": "F37",
+     "value": "Qwen3.8-Flash-Next",
+     "formula": null
+    },
+    {
+     "ref": "G37",
+     "value": 125.0,
+     "formula": null
+    },
+    {
+     "ref": "H37",
+     "value": 6.0,
+     "formula": null
+    },
+    {
+     "ref": "I37",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J37",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K37",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L37",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M37",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N37",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O37",
+     "value": "https://www.chels.ai/models",
+     "formula": null
+    },
+    {
+     "ref": "P37",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "Q37",
+     "value": "Serving named, training NOT confirmed; parameters provisional secondary",
+     "formula": null
+    },
+    {
+     "ref": "A38",
+     "value": "Existing supply · B79,B109:D111",
+     "formula": null
+    },
+    {
+     "ref": "B38",
+     "value": "8 compatible spare GPUs weeks 1-8",
+     "formula": null
+    },
+    {
+     "ref": "C38",
+     "value": "Shows allocation economics instead of assuming all PayGo",
+     "formula": null
+    },
+    {
+     "ref": "D38",
+     "value": "Actual inventory/region/expiry/other demand",
+     "formula": null
+    },
+    {
+     "ref": "F38",
+     "value": "Qwen3-4B",
+     "formula": null
+    },
+    {
+     "ref": "G38",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "H38",
+     "value": 4.0,
+     "formula": null
+    },
+    {
+     "ref": "I38",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J38",
+     "value": "Research only",
+     "formula": null
+    },
+    {
+     "ref": "K38",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L38",
+     "value": "Research-only",
+     "formula": null
+    },
+    {
+     "ref": "M38",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "N38",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O38",
+     "value": "https://www.appliedcompute.com/research/neural-cheat-sheets-learning-to-summarize-with-reinforcement-learning",
+     "formula": null
+    },
+    {
+     "ref": "P38",
+     "value": "See primary source",
+     "formula": null
+    },
+    {
+     "ref": "Q38",
+     "value": "AC research use does not establish current self-serve listing",
+     "formula": null
+    },
+    {
+     "ref": "A39",
+     "value": "Supply availability · B81",
+     "formula": null
+    },
+    {
+     "ref": "B39",
+     "value": "No (unverified)",
+     "formula": null
+    },
+    {
+     "ref": "C39",
+     "value": "Allows scenario calculations; not an actual quota or reservation",
+     "formula": null
+    },
+    {
+     "ref": "D39",
+     "value": "Cloud provider availability confirmation",
+     "formula": null
+    },
+    {
+     "ref": "F39",
+     "value": "Qwen3-8B",
+     "formula": null
+    },
+    {
+     "ref": "G39",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "H39",
+     "value": 8.0,
+     "formula": null
+    },
+    {
+     "ref": "I39",
+     "value": "Dense",
+     "formula": null
+    },
+    {
+     "ref": "J39",
+     "value": "Research only",
+     "formula": null
+    },
+    {
+     "ref": "K39",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L39",
+     "value": "Research-only",
+     "formula": null
+    },
+    {
+     "ref": "M39",
+     "value": 1.0,
+     "formula": null
+    },
+    {
+     "ref": "N39",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O39",
+     "value": "https://www.appliedcompute.com/research/staleness-in-fully-async-rl",
+     "formula": null
+    },
+    {
+     "ref": "P39",
+     "value": "See primary source",
+     "formula": null
+    },
+    {
+     "ref": "Q39",
+     "value": "Research only; requires availability/access check",
+     "formula": null
+    },
+    {
+     "ref": "A40",
+     "value": "GPU prices · B82:B85",
+     "formula": null
+    },
+    {
+     "ref": "B40",
+     "value": "$3.99 PayGo; $2.75 extend; $2.50 reserve; 4 weeks",
+     "formula": null
+    },
+    {
+     "ref": "C40",
+     "value": "Contrasts flexibility vs stranded commitment",
+     "formula": null
+    },
+    {
+     "ref": "D40",
+     "value": "Provider quote; https://lambda.ai/pricing is proxy only",
+     "formula": null
+    },
+    {
+     "ref": "F40",
+     "value": "Kimi K3",
+     "formula": null
+    },
+    {
+     "ref": "G40",
+     "value": 2800.0,
+     "formula": null
+    },
+    {
+     "ref": "H40",
+     "value": 104.0,
+     "formula": null
+    },
+    {
+     "ref": "I40",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J40",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K40",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L40",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M40",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N40",
+     "value": "B300",
+     "formula": null
+    },
+    {
+     "ref": "O40",
+     "value": "https://arxiv.org/abs/2607.24653",
+     "formula": null
+    },
+    {
+     "ref": "P40",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q40",
+     "value": "Serving catalog requires BYO weights; AC research uses B300 multi-node",
+     "formula": null
+    },
+    {
+     "ref": "A41",
+     "value": "Allocation/opportunity · B87:B88",
+     "formula": null
+    },
+    {
+     "ref": "B41",
+     "value": "$2.50 allocation; $0 opp",
+     "formula": null
+    },
+    {
+     "ref": "C41",
+     "value": "Keeps accounting cost separate from scarce capacity decisions",
+     "formula": null
+    },
+    {
+     "ref": "D41",
+     "value": "Finance allocation + real alternative deal contribution",
+     "formula": null
+    },
+    {
+     "ref": "F41",
+     "value": "Kimi K2.7 Code",
+     "formula": null
+    },
+    {
+     "ref": "G41",
+     "value": 1000.0,
+     "formula": null
+    },
+    {
+     "ref": "H41",
+     "value": 32.0,
+     "formula": null
+    },
+    {
+     "ref": "I41",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J41",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K41",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L41",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M41",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N41",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O41",
+     "value": "https://www.kimi.ai/resources/kimi-k2-7-code",
+     "formula": null
+    },
+    {
+     "ref": "P41",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q41",
+     "value": "Large multi-node model; verify license and serving eligibility",
+     "formula": null
+    },
+    {
+     "ref": "A42",
+     "value": "Serving charges · B91:B99",
+     "formula": null
+    },
+    {
+     "ref": "B42",
+     "value": "$15k min; $6k warm replica; per-token overage",
+     "formula": null
+    },
+    {
+     "ref": "C42",
+     "value": "Monthly price also has a visible target-margin safeguard; not official AC rates",
+     "formula": null
+    },
+    {
+     "ref": "D42",
+     "value": "Load tests, infra billing, SLA and commercial approval",
+     "formula": null
+    },
+    {
+     "ref": "F42",
+     "value": "Kimi K2.6",
+     "formula": null
+    },
+    {
+     "ref": "I42",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J42",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K42",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L42",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M42",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N42",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O42",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "P42",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q42",
+     "value": "Precise weights/active count unverified in supplied material",
+     "formula": null
+    },
+    {
+     "ref": "A43",
+     "value": "Existing pool compatibility · F109:F111",
+     "formula": null
+    },
+    {
+     "ref": "B43",
+     "value": "Compatible",
+     "formula": null
+    },
+    {
+     "ref": "C43",
+     "value": "Only models qualified capacity; no mixed/incompatible clusters",
+     "formula": null
+    },
+    {
+     "ref": "D43",
+     "value": "SKU, interconnect, region, security verification",
+     "formula": null
+    },
+    {
+     "ref": "F43",
+     "value": "GLM-5.3",
+     "formula": null
+    },
+    {
+     "ref": "G43",
+     "value": 744.0,
+     "formula": null
+    },
+    {
+     "ref": "H43",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "I43",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J43",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K43",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L43",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M43",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N43",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O43",
+     "value": "https://rohitghumare.com/guides/glm-5-3/",
+     "formula": null
+    },
+    {
+     "ref": "P43",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q43",
+     "value": "Verify Z.ai first-party card before binding quote",
+     "formula": null
+    },
+    {
+     "ref": "A44",
+     "value": "Model + hardware qualification",
+     "formula": null
+    },
+    {
+     "ref": "B44",
+     "value": "B7 model; B8 auto params; B101:B103 approval gates; G109:G111 actual GPU family",
+     "formula": null
+    },
+    {
+     "ref": "C44",
+     "value": "Avoid pricing giant MoE/vision models as 32B dense hardware. No unverified quote can be READY.",
+     "formula": null
+    },
+    {
+     "ref": "D44",
+     "value": "Require live AC2 access, license review, actual GPU topology and workload benchmarks.",
+     "formula": null
+    },
+    {
+     "ref": "F44",
+     "value": "GLM-5.2",
+     "formula": null
+    },
+    {
+     "ref": "G44",
+     "value": 744.0,
+     "formula": null
+    },
+    {
+     "ref": "H44",
+     "value": 40.0,
+     "formula": null
+    },
+    {
+     "ref": "I44",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J44",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K44",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L44",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M44",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N44",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O44",
+     "value": "https://www.chels.ai/models",
+     "formula": null
+    },
+    {
+     "ref": "P44",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q44",
+     "value": "Parameter count secondary; confirm model card",
+     "formula": null
+    },
+    {
+     "ref": "F45",
+     "value": "GLM-5.3-Flash",
+     "formula": null
+    },
+    {
+     "ref": "I45",
+     "value": "Unknown",
+     "formula": null
+    },
+    {
+     "ref": "J45",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K45",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L45",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M45",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N45",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O45",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "P45",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "Q45",
+     "value": "No reliable parameter count in supplied KB; do not fill with guess",
+     "formula": null
+    },
+    {
+     "ref": "A46",
+     "value": "WHAT THIS MVP DOES NOT AUTOMATE (IMPORTANT)",
+     "formula": null
+    },
+    {
+     "ref": "F46",
+     "value": "GLM-5.3-Flash-VL",
+     "formula": null
+    },
+    {
+     "ref": "I46",
+     "value": "Unknown",
+     "formula": null
+    },
+    {
+     "ref": "J46",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K46",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L46",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M46",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N46",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O46",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "P46",
+     "value": "https://docs.appliedcompute.com/platform/training/vlm",
+     "formula": null
+    },
+    {
+     "ref": "Q46",
+     "value": "Vision throughput and weights require explicit benchmark",
+     "formula": null
+    },
+    {
+     "ref": "A47",
+     "value": "Model catalog coverage",
+     "formula": null
+    },
+    {
+     "ref": "B47",
+     "value": "30 documented examples; live AC2 catalog is NOT exhaustively verified",
+     "formula": null
+    },
+    {
+     "ref": "C47",
+     "value": "Training and serving lists differ; family names and research examples aren't confirmed product access.",
+     "formula": null
+    },
+    {
+     "ref": "D47",
+     "value": "Reconcile guide F:Q with live AC2 catalog and customer license before quoting.",
+     "formula": null
+    },
+    {
+     "ref": "F47",
+     "value": "GLM-5.1",
+     "formula": null
+    },
+    {
+     "ref": "I47",
+     "value": "Unknown",
+     "formula": null
+    },
+    {
+     "ref": "J47",
+     "value": "Research only",
+     "formula": null
+    },
+    {
+     "ref": "K47",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L47",
+     "value": "Research-only",
+     "formula": null
+    },
+    {
+     "ref": "M47",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N47",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O47",
+     "value": "https://www.appliedcompute.com/case-studies/harvey",
+     "formula": null
+    },
+    {
+     "ref": "P47",
+     "value": "See primary source",
+     "formula": null
+    },
+    {
+     "ref": "Q47",
+     "value": "Harvey case study, not verified current catalog entry",
+     "formula": null
+    },
+    {
+     "ref": "A48",
+     "value": "Parameter interpretation",
+     "formula": null
+    },
+    {
+     "ref": "B48",
+     "value": "Total B != active B != throughput; MoE and VLM need special care",
+     "formula": null
+    },
+    {
+     "ref": "C48",
+     "value": "Total B approximates weight storage; active B affects per-token ops; neither guarantees training GPU cost.",
+     "formula": null
+    },
+    {
+     "ref": "D48",
+     "value": "Model supplier cards for parameters, AC2 benchmark for costs, validated GPU topology.",
+     "formula": null
+    },
+    {
+     "ref": "F48",
+     "value": "Nemotron 3 Ultra",
+     "formula": null
+    },
+    {
+     "ref": "G48",
+     "value": 550.0,
+     "formula": null
+    },
+    {
+     "ref": "H48",
+     "value": 55.0,
+     "formula": null
+    },
+    {
+     "ref": "I48",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J48",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K48",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L48",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M48",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N48",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O48",
+     "value": "https://github.com/NVIDIA-NeMo/Nemotron/blob/main/usage-cookbook/Nemotron-3-Ultra-Base/README.md",
+     "formula": null
+    },
+    {
+     "ref": "P48",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q48",
+     "value": "Large model; topology, support, and licensing review",
+     "formula": null
+    },
+    {
+     "ref": "A49",
+     "value": "Model pricing proxies",
+     "formula": null
+    },
+    {
+     "ref": "B49",
+     "value": "Planning class 1/2/3 with 2.5x/1x/0.5x throughput",
+     "formula": null
+    },
+    {
+     "ref": "C49",
+     "value": "Unverified demo scenario only; not derived from true MoE FLOPs, activation memory, or GPU kernel efficiency.",
+     "formula": null
+    },
+    {
+     "ref": "D49",
+     "value": "Block deal approval until B101/B102/B104 and GPU family B103 reviewed.",
+     "formula": null
+    },
+    {
+     "ref": "F49",
+     "value": "Nemotron 3.5 Lightning",
+     "formula": null
+    },
+    {
+     "ref": "G49",
+     "value": 30.0,
+     "formula": null
+    },
+    {
+     "ref": "H49",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "I49",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J49",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K49",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L49",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M49",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N49",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O49",
+     "value": "https://github.com/NVIDIA-NeMo/Nemotron/blob/main/docs/nemotron/lightning35/README.md",
+     "formula": null
+    },
+    {
+     "ref": "P49",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "Q49",
+     "value": "Serving only in the KB snapshot",
+     "formula": null
+    },
+    {
+     "ref": "A50",
+     "value": "Capacity by GPU SKU",
+     "formula": null
+    },
+    {
+     "ref": "B50",
+     "value": "Pool G109:G111 must match planned GPU type B103",
+     "formula": null
+    },
+    {
+     "ref": "C50",
+     "value": "Old workbook counted any manually compatible pool; now checks region/fit and GPU family.",
+     "formula": null
+    },
+    {
+     "ref": "D50",
+     "value": "Check topology/interconnect and provider quota; week-level counts still approximate.",
+     "formula": null
+    },
+    {
+     "ref": "F50",
+     "value": "Nemotron 3 Super",
+     "formula": null
+    },
+    {
+     "ref": "I50",
+     "value": "Unknown",
+     "formula": null
+    },
+    {
+     "ref": "J50",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K50",
+     "value": "Legacy mention",
+     "formula": null
+    },
+    {
+     "ref": "L50",
+     "value": "Legacy-only",
+     "formula": null
+    },
+    {
+     "ref": "M50",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N50",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O50",
+     "value": "https://www.appliedcompute.com/old-home",
+     "formula": null
+    },
+    {
+     "ref": "P50",
+     "value": "See primary source",
+     "formula": null
+    },
+    {
+     "ref": "Q50",
+     "value": "Mentioned in older homepage only; not in current list",
+     "formula": null
+    },
+    {
+     "ref": "A51",
+     "value": "Production model availability",
+     "formula": null
+    },
+    {
+     "ref": "B51",
+     "value": "Serving option only when selected model listed, benchmarked",
+     "formula": null
+    },
+    {
+     "ref": "C51",
+     "value": "Some named models have serving-only support; AC2 training catalog differs.",
+     "formula": null
+    },
+    {
+     "ref": "D51",
+     "value": "Separate serving order, validated load test and SLO commitment.",
+     "formula": null
+    },
+    {
+     "ref": "F51",
+     "value": "MiniMax M2.7",
+     "formula": null
+    },
+    {
+     "ref": "G51",
+     "value": 230.0,
+     "formula": null
+    },
+    {
+     "ref": "H51",
+     "value": 10.0,
+     "formula": null
+    },
+    {
+     "ref": "I51",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J51",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "K51",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L51",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M51",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N51",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O51",
+     "value": "https://github.com/vllm-project/recipes/blob/main/models/MiniMaxAI/MiniMax-M2.7.yaml",
+     "formula": null
+    },
+    {
+     "ref": "P51",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q51",
+     "value": "Supplier serving hardware may not match training",
+     "formula": null
+    },
+    {
+     "ref": "F52",
+     "value": "DeepSeek-V4.1-Flash",
+     "formula": null
+    },
+    {
+     "ref": "G52",
+     "value": 552.0,
+     "formula": null
+    },
+    {
+     "ref": "H52",
+     "value": "8 in / 16 out",
+     "formula": null
+    },
+    {
+     "ref": "I52",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J52",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K52",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L52",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M52",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N52",
+     "value": "Multi-node",
+     "formula": null
+    },
+    {
+     "ref": "O52",
+     "value": "https://deepseek.com/en/news/deepseek-v4-1-flash/",
+     "formula": null
+    },
+    {
+     "ref": "P52",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "Q52",
+     "value": "Input/output activate different parameter counts",
+     "formula": null
+    },
+    {
+     "ref": "F53",
+     "value": "GPT-OSS 120B",
+     "formula": null
+    },
+    {
+     "ref": "G53",
+     "value": 116.8,
+     "formula": null
+    },
+    {
+     "ref": "H53",
+     "value": 5.1,
+     "formula": null
+    },
+    {
+     "ref": "I53",
+     "value": "MoE",
+     "formula": null
+    },
+    {
+     "ref": "J53",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K53",
+     "value": "Listed",
+     "formula": null
+    },
+    {
+     "ref": "L53",
+     "value": "Model-named",
+     "formula": null
+    },
+    {
+     "ref": "M53",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N53",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O53",
+     "value": "https://openai.com/index/introducing-gpt-oss/",
+     "formula": null
+    },
+    {
+     "ref": "P53",
+     "value": "https://docs.appliedcompute.com/platform/serving/models",
+     "formula": null
+    },
+    {
+     "ref": "Q53",
+     "value": "Inference support documented; RL training not documented",
+     "formula": null
+    },
+    {
+     "ref": "A54",
+     "value": "DROPDOWN INPUTS  |  CHOOSE PREDEFINED OPTIONS",
+     "formula": null
+    },
+    {
+     "ref": "F54",
+     "value": "pplx-decider-v1-27b",
+     "formula": null
+    },
+    {
+     "ref": "G54",
+     "value": 27.0,
+     "formula": null
+    },
+    {
+     "ref": "I54",
+     "value": "Decision head",
+     "formula": null
+    },
+    {
+     "ref": "J54",
+     "value": "Access required",
+     "formula": null
+    },
+    {
+     "ref": "K54",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L54",
+     "value": "Access-gated",
+     "formula": null
+    },
+    {
+     "ref": "M54",
+     "value": 2.0,
+     "formula": null
+    },
+    {
+     "ref": "N54",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O54",
+     "value": "https://docs.appliedcompute.com/platform/training/decisions",
+     "formula": null
+    },
+    {
+     "ref": "P54",
+     "value": "https://docs.appliedcompute.com/platform/training/models",
+     "formula": null
+    },
+    {
+     "ref": "Q54",
+     "value": "Decision model training requires AC access",
+     "formula": null
+    },
+    {
+     "ref": "A55",
+     "value": "Training method · B9",
+     "formula": null
+    },
+    {
+     "ref": "B55",
+     "value": "GRPO / SFT / OPSD / RMSD / Decision / Custom",
+     "formula": null
+    },
+    {
+     "ref": "C55",
+     "value": "Only GRPO has current cost logic; other choices HOLD the quote.",
+     "formula": null
+    },
+    {
+     "ref": "D55",
+     "value": "Confirm method-specific capacity and price before approval.",
+     "formula": null
+    },
+    {
+     "ref": "F55",
+     "value": "Other open-weight model (qualify)",
+     "formula": null
+    },
+    {
+     "ref": "I55",
+     "value": "Unknown",
+     "formula": null
+    },
+    {
+     "ref": "J55",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "K55",
+     "value": "Not listed",
+     "formula": null
+    },
+    {
+     "ref": "L55",
+     "value": "Custom / unverified",
+     "formula": null
+    },
+    {
+     "ref": "M55",
+     "value": 3.0,
+     "formula": null
+    },
+    {
+     "ref": "N55",
+     "value": "Validate",
+     "formula": null
+    },
+    {
+     "ref": "O55",
+     "value": "https://docs.appliedcompute.com/platform/training/configuration",
+     "formula": null
+    },
+    {
+     "ref": "P55",
+     "value": "See primary source",
+     "formula": null
+    },
+    {
+     "ref": "Q55",
+     "value": "May be viable via BYO weights, but no implied support or price",
+     "formula": null
+    },
+    {
+     "ref": "A56",
+     "value": "Eval metric · B15",
+     "formula": null
+    },
+    {
+     "ref": "B56",
+     "value": "Five normalized score types (higher = better)",
+     "formula": null
+    },
+    {
+     "ref": "C56",
+     "value": "Stop logic still compares actual scores to target and plateau.",
+     "formula": null
+    },
+    {
+     "ref": "D56",
+     "value": "For latency, loss, or cost metrics, redesign stop logic.",
+     "formula": null
+    },
+    {
+     "ref": "A57",
+     "value": "Data readiness · B33",
+     "formula": null
+    },
+    {
+     "ref": "B57",
+     "value": "Validated / due kickoff / pending / unavailable",
+     "formula": null
+    },
+    {
+     "ref": "C57",
+     "value": "Pending or unavailable prevents customer-ready approval.",
+     "formula": null
+    },
+    {
+     "ref": "D57",
+     "value": "Confirm customer evidence and data-access date.",
+     "formula": null
+    },
+    {
+     "ref": "A58",
+     "value": "GPU pool fit · F109:F111",
+     "formula": null
+    },
+    {
+     "ref": "B58",
+     "value": "Compatible / needs verification / incompatible",
+     "formula": null
+    },
+    {
+     "ref": "C58",
+     "value": "Only Compatible pools count toward existing capacity.",
+     "formula": null
+    },
+    {
+     "ref": "D58",
+     "value": "Validate GPU family, interconnect, region and permissions.",
+     "formula": null
+    }
+   ]
+  }
+ ]
+}

@@ -8,7 +8,7 @@
 <meta name="color-scheme" content="light">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-__APP_HASH__'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='11' cy='16' r='7' fill='%23f04a00'/%3E%3Ccircle cx='21' cy='16' r='7' fill='%23f04a00' opacity='.7'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="src/styles.css">
+<link rel="stylesheet" href="../src/styles.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -21,6 +21,7 @@
   <div class="topbar-actions">
     <label class="sr-only" for="starter">Starter scenario</label>
     <select id="starter" class="select-pill" aria-label="Start from"></select>
+    <a class="pill ghost" href="../index.html">Deliverables hub</a>
     <button type="button" class="pill" data-action="share">Share link</button>
     <button type="button" class="pill" data-action="save-deal">Save deal</button>
     <button type="button" class="pill" data-action="load-deal">Load deal</button>
@@ -35,7 +36,7 @@
     <aside class="rail" id="rail" aria-label="Deal economics, live"></aside>
   </div>
   <div class="rail-bar" id="railbar"></div>
-  <p class="footer-note">Every number is computed by one deterministic engine (<code>src/engine</code>) that is checked cell-for-cell against the supplied workbook. Illustrative inputs are labelled. Source and tests: see the README.</p>
+  <p class="footer-note">Every number is computed by one deterministic engine (<code>src/engine</code>) that is checked cell-for-cell against the supplied workbook. Illustrative inputs are labelled. Source and tests: see the README. The deliverables hub links every page.</p>
 </main>
 <dialog id="guide" aria-labelledby="guide-title" style="max-width:860px;width:calc(100% - 32px);border:1px solid var(--line-2);border-radius:14px;padding:22px 24px;background:#fff"></dialog>
 <div id="tip" role="tooltip"></div>

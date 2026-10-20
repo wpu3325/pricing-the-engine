@@ -13,13 +13,14 @@
     "test": "node --test test/*.test.js",
     "golden": "python3 scripts/gen_golden.py",
     "sync-data": "node scripts/sync_data.mjs",
-    "samples": "node scripts/build_samples.mjs",
-    "verify": "node scripts/build.mjs && node scripts/verify.mjs",
+    "deliverables": "node scripts/build_deliverables.mjs",
+    "verify": "python3 scripts/extract_workbook.py && node scripts/build.mjs && node scripts/build_deliverables.mjs && node scripts/verify.mjs",
     "e2e": "playwright test",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs && node scripts/build_deliverables.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
-    "esbuild": "^0.25.12"
+    "esbuild": "^0.25.12",
+    "marked": "^18.1.1"
   }
 }
