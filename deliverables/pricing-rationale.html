@@ -66,8 +66,53 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <div class="mark">| · APPLIED COMPUTE · INTERNAL ·</div>
 <div class="banner">INTERNAL. Shows margin policy and the competitor walk-away. Do not send to the customer.</div>
 <div class="rationale"><h1>Pricing rationale</h1>
-<p>Why the example deal is priced the way it is, what each part is for, and how far the evidence goes. The line-by-line numbers and the live inputs are on the internal pricing model page. The policy itself is in <a href="https://github.com/wpu3325/pricing-the-engine/blob/main/docs/PRICING_POLICY.md">PRICING_POLICY.md</a>.</p>
-<h2>1. How the price is built</h2>
+<p>Why the example deal is priced the way it is, what each part is for, and how far the evidence goes. The live figures are in the block below; the internal pricing page shows the same numbers line by line, and the policy is in <a href="https://github.com/wpu3325/pricing-the-engine/blob/main/docs/PRICING_POLICY.md">PRICING_POLICY.md</a>.</p>
+<!-- numbers:begin -->
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Example deal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quote (customer total)</td>
+<td>$247,247</td>
+</tr>
+<tr>
+<td>Delivery COGS, risk-adjusted</td>
+<td>$136,789</td>
+</tr>
+<tr>
+<td>Blended margin</td>
+<td>44.7%</td>
+</tr>
+<tr>
+<td>Setup invoice (week 2)</td>
+<td>$49,449</td>
+</tr>
+<tr>
+<td>Each cycle invoice</td>
+<td>$57,691</td>
+</tr>
+<tr>
+<td>Acceptance payment (signed handoff)</td>
+<td>$24,725</td>
+</tr>
+<tr>
+<td>Maximum committed fee</td>
+<td>$247,247</td>
+</tr>
+<tr>
+<td>Overage cap (approved use)</td>
+<td>$25,000</td>
+</tr>
+<tr>
+<td>Included GPU-hours</td>
+<td>3,870</td>
+</tr>
+</tbody></table>
+<!-- numbers:end --><h2>1. How the price is built</h2>
 <p>The price is an output of the cost model. Each customer line is its own cost pool divided by (1 − its margin):</p>
 <table>
 <thead>
@@ -75,56 +120,42 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <th>Customer line</th>
 <th>What it covers</th>
 <th>Margin</th>
-<th>Example</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Setup package</td>
 <td>Evaluation set, grader, environment and baseline</td>
 <td>45%</td>
-<td>$61,952</td>
 </tr>
 <tr>
 <td>Managed RL cycles</td>
-<td>Three cycles: engineering, agent platform, compute and evaluation</td>
-<td>45% and 30% and 60%</td>
-<td>$174,860</td>
+<td>Engineering, agent platform, compute and evaluation for each cycle</td>
+<td>45% packages, 30% compute, 60% platform and Ari usage</td>
 </tr>
 <tr>
 <td>Handoff package</td>
 <td>Independent holdout evaluation and handoff</td>
 <td>45%</td>
-<td>$7,106</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td></td>
-<td><strong>44.6% blended</strong></td>
-<td><strong>$243,918</strong></td>
 </tr>
 </tbody></table>
-<p>Each line is a different kind of work, so each has a different margin. Packages carry 45%, the target. Managed compute carries 30%, because it is the part a compute-only competitor can undercut. Platform and Ari usage carries 60%, because that is where the product is differentiated.</p>
-<p>Human hours are never a customer line. Engineering effort sets each package from standard effort. Ari replaces some of that effort over time, and the customer keeps a set share of the saving (<code>pricing.automationShare</code>, 50% in the example). The rest stays with Applied Compute, so the business gets more margin as Ari automates the work.</p>
+<p>Each line is a different kind of work, so each has a different margin. Packages carry the 45% target. Managed compute carries 30%, because a compute-only competitor can undercut it. Platform and Ari usage carries 60%, because that is where the product is differentiated.</p>
+<p>Human hours are never a customer line. Engineering effort sets each package from standard effort. Ari replaces some of that effort over time, and the customer keeps a set share of the saving. The rest stays with Applied Compute, so the business earns more as Ari automates the work.</p>
+<p>For the buyer, the invoices are the setup at the gate, one per cycle, and the acceptance payment on signed handoff. The total is the maximum committed fee; the customer copy states it in the same words.</p>
 <h2>2. Why this structure</h2>
 <ul>
-<li><strong>Defensible.</strong> Every dollar of price traces to a cost pool, and every pool adds back to COGS. A challenge on any line is a question about that line&#39;s cost, not about a rate card.</li>
-<li><strong>Sustainable.</strong> Usage meters (extra GPU-hours and agent tokens) move cost to the customer when the workload grows, so margin does not erode with scope.</li>
-<li><strong>Protects the margin.</strong> Fixed packages carry a margin floor. The quote is held (<code>HOLD - COST GAP</code>, <code>HOLD - THROUGHPUT</code>, <code>HOLD - MARGIN</code>) when a cost is missing, unmeasured, or too thin.</li>
-<li><strong>Honest about what is unknown.</strong> Ari token prices stay provisional until serving throughput is measured. The quote is shown as a band until then.</li>
+<li><strong>Defensible.</strong> Every dollar of price traces to a cost pool, and the pools add back to COGS. A challenge on any line is a question about that line&#39;s cost.</li>
+<li><strong>Protects margin as the work grows.</strong> Usage above the allowances is metered at the marginal cost of buying GPU time, so an overage hour never loses money. Usage above the allowances needs written approval, up to a cap.</li>
+<li><strong>Fair to the buyer.</strong> A 15% buffer in the allowances means a small overrun is never billed. Committing to four or more cycles earns a lower cycle price.</li>
+<li><strong>Honest about what is unknown.</strong> Ari token prices stay provisional until serving throughput is measured. The quote is held rather than sent on a guess.</li>
+<li><strong>Stops are cheap to exit.</strong> Payment is back-loaded so the margin holds at every stop point, and the buyer can see what each stop costs them.</li>
 </ul>
 <h2>3. Where a competitor can undercut</h2>
 <ul>
-<li><strong>Managed compute</strong> is the exposed line. A compute-only competitor sells raw GPU time, so the managed compute margin is kept at 30%. The defence is the managed loop, not the GPU.</li>
-<li><strong>The packages</strong> are exposed to a competitor who offers the same tooling without engineers. The answer is that the customer keeps the evaluation, grader and environment, and the engineers are part of the product.</li>
-<li><strong>Trade scope, not rate.</strong> Fewer cycles, a narrower workflow, or a smaller automation share lower the price while the line margins stay intact.</li>
+<li><strong>Managed compute</strong> is the exposed line. A compute-only competitor sells raw GPU time. The defence is the managed loop, not the GPU.</li>
+<li><strong>The packages</strong> are exposed to a competitor who offers the same tooling without engineers. The answer is that the buyer keeps the evaluation, grader and environment, and the engineers are part of the product.</li>
+<li><strong>Trade scope, not rate.</strong> Fewer cycles, a narrower workflow or a smaller automation share lower the price while the line margins stay intact.</li>
 </ul>
-<h2>4. Margin</h2>
-<ul>
-<li>Target 45% blended, floor 35% (policy inputs, not company-published figures).</li>
-<li>The example lands at 44.6% blended, just under the target, because the managed compute and handoff costs are set from illustrative inputs.</li>
-<li>The price band moves about ±15% when throughput, GPU cost and effort each move by 20% together. Quote the band until those inputs are measured.</li>
-</ul>
-<h2>3. Evidence quality (read before relying on a number)</h2>
+<h2>4. Evidence quality (read before relying on a number)</h2>
 <table>
 <thead>
 <tr>
@@ -171,9 +202,70 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 </tbody></table>
 <p><strong>Not found:</strong> a public enterprise RL managed-service price list for any provider. The price is therefore a reasoned position, not a market-rate quote.</p>
 <p><strong>Stale input:</strong> the workbook&#39;s $3.99 PayGo H100 price is the expired promotion. The example uses the $5.49 list price.</p>
+<h2>5. Buyer questions and answers</h2>
+<p>These are the questions a buyer will ask, with the answer and where the customer copy gives it.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+<th>Where in the copy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Why do I pay for setup before training?</td>
+<td>The setup builds the evaluation and grader you keep. Without it no cycle is measurable.</td>
+<td>Setup package; FAQ</td>
+</tr>
+<tr>
+<td>Is engineering billed by the hour?</td>
+<td>No. It is inside the setup and cycle prices. You are not invoiced for hours.</td>
+<td>FAQ; cycle phase</td>
+</tr>
+<tr>
+<td>What does a cycle include?</td>
+<td>The engineers who run it, the agent platform, the compute to train and roll out, and the held-out evaluation.</td>
+<td>What one cycle includes</td>
+</tr>
+<tr>
+<td>What is the most I can be charged?</td>
+<td>The maximum committed fee. Usage above allowances needs your approval, up to a cap.</td>
+<td>What you can be charged</td>
+</tr>
+<tr>
+<td>What if the model does not improve?</td>
+<td>Fees are not contingent on the score. Reaching the target or a plateau triggers a review; you decide.</td>
+<td>Stop points note; SOW section 3</td>
+</tr>
+<tr>
+<td>What do I pay if I stop early?</td>
+<td>The invoices up to the stop point, and nothing more.</td>
+<td>Stop-point table</td>
+</tr>
+<tr>
+<td>Why does an extra cycle cost less than the average invoice?</td>
+<td>An added cycle adds only its own compute, platform use and engineering. Invoices are a split of the cycle total, not a price per cycle.</td>
+<td>Change-order note</td>
+</tr>
+<tr>
+<td>Are the usage rates fair against buying GPUs?</td>
+<td>Overage is priced at the higher of the blended cost and the marginal price of buying one GPU-hour, plus margin.</td>
+<td>Usage section</td>
+</tr>
+<tr>
+<td>What do I own after handoff?</td>
+<td>The weights, grader, evaluation set and environment, subject to licence terms counsel will confirm.</td>
+<td>Ownership (placeholder)</td>
+</tr>
+<tr>
+<td>Can I cap spend?</td>
+<td>Yes: the maximum committed fee, and the overage cap.</td>
+<td>What you can be charged</td>
+</tr>
+</tbody></table>
 <h2>6. Known gap</h2>
-<p>The final holdout evaluation is costed as its own line (<code>holdoutEval</code>), but the example&#39;s 400 GPU-hours is illustrative. Until the team measures it, the quote is held (<code>HOLD - COST GAP</code>). The handoff package also looks small against the setup package: its cost is the verifier&#39;s labour and the holdout evaluation, so it should be reviewed before a quote goes out.</p>
-<h2>5. Sources</h2>
+<p>The final holdout evaluation is costed as its own line (<code>holdoutEval</code>). The example enters an illustrative number of GPU-hours. Until the team measures it, the quote is held (<code>HOLD - COST GAP</code> fires only when it is zero). The handoff package is the smallest customer line, because its cost is verifier labour and the holdout evaluation. Review it before a quote goes out.</p>
+<h2>6. Sources</h2>
 <ul>
 <li>OpenAI, Billing guide for the Reinforcement Fine-Tuning API: <a href="https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api">https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api</a></li>
 <li>OpenAI, API pricing: <a href="https://platform.openai.com/docs/pricing/">https://platform.openai.com/docs/pricing/</a></li>

@@ -20,6 +20,7 @@ import { shell } from './lib/page.mjs';
 import { buildExcelPage } from './lib/excel.mjs';
 import { buildHub } from './lib/hub.mjs';
 import { buildCogsPage } from './lib/cogs.mjs';
+import { syncDoc, DOCS_WITH_NUMBERS } from './lib/docnums.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (p) => join(root, p);
@@ -48,4 +49,5 @@ write('deliverables/pricing-rationale.html', shell({
 <div class="rationale">${rationale}</div>`,
 }));
 
+for (const doc of DOCS_WITH_NUMBERS) syncDoc(doc);
 console.log(`built deliverables for ${deal.customer.name || 'the example deal'}: COGS ${r.cogs.cogs}, quote ${r.pricing.quote}, status ${r.gates.status}`);

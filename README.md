@@ -10,12 +10,28 @@ A deal tool for an enterprise reinforcement-learning (RL) post-training engageme
 |---|---|---|
 | Excel model | The supplied workbook, rendered, with its equations and a parity table against the tool | [excel-model](https://wpu3325.github.io/pricing-the-engine/deliverables/excel-model.html) · [.xlsx](https://wpu3325.github.io/pricing-the-engine/deliverables/downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx) |
 | COGS model (internal) | Every delivery cost line, its phase and its source | [cogs-model](https://wpu3325.github.io/pricing-the-engine/deliverables/cogs-model.html) |
-| Pricing model and proposal | The price, the reasoning behind each phase fee, and the customer copy | [pricing-model](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-model.html) |
+| Pricing model and proposal | The price, built from each customer line, and the customer copy | [pricing-model](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-model.html) |
 | Statement of work | Contract terms: scope now, customer control as it grows, re-paper triggers, and the customer copy | [SOW](https://wpu3325.github.io/pricing-the-engine/deliverables/statement-of-work.html) |
 | Pricing and margin rationale (internal) | Margin target and floor, pushback on cost, competitor undercut, known gaps | [rationale](https://wpu3325.github.io/pricing-the-engine/deliverables/pricing-rationale.html) |
 | Live tool | Change any input; every number updates from the same engine | [app](https://wpu3325.github.io/pricing-the-engine/app/) |
 
-The default example (*Example Enterprise*, three RL cycles, one open-weight model, full cost ledger) has a delivery cost of **$135,158**, a quote of **$243,918** built from cost, and a blended margin of **44.6%**. It is held: the model is not yet qualified, and the Ari token price is provisional until serving throughput is measured. The quote is not ready to send. The pricing model, from cost to price, is explained in [PRICING_POLICY.md](docs/PRICING_POLICY.md) and the internal pricing page.
+The default example (*Example Enterprise*, three RL cycles, one open-weight model, full cost ledger) is priced from cost, line by line. Its figures are generated from the engine and kept current by the build:
+
+<!-- numbers:begin -->
+| Figure | Example deal |
+|---|---|
+| Quote (customer total) | $247,247 |
+| Delivery COGS, risk-adjusted | $136,789 |
+| Blended margin | 44.7% |
+| Setup invoice (week 2) | $49,449 |
+| Each cycle invoice | $57,691 |
+| Acceptance payment (signed handoff) | $24,725 |
+| Maximum committed fee | $247,247 |
+| Overage cap (approved use) | $25,000 |
+| Included GPU-hours | 3,870 |
+<!-- numbers:end -->
+
+It is held: the model is not yet qualified, and the Ari token price is provisional until serving throughput is measured. The quote is not ready to send. The pricing rules are in [PRICING_POLICY.md](docs/PRICING_POLICY.md).
 
 ## Run and verify
 

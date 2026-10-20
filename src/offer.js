@@ -166,7 +166,7 @@ export const NOT_INCLUDED = [
   'Preparing your data beyond the agreed sample (quoted as a change order)',
   'Additional workflows, data sources or regions',
   'Licences for the base model or any third-party tool you choose to add',
-  'Cycles beyond the approved count, and compute beyond the stated allowance',
+  'Cycles beyond the approved count, and usage beyond the stated allowances (billed as set out in the usage section)',
 ];
 
 export const GLOSSARY = [
@@ -174,7 +174,7 @@ export const GLOSSARY = [
   ['Rollout', 'One attempt by the model at a task, recorded with its result.'],
   ['Held-out evaluation', 'A test set the model never trains on, used to measure real improvement.'],
   ['Grader', 'The rules that score an attempt, for example pass or fail, or a rubric score.'],
-  ['Compute allowance', 'The training compute included in the price, stated in GPU-hours for the whole engagement.'],
+  ['Allowance', 'The compute and agent platform usage included in the price for the whole engagement. Usage above it is billed at the rates in the usage section.'],
   ['Checkpoint', 'A saved version of the trained model, with its settings, so results can be reproduced.'],
   ['Go / no-go gate', 'A decision point at the end of the foundation phase. You approve it before any cycle is paid for.'],
   ['Change order', 'A short written amendment that adds or changes scope and its price before the work starts.'],
@@ -183,10 +183,11 @@ export const GLOSSARY = [
 
 export const FAQ = [
   ['Why do I pay for the foundation before training starts?', 'Training is only as good as the test that measures it. The foundation builds that test, the grader and a baseline, and you keep them. It is the one part of the work that makes every later cycle measurable.'],
-  ['Why is engineering separate from the cycles?', 'Engineers keep the loop running whether or not a given cycle improves the score. Their effort follows the number of cycles, so it is billed with them.'],
-  ['Why does the price depend on the model?', 'Larger models need more compute and more rollouts to learn the same task, so each cycle costs more to run. The price tier reflects that.'],
+  ['Is engineering billed separately?', 'No. Engineering is included in the setup and cycle prices. You are not invoiced for hours; each phase is priced for the work it delivers.'],
+  ['What is included in the total?', 'Everything in the three phases: setup, managed cycles with compute and platform usage up to the allowances, and handoff. Only usage above the allowances and the items under Not included are extra.'],
+  ['Why does the price depend on the model?', 'A larger model needs more compute for each cycle, so the managed cycle price is higher. The price shown already reflects the model you have chosen.'],
   ['What if a cycle does not improve the score?', 'You decide after each cycle whether to continue, change direction or stop. You pay for the cycles and milestones completed. We do not stop contracted work silently, and we do not charge for work you have stopped before it starts.'],
-  ['What happens if I stop early?', 'You pay for approved work completed and for any non-cancellable third-party compute committed for your engagement, net of reasonable reuse. The handoff fee is billed only on a signed handoff.'],
+  ['What happens if I stop early?', 'You pay the invoices up to the stop point, and nothing more. Any third-party compute we committed for you on your approval is billed at cost. The acceptance payment is billed only on a signed handoff.'],
 ];
 
 // Usage-based offer (pricing.mode 'cogsBuilt'). Three customer phases: a setup package,
@@ -201,9 +202,18 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
   const byKey = Object.fromEntries(p.lines.map((l) => [l.key, l.value]));
   const discount = Math.round(byKey.discount ?? 0);
   const managed = (byKey.cycles ?? 0) + (byKey.compute ?? 0) + (byKey.software ?? 0);
-  const [setup, cycles, handoff] = foldLines([byKey.readiness ?? 0, managed, byKey.handoff ?? 0], p.quote, 0);
-  const allowance = Math.ceil(r.work.totalGpuHours / 10) * 10;
-  const allowanceTokens = Math.round((deal.ari?.tokensMPerCycle ?? 0) * N);
+  // Payment shape: setup invoice at the gate, managed cycles split across the cycles, and
+  // the acceptance payment on signed handoff. The total is the quote; only timing changes.
+  const pay = deal.pricing.payment ?? { setupPct: 0.2, acceptancePct: 0.1 };
+  const setup = Math.round(total * pay.setupPct);
+  const handoff = Math.round(total * pay.acceptancePct);
+  const cycles = total - setup - handoff;
+  void managed;
+  const headroom = 1 + Math.max(0, deal.pricing.allowanceHeadroom ?? 0);
+  const allowance = Math.ceil((r.work.totalGpuHours * headroom) / 10) * 10;
+  const allowanceTokens = Math.round((deal.ari?.tokensMPerCycle ?? 0) * 1e6 * N * headroom);   // tokens, whole engagement
+  const overageCap = Math.round((total * (deal.pricing.overageCapPct ?? 0)) / 1000) * 1000;
+  const validityDays = deal.pricing.validityDays ?? 30;
   const meters = p.meters ?? {};
   const perCycle = Math.floor(cycles / N);
   const sizeWord = classFactors(r.model.proxyClass).cycleEngineeringFactor < 1 ? 'a smaller model'
@@ -232,11 +242,11 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
         `Rollouts: ${deal.demand.rolloutAttemptsPerCycle.toLocaleString('en-US')} attempts per cycle`,
         `Held-out evaluation: ${deal.demand.evalCasesPerCycle} cases per cycle, run on untouched data`,
         `Managed compute: ${allowance.toLocaleString('en-US')} GPU-hours included across the engagement`,
-        allowanceTokens > 0 ? `Ari and platform usage: ${allowanceTokens.toLocaleString('en-US')} agent tokens included` : 'Ari and platform usage: included as agreed',
+        allowanceTokens > 0 ? `Agent platform usage: ${(allowanceTokens / 1e6).toLocaleString('en-US')} million tokens included` : 'Agent platform usage: as agreed in the order',
         'A written score report and your stop or continue decision after each cycle',
       ],
       evidence: ['A score report per cycle: held-out score and change from the previous cycle', 'Your signed continue or stop decision'],
-      why: `Each cycle runs the full loop for ${sizeWord}: train, generate rollouts, evaluate on held-out cases, and report. The price covers managed compute, the agent platform and evaluation, so you do not receive a separate compute bill. Usage beyond the included allowances is metered.`,
+      why: `Each cycle runs the full loop for ${sizeWord}: train, generate rollouts, evaluate on held-out cases, and report. This phase is all-inclusive: compute, the agent platform, the engineers who run each cycle, and evaluation. You receive no separate compute or engineering invoices. Usage above the included allowances is billed as set out in the usage section.`,
       hours: null,
     },
     {
@@ -258,7 +268,7 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
   const split = (amt) => Array.from({ length: N }, (_, i) => (i === N - 1 ? amt - Math.floor(amt / N) * (N - 1) : Math.floor(amt / N)));
   const cycleSplit = split(cycles);
   const milestones = [
-    { label: 'Setup gate', week: R, amount: setup, note: discount ? 'Includes the negotiated discount' : '' },
+    { label: 'Setup gate', week: R, amount: setup, note: discount ? 'Share of the negotiated discount included' : '' },
     ...cycleSplit.map((amt, i) => ({ label: `Cycle ${i + 1} of ${N}`, week: R + (i + 1) * cad, amount: amt, note: 'Managed cycle, usage included' })),
     { label: 'Handoff and verification', week: r.work.totalWeeks, amount: handoff, note: '' },
   ];
@@ -274,7 +284,8 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
 
   return {
     total, discount, phases, milestones, scale, allowance, allowanceTokens, meters,
-    tiers: null, stopAfterFirstCycle,
+    tiers: null, stopAfterFirstCycle, overageCap, validityDays, commitDiscount: p.commitDiscount ?? 0,
+    maxCommitted: total,
     modelSpec: r.model.totalB == null ? 'a model whose parameter count is not yet verified' : `an open-weight model with ${r.model.totalB} billion parameters${r.model.activeB ? `, of which ${r.model.activeB} billion are active for each token` : ''}`,
     sizeClass: sizeWord,
     sumCheck: phases.reduce((s, ph) => s + ph.amount, 0),

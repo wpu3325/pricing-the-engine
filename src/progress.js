@@ -41,6 +41,21 @@ export const DRIVES = {
   'approvals.benchmarkConfirmed': ['status'],
   'approvals.accessApproved': ['status'],
   'approvals.skuRateConfirmed': ['status'],
+  'approvals.servingThroughputMeasured': ['status'],
+  'ari.tokensMPerCycle': ['quote', 'cogs', 'status'],
+  'ari.servingTokensPerGpuHour': ['quote', 'status'],
+  'ari.automationPct': ['quote', 'cogs', 'margin'],
+  'scope.integrations': ['cogs', 'quote'],
+  'scope.dataReadiness': ['cogs', 'quote'],
+  'scope.graderComplexity': ['cogs', 'quote'],
+  'effort.calibrationFactor': ['cogs', 'quote', 'margin'],
+  'capacity.targetUtilization': ['cogs', 'margin'],
+  'pricing.allowanceHeadroom': ['cogs', 'quote'],
+  'pricing.automationShare': ['quote'],
+  'pricing.lineMargins.package': ['quote', 'margin'],
+  'pricing.lineMargins.compute': ['quote', 'margin'],
+  'pricing.lineMargins.software': ['quote', 'margin'],
+  'extras.holdoutEvalGpuHours': ['cogs', 'quote', 'status'],
 };
 
 // Any labour, cost-line or extension input moves COGS and margin.

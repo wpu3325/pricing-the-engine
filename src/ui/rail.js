@@ -24,6 +24,8 @@ function blockers(deal, r) {
   if (r.capacity.verdict !== 'FEASIBLE*') out.push({ text: `Capacity: ${r.capacity.verdict}`, goto: 'sec-capacity' });
   if (!r.pricing.budgetSet) out.push({ text: 'Customer budget not set', goto: 'sec-pricing' });
   if (r.pricing.budgetSet && r.pricing.remainingBudget < 0) out.push({ text: 'Quote is above the customer budget', goto: 'sec-pricing' });
+  if (r.gates.status === 'HOLD - COST GAP') out.push({ text: 'Cost gap: the handoff has no holdout evaluation cost, or a package has no cost', goto: 'sec-extras' });
+  if (r.gates.status === 'HOLD - THROUGHPUT') out.push({ text: 'Ari token price is provisional: serving throughput is not measured', goto: 'sec-approvals' });
   if (r.pricing.grossMargin < deal.pricing.minGrossMargin) out.push({ text: 'Margin is below the minimum', goto: 'sec-pricing' });
   return out;
 }

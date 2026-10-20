@@ -56,3 +56,17 @@ test('customer documents never link to internal pages', () => {
     }
   }
 });
+
+test('docs: the generated numbers blocks match the engine', async () => {
+  const { docIsFresh, DOCS_WITH_NUMBERS } = await import('../scripts/lib/docnums.mjs');
+  for (const doc of DOCS_WITH_NUMBERS) assert.ok(docIsFresh(doc), `${doc} numbers are stale: run npm run build`);
+});
+
+test('SOW: section references point at the responsibilities section', () => {
+  const deal = starterDeal('workflow');
+  const sow = buildSow(deal, compute(deal, loadCatalog()));
+  const resp = sow.match(/<h2>(\d+)\. Customer responsibilities/);
+  const ref = sow.match(/access and licence per Section (\d+)/);
+  assert.ok(resp && ref, 'both references present');
+  assert.equal(ref[1], resp[1], 'the base-model row points at the responsibilities section');
+});

@@ -89,7 +89,7 @@ Each ledger line is priced in one of five customer pools, so every cost reaches 
 
 | Pool | Lines | Margin |
 |---|---|---|
-| Setup package | Foundation-phase package costs (people, data, graders, base-model licence) | 45% |
+| Setup package | Foundation-phase package costs (people, data, graders, dev time) | 45% |
 | Managed cycles | Engineering and cycle package costs, excluding compute and software | 45% |
 | Managed compute | GPU lines for training, rollout and evaluation, dev time, reruns, idle reserved capacity | 30% |
 | Platform and Ari usage | Ari token cost, platform support, seats, licences | 60% |
@@ -103,11 +103,11 @@ Shared cost (storage, egress, rework, insurance, customer success, legal, on-cal
 
 ## Known gaps
 
-- **Final holdout evaluation compute (Phase 4)** is not costed in the workbook. Phase 4 cost is understated.
+- **Final holdout evaluation compute** (handoff) is not costed in the workbook. The usage model adds it as the `holdoutEval` line; the quote is held until it is costed.
 - **Customer-side data preparation** is only costed if the team adds a line for it.
 
 ## Illustrative values
 
 The example deal fills the extension lines, the holdout evaluation (400 GPU-hours), Ari tokens (50M per cycle) and a 70% target utilization. Each is a placeholder until measured or supplied.
 
-`data/cogs_extended_presets.json`, labelled UNVERIFIED. With the preset filled, the extension lines total about $21,300 (including insurance) and the rework allowance adds about $11,800, bringing delivery COGS from $106,590 to about $130,000.
+`data/cogs_extended_presets.json`, labelled UNVERIFIED. With the preset filled, the extension lines and the rework allowance take the example from the workbook's core COGS to the figure in the bridge on the COGS page; the figures are generated there, not typed here.

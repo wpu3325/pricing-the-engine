@@ -71,7 +71,7 @@ export function defaultDeal() {
       onCallWeeks: 0, onCallRatePerWeek: 0, trips: 0, tripCost: 0,
       seats: 0, seatCost: 0, softwareLicences: 0, baseModelLicence: 0,
       insurancePct: 0,                                    // insurance, % of direct cost
-      holdoutEvalGpuHours: 0,                             // final holdout evaluation (Phase 4)
+      holdoutEvalGpuHours: 0,                             // final holdout evaluation (handoff)
     },
     scope: {                                              // effort tier inputs (simple | standard | complex)
       integrations: 'standard', dataReadiness: 'standard', graderComplexity: 'standard',
@@ -87,6 +87,11 @@ export function defaultDeal() {
     pricing: {
       mode: 'cogsBuilt',                      // cogsBuilt (usage model, default) | rateCard (workbook reference) | costPlus (MVP extension)
       lineMargins: { package: 0.45, compute: 0.30, software: 0.60 },
+      allowanceHeadroom: 0,                   // extra allowance above planned usage, as a share (buyer comfort)
+      commitTiers: [],                        // [{ minCycles, discount }] committed-cycles price on the cycle packages
+      overageCapPct: 0.10,                    // overage approval cap, as a share of the total
+      payment: { setupPct: 0.20, acceptancePct: 0.10 }, // invoices: setup at the gate, acceptance on signed handoff
+      validityDays: 30,                       // price validity from issue
       automationShare: 0.5,                   // share of automation savings the customer keeps
       readinessFee: 30000,                    // B68
       engineeringSetupFee: 78000,             // B69

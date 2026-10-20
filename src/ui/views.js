@@ -113,7 +113,7 @@ export function renderUndercut(deal, r, competitor, u = undercut(r, competitor ?
 <div class="kpi" style="border:1px solid var(--line);border-radius:10px"><div class="k">Margin if we match</div><div class="v ${u.belowMin ? 'no' : 'yes'}">${pct(u.gm)}</div><div class="s">${u.belowMin ? 'below minimum: do not match on rate' : 'above minimum'}</div></div>
 <div class="kpi" style="border:1px solid var(--line);border-radius:10px"><div class="k">Walk-away price</div><div class="v">${money(u.walkAway)}</div><div class="s">at minimum GM ${pct(deal.pricing.minGrossMargin, 0)}</div></div>
 </div>
-<p class="small" style="margin-top:10px">If a competitor is cheaper, <b>trade scope, not rate</b>: fewer cycles, a shorter readiness phase, or a smaller workflow, so the price per unit of work stays at or above the floor.</p>`;
+<p class="small" style="margin-top:10px">If a competitor is cheaper, <b>trade scope, not rate</b>: fewer cycles, a smaller setup package, or a smaller workflow, so the price per unit of work stays at or above the floor.</p>`;
 }
 
 const GROUP_ORDER = ['Compute and capacity', 'People and overhead', 'Evaluation and environments', 'Data and storage', 'Platform and tools', 'Risk'];
@@ -178,8 +178,8 @@ export function renderEconomics(state) {
 <div class="small" style="margin-top:10px">Rework allowance ${infoButton('cogs.rework', 'Rework allowance')} <b>${money(cg.rework)}</b> · Risk-adjusted COGS <b>${money(cg.cogs)}</b></div></div>
 <div><h3>Price build-up ${infoButton('pricing.quote', 'Price build-up')}</h3>
 <div class="scroll-x"><table class="t"><tbody>${priceRows}
-<tr><td>Itemized fees ${infoButton('pricing.itemized', 'Itemized fees')}</td><td class="num">${money(p.itemized)}</td></tr>
-<tr><td>Proposed margin adjustment ${infoButton('pricing.adjustment', 'Proposed margin adjustment')}<div class="small muted">needs written approval</div></td><td class="num">${money(p.adjustment)}</td></tr>
+${p.mode === 'cogsBuilt' ? '' : `<tr><td>Itemized fees ${infoButton('pricing.itemized', 'Itemized fees')}</td><td class="num">${money(p.itemized)}</td></tr>
+<tr><td>Proposed margin adjustment ${infoButton('pricing.adjustment', 'Proposed margin adjustment')}<div class="small muted">needs written approval</div></td><td class="num">${money(p.adjustment)}</td></tr>`}
 <tr class="total"><td>Quote</td><td class="num">${money(p.quote)}</td></tr></tbody></table></div>
 <div style="margin-top:12px"><h3>Margin against policy ${infoButton('kpi.grossMargin', 'Margin against policy')}</h3>${marginGauge(p.grossMargin, p.minGrossMargin, p.targetGrossMargin)}</div>
 </div></div>
@@ -272,8 +272,8 @@ export function renderGuide() {
 // ---------- Start here: the process, for a new user ----------
 const PROCESS = [
   ['1', 'Customer & data', 'customer', 'Sets the amount of training work.'],
-  ['2', 'Model & method', 'model', 'Sets GPU count, cycle price and the hardware gate.'],
-  ['3', 'RL plan & stop rules', 'rl', 'Sets duration and price per cycle.'],
+  ['2', 'Model & method', 'model', 'Sets GPU count, the cycle packages and the hardware gate.'],
+  ['3', 'RL plan & stop rules', 'rl', 'Sets duration and the cycle packages.'],
   ['4', 'Compute demand', 'demand', 'Sets GPU-hours, the main driver of cost.'],
   ['5', 'GPU capacity', 'capacity', 'Decides spare GPUs versus new purchase.'],
   ['6', 'Delivery costs', 'labor', 'Sets delivery cost (COGS). Internal only.'],
@@ -301,7 +301,7 @@ export function renderHome(state) {
 </ul></section>
 <section class="card"><h2>For the customer</h2>
 <ul class="plain">
-<li>A proposal that explains each charge, its effort, and when it is invoiced.</li>
+<li>A proposal that explains each charge, what it includes, and when it is invoiced.</li>
 <li>They decide after every cycle whether to continue. Reviews never stop contracted work on their own.</li>
 </ul></section>
 </div>

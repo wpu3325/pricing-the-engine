@@ -27,6 +27,7 @@ export function buildSowPage(deal, r) {
 <tr><td>The customer decides after each cycle whether to continue.</td><td>Production is a separate order with its own envelope.</td></tr>
 <tr><td>Acceptance rests on objective evidence (run IDs, graded metrics, a signed handoff).</td><td>Scale reviews start at 80% of the envelope, before capacity runs out.</td></tr>
 <tr><td>Invoices follow signed milestones; early exit pays approved work and committed third-party compute.</td><td>Any change of scope goes through the amendment triggers in section 5.</td></tr>
+<tr><td>Usage is included up to an allowance. Usage above it needs your written approval, up to a cap.</td><td>Rates are fixed for this order; a new order re-prices them.</td></tr>
 </tbody></table></div>
 
 <h2>Thought process</h2>

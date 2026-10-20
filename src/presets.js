@@ -8,6 +8,9 @@ import { COGS_EXTENDED_PRESETS } from './data/cogs_extended_presets.js';
 // illustrative placeholder, labelled as such in the UI and in PARITY.md.
 const EXAMPLE_FULL = {
   'pricing.mode': 'cogsBuilt',
+  'pricing.allowanceHeadroom': 0.15,
+  'pricing.commitTiers': [{ minCycles: 4, discount: 0.05 }, { minCycles: 6, discount: 0.10 }],
+  'capacity.paygoPrice': 5.49,
   'capacity.targetUtilization': 0.7,
   'ari.tokensMPerCycle': 50,
   'extras.holdoutEvalGpuHours': 400,

@@ -105,7 +105,7 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <td class="num">72,000</td></tr><tr><td><strong>Margin-floor price</strong><div class="note">COGS ÷ (1 − target margin). In the workbook rate card, a shortfall is added as an adjustment (B99). The usage model prices each line from its own cost instead; this chain is the rate-card reference.</div></td>
 <td><code>02 Economics Capacity!B98</code></td>
 <td class="formula">=B84/MAX(0.01,1-&#39;01 Deal Setup&#39;!B76)</td>
-<td class="num">193,800</td></tr><tr><td><strong>Quote</strong><div class="note">Itemised price plus any margin-floor adjustment. This is the number the customer sees, split by phase.</div></td>
+<td class="num">193,800</td></tr><tr><td><strong>Quote</strong><div class="note">Rate card: itemised price plus any margin-floor adjustment. The usage model replaces this with a price built from each customer line (see the pricing model).</div></td>
 <td><code>02 Economics Capacity!B100</code></td>
 <td class="formula">=SUM(B97,B99)</td>
 <td class="num">210,000</td></tr><tr><td><strong>Gross margin</strong><div class="note">1 − COGS ÷ quote.</div></td>
@@ -117,7 +117,7 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <td class="num">HOLD - MODEL</td></tr></tbody></table></div>
 
 <h2 id="parity">Parity: the tool against the workbook</h2>
-<p>For the default deal, 95 mapped outputs are compared cell by cell: 95 match exactly, 0 documented deviations, 0 mismatch. The full 17-scenario check, recalculated in LibreOffice, is in <a href="../docs/PARITY.md">PARITY.md</a>.</p>
+<p>For the default deal priced on the rate card, 95 mapped outputs are compared cell by cell: 95 match exactly, 0 documented deviations, 0 mismatch. The full 17-scenario check, recalculated in LibreOffice, is in <a href="../docs/PARITY.md">PARITY.md</a>.</p>
 <div class="wrap"><table><thead><tr><th>Output</th><th>Cell</th><th class="num">Workbook</th><th class="num">Tool</th><th>Status</th></tr></thead><tbody><tr><td>Proxy throughput factor (benchmark required)</td><td><code>02!B6</code></td>
 <td class="num">1</td><td class="num">1</td>
 <td><span class="pill match">match</span></td></tr><tr><td>Planning trainer GPUs</td><td><code>02!B7</code></td>
