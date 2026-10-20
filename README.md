@@ -28,15 +28,15 @@ Here is how the tool handles a real request, using the default example.
 |---|---|---|---|
 | 1 · Eval and environment foundation | A frozen held-out evaluation set, a grader, a production-realistic environment and a measured baseline | $30,000 | 108 hours |
 | 2 · Engineering through the cycles | Harness, grader quality and diagnostics for every cycle | $78,000 | 312 hours |
-| 3 · Three RL cycles | Rollouts, held-out evaluation and a score report per cycle, with the compute included | $72,000 | $24,000 per cycle |
+| 3 · Three RL cycles | Rollouts, held-out evaluation and a score report per cycle, with the compute included | $72,000 | $24,000 per cycle × 3 cycles (the cycle count drives this total) |
 | 4 · Handoff and verification | Untouched holdout evaluation, checkpoint, reproducibility report and runbook | $30,000 | fixed |
 | **Total** | | **$210,000** | |
 
-The price is set by the workload, but the rate card has a floor: the price must cover delivery cost at the target margin. With the workbook costs the margin is 49.2%. With the illustrative extension costs filled in, the floor applies and the price rises to $236,358 so the margin holds at the 45% target. The tool shows that adjustment *inside* the phases, not as a separate charge.
+The price starts from the workload (the four phases), but the rate card also has a floor: the price must cover delivery cost at the target margin. When cost is high enough, the floor sets the price. With the workbook costs the margin is 49.2%. With the illustrative extension costs filled in, the floor applies and the price rises to $236,358 so the margin holds at the 45% target. The tool shows that adjustment *inside* the phases, not as a separate charge.
 
 **8. We check the margin by phase.** The Economics step shows whether each phase covers its own cost. Phase 1 earns a thin margin on purpose, as an entry point. The cycles earn most of the margin. The Handoff phase looks too profitable because its final evaluation compute is not yet costed (see Limits).
 
-**9. We hold the quote until it is ready.** The status stays at **HOLD – MODEL** until the benchmark, the licence and the GPU rate are confirmed. A proxy can never produce READY. Once every gate clears, the proposal is marked as a draft for commercial and legal review.
+**9. We hold the quote until it is ready.** The status stays at **HOLD – MODEL** until three approvals are recorded in the tool: the benchmark is confirmed, the training licence and access are approved, and the GPU rate is confirmed by the supplier. The people who own those approvals are named in the Deal step's *Approvals before quoting* card. A proxy can never produce READY. Once every gate clears, the proposal is marked as a draft for commercial and legal review, which still has to happen before it is sent.
 
 **10. The customer gets a clear document.** The proposal shows the total, the four phases with what each buys, when each invoice is issued and what it costs, what changes the price (one more cycle is +$48,000), what is not included, a glossary and common questions. The statement of work carries the same invoices, the stopping rules, and the triggers that require a new contract.
 
@@ -52,7 +52,7 @@ open index.html            # double-click works: the app is a single self-contai
 npm start                  # serves on http://localhost:8080
 ```
 
-Pick a starter scenario (text workflow, code agent, document vision, frontier MoE that hits the B300 gate), change any input, and every number updates live. **Share link** encodes the deal in the URL. **Save deal** and **Load deal** use a JSON file.
+Pick a starter scenario (text workflow, code agent, document vision, or a frontier MoE model that needs B300 hardware, which the tool holds until that hardware is confirmed), change any input, and every number updates live. **Share link** encodes the deal in the URL. **Save deal** and **Load deal** use a JSON file.
 
 ---
 
@@ -88,7 +88,7 @@ Margin policy is 45% target and 35% minimum. These are policy settings to test, 
 
 ### Why each phase costs what it does
 
-- **Phase 1, the foundation ($30,000).** Competitors who sell RL on compute alone leave the evaluation, grader and environment to the customer. This phase builds them and leaves them with the customer, reusable for any later model. The price is about $278/h of effort, inside the $200–350/h band in the consulting benchmarks. It is 14% of the project, against 10–15% for paid discovery. The full justification and its sources are in [`docs/PRICING_RATIONALE.md`](docs/PRICING_RATIONALE.md).
+- **Phase 1, the foundation ($30,000).** Self-serve RL services that bill for compute alone leave the evaluation, grader and environment to the customer (OpenAI and Fireworks billing pages; see `docs/PRICING_RATIONALE.md` §5 for sources and caveats). This phase builds them and leaves them with the customer, reusable for any later model. The price is about $278/h of effort, inside the $200–350/h band in the consulting benchmarks. It is 14% of the project, against 10–15% for paid discovery. The full justification and its sources are in [`docs/PRICING_RATIONALE.md`](docs/PRICING_RATIONALE.md). The labour rates behind the $/h figure are illustrative, so treat it as a sanity check, not a rate card.
 - **Phase 2, engineering ($78,000).** Named engineers keep the training loop running. Their effort follows the cycle count, so the fee is spread across the cycle invoices.
 - **Phase 3, cycles ($24,000 each).** Each cycle covers the full loop and the managed compute. The price depends on model size, because larger models need more compute per cycle.
 - **Phase 4, handoff ($30,000).** An independent check on data the model never trained on, and the package the customer needs to run the model themselves.
@@ -143,7 +143,7 @@ The golden fixtures are regenerated with `npm run golden`, which needs LibreOffi
 - **Parameter counts come from the supplied catalogue.** Several models have none, and the tool shows "Not verified" rather than a guess.
 - **Legal text is placeholder.** Anything in [brackets] needs counsel review. The statement of work is not a contract.
 - **Capacity is matched weekly.** It does not prove contiguous nodes, interconnect, quota or a reserve for failed jobs.
-- **The supplied deck and PDFs disagree with the workbook in places**: the deck's COGS is $112,097 against the workbook's $106,590. The workbook is canonical. The full list is in [`docs/PARITY.md`](docs/PARITY.md).
+- **The supplied deck and PDFs disagree with the workbook in places.** The deck shows COGS of $112,097 and a 46.6% margin; the workbook gives $106,590 and 49.2% on the same $210,000 quote. The deck's inputs are not reproduced, so the workbook is treated as canonical and the gap is logged. The full list is in [`docs/PARITY.md`](docs/PARITY.md) §3.
 
 ---
 
