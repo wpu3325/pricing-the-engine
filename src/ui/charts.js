@@ -39,8 +39,8 @@ export function marginGauge(gm, min, target) {
   const fillCls = gm < min ? 'below' : gm < target ? 'mid' : 'ok';
   return `<div class="gauge" role="img" aria-label="Gross margin ${pct(gm)} against minimum ${pct(min, 0)} and target ${pct(target, 0)}">
 <div class="gauge-track"><div class="gauge-fill ${fillCls}" style="width:${(clamp(gm) * 100).toFixed(2)}%"></div>
-<span class="tick" style="left:${(clamp(min) * 100).toFixed(2)}%"><em>min ${pct(min, 0)}</em></span>
-<span class="tick target" style="left:${(clamp(target) * 100).toFixed(2)}%"><em>target ${pct(target, 0)}</em></span></div>
+<span class="tick" style="left:${(clamp(min) * 100).toFixed(2)}%"><em style="transform:translateX(-100%)">min ${pct(min, 0)}</em></span>
+<span class="tick target" style="left:${(clamp(target) * 100).toFixed(2)}%"><em style="transform:translateX(0)">target ${pct(target, 0)}</em></span></div>
 <div class="gauge-read"><strong>${pct(gm)}</strong> expected gross margin</div></div>`;
 }
 
