@@ -29,14 +29,25 @@ export function parseDeal(text) {
   return mergeDefaults(defaultDeal(), deal);
 }
 
+// Type-enforcing merge: every leaf keeps the type of its default. A shared file
+// can therefore never put a string or object where the engine or UI expects a
+// finite number, boolean or string (see test/store.test.js).
 function mergeDefaults(base, over) {
-  if (Array.isArray(base)) return Array.isArray(over) ? over.map((v, i) => mergeDefaults(base[i] ?? {}, v)) : base;
+  if (Array.isArray(base)) {
+    if (!Array.isArray(over)) return base;
+    const isNumeric = base.length === 0 || typeof base[0] === 'number';
+    if (isNumeric) return over.filter((v) => typeof v === 'number' && Number.isFinite(v));
+    return over.slice(0, base.length).map((v, i) => mergeDefaults(base[i] ?? base[base.length - 1], v));
+  }
   if (base && typeof base === 'object') {
     const out = { ...base };
-    for (const k of Object.keys(over || {})) out[k] = mergeDefaults(base[k], over[k]);
+    for (const k of Object.keys(base)) out[k] = mergeDefaults(base[k], over ? over[k] : undefined);
     return out;
   }
-  return over === undefined ? base : over;
+  if (typeof base === 'number') return typeof over === 'number' && Number.isFinite(over) ? over : base;
+  if (typeof base === 'boolean') return typeof over === 'boolean' ? over : base;
+  if (typeof base === 'string') return typeof over === 'string' ? over : base;
+  return base;
 }
 
 // Shareable link: deal encoded in the URL hash (no server, no storage).

@@ -29,3 +29,14 @@ test('every starter scenario computes to finite numbers and a defined status', (
     assert.notEqual(r.gates.status, 'READY FOR REVIEW', `${s.id} must not be pre-approved`);
   }
 });
+
+test('shared files cannot inject non-numeric values into numeric fields (type enforcement)', () => {
+  const d = parseDeal({ rl: { cycles: '<img src=x onerror=alert(1)>', scores: ['<b>', 0.6, NaN, 0.7], decision: 42 },
+    pricing: { targetGrossMargin: { evil: true }, discountPct: 'NaN' }, capacity: { useExisting: 'yes' } });
+  assert.equal(d.rl.cycles, 3);                      // falls back to the default
+  assert.deepEqual(d.rl.scores, [0.6, 0.7]);         // only finite numbers survive
+  assert.equal(d.rl.decision, 'Pending');            // wrong type -> default
+  assert.equal(d.pricing.targetGrossMargin, 0.45);
+  assert.equal(d.pricing.discountPct, 0);
+  assert.equal(d.capacity.useExisting, true);
+});

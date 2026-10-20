@@ -35,7 +35,7 @@ export function renderStrip(deal, r) {
 <div class="kpi"><div class="k">Customer quote ${infoButton('kpi.quote', 'Customer quote')}</div><div class="v">${money(p.quote)}</div><div class="s">floor ${money(p.marginFloorPrice)} · budget headroom ${money(p.remainingBudget)}</div></div>
 <div class="kpi"><div class="k">Expected gross margin ${infoButton('kpi.grossMargin', 'Expected gross margin')}</div><div class="v ${gmCls}">${pct(p.grossMargin)}</div><div class="s">target ${pct(p.targetGrossMargin, 0)} · minimum ${pct(p.minGrossMargin, 0)}</div></div>
 <div class="kpi"><div class="k">Forecast COGS ${infoButton('kpi.cogs', 'Forecast COGS')} <span class="chip internal" style="padding:3px 6px">internal</span></div><div class="v">${money(r.cogs.cogs)}</div><div class="s">delivery cost incl. rework</div></div>
-<div class="kpi"><div class="k">Demand ${infoButton('kpi.gpuHours', 'Demand GPU-hours')}</div><div class="v">${hours(r.work.totalGpuHours)}</div><div class="s">${r.work.totalWeeks} weeks · capacity ${escapeHtml(r.capacity.method)}</div></div>
+<div class="kpi"><div class="k">Demand ${infoButton('kpi.gpuHours', 'Demand GPU-hours')}</div><div class="v">${hours(r.work.totalGpuHours)}</div><div class="s">${escapeHtml(String(r.work.totalWeeks))} weeks · capacity ${escapeHtml(r.capacity.method)}</div></div>
 <div class="kpi"><div class="k">Approval status ${infoButton('kpi.status', 'Approval status')}</div><div style="margin-top:8px"><span class="chip ${statusCls}">${escapeHtml(r.gates.status)}</span></div><div class="s">${escapeHtml(r.capacity.verdict)}</div></div>
 </div>`;
 }
@@ -60,7 +60,7 @@ ${adv.length || extra ? `<details class="adv"><summary>Advanced assumptions (${a
 function scoreEntryHtml(deal) {
   const cells = Array.from({ length: Math.min(12, deal.rl.cycles) }, (_, i) => {
     const v = deal.rl.scores[i];
-    return `<div class="field"><label for="score-${i}">Cycle ${i + 1} held-out score</label><input id="score-${i}" type="number" step="0.001" min="0" max="1" value="${v ?? ''}" data-score="${i}"></div>`;
+    return `<div class="field"><label for="score-${i}">Cycle ${i + 1} held-out score</label><input id="score-${i}" type="number" step="0.001" min="0" max="1" value="${escapeHtml(v == null ? '' : String(v))}" data-score="${i}"></div>`;
   }).join('');
   return `<h3 style="margin-top:16px">Held-out scores as cycles complete ${infoButton('rl.decision', 'Held-out scores')}</h3><p class="small muted">Enter scores in order. Leave the first blank cycle empty. The engine recommends review; only the customer decides.</p><div class="scores">${cells}</div>`;
 }
@@ -129,7 +129,7 @@ export function renderEconomics(state) {
 <section class="card" aria-labelledby="h-cost">
 <div class="card-head"><div><div class="eyebrow" style="margin-top:0">Cost build</div><h2 id="h-cost">Demand → GPU-hours → COGS → price</h2></div></div>
 <div class="stepper">
-<div>${infoButton('kpi.gpuHours', 'Demand GPU-hours')} Demand<b>${hours(r.work.totalGpuHours)}</b><small>${count(r.work.evalCases)} eval cases · ${deal.rl.cycles} cycles</small></div>
+<div>${infoButton('kpi.gpuHours', 'Demand GPU-hours')} Demand<b>${hours(r.work.totalGpuHours)}</b><small>${count(r.work.evalCases)} eval cases · ${escapeHtml(String(deal.rl.cycles))} cycles</small></div>
 <div>${infoButton('kpi.cogs', 'Forecast COGS')} Forecast COGS<b>${money(cg.cogs)}</b><small>incl. ${money(cg.rework)} rework</small></div>
 <div>${infoButton('kpi.quote', 'Quote')} Customer quote<b>${money(p.quote)}</b><small>${escapeHtml(p.mode === 'costPlus' ? 'cost-plus' : 'rate card')}</small></div>
 <div>${infoButton('kpi.grossMargin', 'Gross margin')} Gross margin<b>${pct(p.grossMargin)}</b><small>target ${pct(p.targetGrossMargin, 0)}</small></div>
@@ -168,7 +168,7 @@ ${[['Peak GPUs in RL', count(r.work.peakGpus)], ['GPUs short at peak', count(c.p
 <div class="scroll-x">${tornadoChart(sensitivity)}</div>
 <div class="grid-2" style="margin-top:18px">
 <div><h3>Approved cycles ${infoButton('sensitivity.cycles', 'Cycles sweep')}</h3><div class="scroll-x">${cycleChart(sweep, deal.rl.cycles)}</div>
-<p class="small muted">Current: ${deal.rl.cycles} cycle${deal.rl.cycles === 1 ? '' : 's'}. Each added cycle adds demand, COGS and fee.</p></div>
+<p class="small muted">Current: ${escapeHtml(String(deal.rl.cycles))} cycle${deal.rl.cycles === 1 ? '' : 's'}. Each added cycle adds demand, COGS and fee.</p></div>
 <div id="undercut">${renderUndercut(deal, r, competitor, u)}</div>
 </div>
 </section>
