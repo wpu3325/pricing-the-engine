@@ -8,8 +8,8 @@ export const NAV = [
   { href: 'index.html', label: 'Hub' },
   { href: 'deliverables/excel-model.html', label: 'Excel model' },
   { href: 'deliverables/cogs-model.html', label: 'COGS model' },
-  { href: 'deliverables/pricing-proposal.html', label: 'Proposal' },
-  { href: 'deliverables/statement-of-work.html', label: 'SOW' },
+  { href: 'deliverables/pricing-model.html', label: 'Pricing model' },
+  { href: 'deliverables/statement-of-work.html', label: 'Statement of work' },
   { href: 'deliverables/pricing-rationale.html', label: 'Pricing and margin' },
   { href: 'app/index.html', label: 'Live tool' },
 ];
@@ -68,6 +68,7 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 .buttons{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
 .btn{display:inline-block;text-decoration:none;font-weight:600;font-size:14px;border-radius:999px;padding:8px 16px;border:1px solid var(--accent);color:var(--accent);background:var(--card)}
 .btn.solid{background:var(--accent);color:#fff}
+.doc-frame{display:block;width:100%;height:1100px;border:1px solid var(--line-2);border-radius:12px;background:#fff}
 .rationale h2{margin-top:34px}
 .rationale p,.rationale li{max-width:72ch}
 .rationale table{margin:10px 0}

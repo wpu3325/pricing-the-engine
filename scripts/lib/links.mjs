@@ -28,6 +28,7 @@ export function brokenLinks(root, pages) {
 export const PUBLISHED_PAGES = [
   'index.html', 'app/index.html',
   'deliverables/excel-model.html', 'deliverables/cogs-model.html',
-  'deliverables/pricing-proposal.html', 'deliverables/statement-of-work.html',
+  'deliverables/pricing-model.html', 'deliverables/statement-of-work.html',
+  'deliverables/customer/pricing-proposal.html', 'deliverables/customer/statement-of-work.html',
   'deliverables/pricing-rationale.html',
 ];

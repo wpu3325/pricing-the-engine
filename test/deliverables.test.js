@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { compute, loadCatalog } from '../src/engine/index.js';
 import { starterDeal } from '../src/presets.js';
-import { buildSow, buildProposal, buildCogsCsv } from '../src/documents.js';
+import { buildSow, buildProposal } from '../src/documents.js';
+import { buildPricingModelPage, buildSowPage } from '../scripts/lib/wrappers.mjs';
 import { buildCogsPage } from '../scripts/lib/cogs.mjs';
 import { buildHub } from '../scripts/lib/hub.mjs';
 import { buildExcelPage } from '../scripts/lib/excel.mjs';
@@ -38,9 +39,10 @@ test('published pages are fresh: rebuilding from the engine reproduces each file
   const fresh = {
     'index.html': buildHub({ cogs: r.cogs.cogs, quote: r.pricing.quote, margin: r.pricing.grossMargin, target: r.pricing.targetGrossMargin, status: r.gates.status }),
     'deliverables/excel-model.html': buildExcelPage(),
-    'deliverables/pricing-proposal.html': buildProposal(deal, r),
-    'deliverables/statement-of-work.html': buildSow(deal, r),
-    'deliverables/downloads/cogs-model.csv': buildCogsCsv(deal, r),
+    'deliverables/pricing-model.html': buildPricingModelPage(deal, r),
+    'deliverables/statement-of-work.html': buildSowPage(deal, r),
+    'deliverables/customer/pricing-proposal.html': buildProposal(deal, r),
+    'deliverables/customer/statement-of-work.html': buildSow(deal, r),
   };
   for (const [page, html] of Object.entries(fresh)) {
     assert.equal(disk(page), html, `${page} is stale: run npm run build`);
@@ -54,7 +56,7 @@ test('every link and fragment in the published pages resolves', () => {
 });
 
 test('customer documents never link to internal pages', () => {
-  for (const page of ['deliverables/pricing-proposal.html', 'deliverables/statement-of-work.html']) {
+  for (const page of ['deliverables/customer/pricing-proposal.html', 'deliverables/customer/statement-of-work.html']) {
     const html = disk(page);
     for (const internal of ['cogs-model', 'excel-model', 'pricing-rationale', 'index.html', 'app/index.html']) {
       assert.ok(!html.includes(internal), `${page} links to ${internal}`);

@@ -88,7 +88,6 @@ export function buildExcelPage() {
 <p class="lede">The supplied configurator workbook, shown as it is saved: ${dump.sheets.length} sheets, ${totalCells.toLocaleString('en-US')} cells, ${totalFormulas} formulas. The equations are written out below, and a parity table checks every output the tool reproduces against the workbook for the default deal.</p>
 <div class="buttons">
   <a class="btn solid" href="downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx" download>Download the workbook (.xlsx)</a>
-  <a class="btn" href="downloads/cogs-model.csv" download>Download the COGS model (.csv)</a>
   <a class="btn" href="../app/index.html">Open the live tool</a>
 </div>
 <div class="banner">Internal. The workbook holds cost and margin. Do not send it to a customer.</div>

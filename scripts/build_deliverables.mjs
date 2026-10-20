@@ -2,10 +2,10 @@
 //   index.html                              the one-link hub
 //   deliverables/excel-model.html           the workbook, rendered, with parity
 //   deliverables/cogs-model.html            internal COGS model (cost and margin)
-//   deliverables/pricing-proposal.html      customer proposal (no cost or margin)
-//   deliverables/statement-of-work.html     customer SOW (no cost or margin)
+//   deliverables/pricing-model.html         wrapper: pricing intent, reasoning, proposal
+//   deliverables/statement-of-work.html     wrapper: contract intent, terms, SOW
+//   deliverables/customer/*.html            the customer copies (no cost or margin)
 //   deliverables/pricing-rationale.html     internal margin and pushback rationale
-//   deliverables/downloads/cogs-model.csv   internal COGS export
 // Run: node scripts/build_deliverables.mjs   (also run by `npm run verify`)
 import { marked } from 'marked';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -13,7 +13,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compute, loadCatalog } from '../src/engine/index.js';
 import { starterDeal } from '../src/presets.js';
-import { buildSow, buildProposal, buildCogsCsv } from '../src/documents.js';
+import { buildSow, buildProposal } from '../src/documents.js';
+import { buildPricingModelPage, buildSowPage } from './lib/wrappers.mjs';
 import { shell } from './lib/page.mjs';
 import { buildExcelPage } from './lib/excel.mjs';
 import { buildHub } from './lib/hub.mjs';
@@ -33,9 +34,10 @@ write('index.html', buildHub({
 write('deliverables/excel-model.html', buildExcelPage());
 // The COGS page is internal, so it gets a back-link to the hub; the customer pages do not.
 write('deliverables/cogs-model.html', buildCogsPage(deal, r));
-write('deliverables/downloads/cogs-model.csv', buildCogsCsv(deal, r));
-write('deliverables/pricing-proposal.html', buildProposal(deal, r));
-write('deliverables/statement-of-work.html', buildSow(deal, r));
+write('deliverables/pricing-model.html', buildPricingModelPage(deal, r));
+write('deliverables/statement-of-work.html', buildSowPage(deal, r));
+write('deliverables/customer/pricing-proposal.html', buildProposal(deal, r));
+write('deliverables/customer/statement-of-work.html', buildSow(deal, r));
 
 const rationale = marked.parse(readFileSync(out('docs/PRICING_RATIONALE.md'), 'utf8'));
 write('deliverables/pricing-rationale.html', shell({
