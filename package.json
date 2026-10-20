@@ -1,0 +1,21 @@
+{
+  "name": "pricing-the-engine",
+  "version": "1.0.0",
+  "description": "Deal economics, capacity and SOW tool for enterprise RL post-training engagements (Applied Compute GTM take-home).",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test test/*.test.js",
+    "golden": "python3 scripts/gen_golden.py",
+    "verify": "node scripts/verify.mjs",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

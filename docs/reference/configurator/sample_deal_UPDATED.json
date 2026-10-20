@@ -1,0 +1,13 @@
+{
+  "customer": {"name":"Example Enterprise", "workflow":"Internal workflow automation", "deal_budget_usd":260000},
+  "selected_model": "Qwen3.6-35B-A3B",
+  "model_catalog_snapshot": "2026-10-18 supplied knowledge base; public specs verified selectively",
+  "model_spec": {"total_parameters_b":35,"active_parameters_b":3,"architecture":"MoE","training_status":"Listed","serving_status":"Listed"},
+  "method": "GRPO",
+  "rl_plan": {"approved_cycles":3,"weeks_per_cycle":1,"readiness_weeks":2,"handoff_weeks":1,"target_pass_rate":0.8,"plateau_gain_floor":0.01,"customer_stop_decision":"Pending"},
+  "demand": {"policy_tokens_per_cycle":42666666.6667,"rollout_attempts_per_cycle":4000,"rollout_input_tokens":12000,"rollout_output_tokens":10000,"evaluation_cases_per_cycle":200},
+  "performance": {"policy_tokens_per_gpu_hour":100000,"rollout_equivalent_tokens_per_gpu_hour":100000,"eval_equivalent_tokens_per_gpu_hour":100000,"source":"UNVERIFIED PROXY"},
+  "gpu_plan": {"gpu_family":"H100","existing_spare":[{"pool":"Prepaid cluster A","gpu_family":"H100","gpu_count":8,"first_week":1,"last_week":8,"region_topology_fit":"Compatible; unverified"}],"acquisition":"Auto","new_supply_confirmed":false},
+  "approval_evidence": {"benchmark_confirmed":false,"training_access_and_license_approved":false,"gpu_sku_cost_verified":false},
+  "scope": {"serving_proposal_enabled":false,"base_model_switch_requires_amendment":true}
+}
