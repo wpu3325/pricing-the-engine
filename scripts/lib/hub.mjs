@@ -1,6 +1,5 @@
-// The one-link entry page (site root index.html). Headline numbers come from the
-// engine at build time, so they cannot drift from the deliverables they point to.
-// verify.mjs re-checks that these numbers equal the engine output.
+// The one-link entry page (site root index.html). It is a map of the deliverables and
+// the requirements they answer; it holds no figures of its own.
 import { escapeHtml } from '../../src/documents.js';
 import { shell } from './page.mjs';
 
@@ -32,8 +31,7 @@ export const REQUIREMENTS = [
     why: 'Match on scope, not rate. Cutting the price cuts margin, so the rationale shows the margin left after a match and the walk-away price.' },
 ];
 
-export function buildHub(headline) {
-  const h = headline;
+export function buildHub() {
   const cards = [
     { n: '01', title: 'Excel model', href: 'deliverables/excel-model.html', kind: 'Assets A',
       why: 'The working model with every formula visible, the equations in plain words, and a parity table against the tool.', extra: [['Download .xlsx', 'deliverables/downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx']] },
@@ -56,13 +54,6 @@ export function buildHub(headline) {
 <div class="mark">| · APPLIED COMPUTE · TAKE-HOME ·</div>
 <h1>Pricing the Engine</h1>
 <p class="lede">The cost, price, margin and contract for one enterprise RL post-training engagement. Every page is generated from one engine, and the Excel model is the reference the engine is checked against.</p>
-<div class="kpis" aria-label="Headline numbers, default example deal">
-  <div class="kpi"><span>Delivery COGS, incl. rework</span><b>${E(money(h.cogs))}</b></div>
-  <div class="kpi"><span>Quote</span><b>${E(money(h.quote))}</b></div>
-  <div class="kpi"><span>Gross margin (target ${E(pct(h.target))})</span><b>${E(pct(h.margin))}</b></div>
-  <div class="kpi"><span>Status</span><b>${E(h.status)}</b></div>
-</div>
-<div class="banner">HOLD: the default example needs a qualified model, a confirmed training licence and a confirmed GPU rate before its quote can be sent. Its numbers are a planning model, not a quote.</div>
 
 <h2>The deliverables, in reading order</h2>
 <div class="cards">${cardHtml}</div>
@@ -95,9 +86,3 @@ export function buildHub(headline) {
     body,
   });
 }
-
-// Used by verify.mjs and the hub to read the same numbers the deliverables use.
-export function headlineNumbers(r, target) {
-  return { cogs: r.cogs.cogs, quote: r.pricing.quote, margin: r.pricing.grossMargin, target, status: r.gates.status };
-}
-
