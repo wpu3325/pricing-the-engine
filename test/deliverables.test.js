@@ -27,17 +27,9 @@ test('parity: every mapped workbook cell matches the engine for the default deal
   assert.equal(bad.length, 0, JSON.stringify(bad, null, 1));
 });
 
-test('hub headline numbers are the engine numbers', () => {
-  const html = disk('index.html');
-  assert.ok(html.includes(money(r.cogs.cogs)), 'COGS on hub');
-  assert.ok(html.includes(money(r.pricing.quote)), 'quote on hub');
-  assert.ok(html.includes(`${(r.pricing.grossMargin * 100).toFixed(1)}%`), 'margin on hub');
-  assert.ok(html.includes(r.gates.status), 'status on hub');
-});
-
 test('published pages are fresh: rebuilding from the engine reproduces each file', () => {
   const fresh = {
-    'index.html': buildHub({ cogs: r.cogs.cogs, quote: r.pricing.quote, margin: r.pricing.grossMargin, target: r.pricing.targetGrossMargin, status: r.gates.status }),
+    'index.html': buildHub(),
     'deliverables/excel-model.html': buildExcelPage(),
     'deliverables/pricing-model.html': buildPricingModelPage(deal, r),
     'deliverables/statement-of-work.html': buildSowPage(deal, r),

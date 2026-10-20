@@ -27,10 +27,7 @@ const write = (p, s) => { mkdirSync(dirname(out(p)), { recursive: true }); write
 const deal = starterDeal('workflow');
 const r = compute(deal, loadCatalog());
 
-write('index.html', buildHub({
-  cogs: r.cogs.cogs, quote: r.pricing.quote, margin: r.pricing.grossMargin,
-  target: r.pricing.targetGrossMargin, status: r.gates.status,
-}));
+write('index.html', buildHub());
 write('deliverables/excel-model.html', buildExcelPage());
 // The COGS page is internal, so it gets a back-link to the hub; the customer pages do not.
 write('deliverables/cogs-model.html', buildCogsPage(deal, r));
