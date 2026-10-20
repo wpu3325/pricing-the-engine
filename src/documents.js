@@ -113,23 +113,26 @@ function cogsPhaseRows(o, deal) {
 
 function meterSection(o) {
   if (o.mode !== 'cogsBuilt') return '';
-  return `<h2>Usage and allowances</h2>
+  const millions = o.allowanceTokens ? `${(o.allowanceTokens / 1e6).toLocaleString('en-US')} million tokens` : 'as set in the order';
+  return `<h2>What is included, and usage above it</h2>
+<p>Your total covers everything in the three phases. The included usage is:</p>
 <table><tbody>
-<tr><td>Included managed compute</td><td>${E(o.allowance.toLocaleString('en-US'))} GPU-hours across the engagement</td></tr>
-<tr><td>Included agent and platform tokens</td><td>${o.allowanceTokens ? `${E(o.allowanceTokens.toLocaleString('en-US'))} tokens` : 'As agreed in the order'}</td></tr>
-<tr><td>Additional compute beyond the allowance</td><td>${usd(o.meters.gpuHourRate)} per additional GPU-hour</td></tr>
-<tr><td>Additional agent tokens beyond the allowance</td><td>${usd(o.meters.tokenPerMillion)} per additional million tokens</td></tr>
+<tr><td>Managed compute</td><td>${E(o.allowance.toLocaleString('en-US'))} GPU-hours across the engagement</td></tr>
+<tr><td>Agent platform usage</td><td>${E(millions)}</td></tr>
 </tbody></table>
-<p class="note">Usage is reported in each cycle's score report. Rates are reviewed quarterly against measured cost; a change applies from the next invoice and is notified in writing.</p>`;
+<p>Usage above these allowances, if it happens, is billed at:</p>
+<table><tbody>
+<tr><td>Managed compute above the allowance</td><td class="num">${usd(o.meters.gpuHourRate)} for each GPU-hour</td></tr>
+<tr><td>Agent platform usage above the allowance</td><td class="num">${usd(o.meters.tokenPerMillion)} for each million tokens</td></tr>
+</tbody></table>
+<p class="note">Every cycle score report shows the usage so far against the allowances, so there are no surprise charges. Rates are reviewed quarterly; any change applies from the next invoice and is notified in writing.</p>`;
 }
 
 function cogsChangeRows(deal, o) {
   return [
-    ['One more cycle', `+${usd(o.scale.plusCycle)}`, 'One more managed cycle, beyond the approved count. Priced from its compute, platform usage and effort.'],
+    ['One more cycle', `+${usd(o.scale.plusCycle)}`, 'One more managed cycle beyond the approved count, with its compute, platform usage and engineering included.'],
     o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), 'One managed cycle less. The setup and handoff packages do not change.'],
     ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The setup invoice and the first cycle invoice. No later invoices are issued. The handoff package is not billed unless the handoff is signed.'],
-    ['Compute beyond the allowance', `${usd(o.meters.gpuHourRate)} per additional GPU-hour`, 'Metered at the rate above, reported in each cycle score report.'],
-    ['Agent tokens beyond the allowance', `${usd(o.meters.tokenPerMillion)} per additional million tokens`, 'Metered at the rate above, reported in each cycle score report.'],
     ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately, through a change order, before any work starts.'],
   ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
 }
@@ -224,7 +227,7 @@ ${serving.replace('<h2>6.', '<h2>6.')}
 export function buildProposal(deal, r) {
   const o = buildOffer(deal, r);
   const b = deal.rl.baseline, t = deal.rl.target;
-  const summary = `You are buying ${o.cycles} managed reinforcement-learning (RL) ${o.cycles === 1 ? 'cycle' : 'cycles'} to improve <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b>, from a measured baseline of ${E(pct(b, 0))} toward a target of ${E(pct(t, 0))}, over ${E(o.weeks)} weeks. The model is <b>${escapeHtml(deal.model)}</b>, ${E(o.modelSpec)}. The total is <b>${usd(o.total)}</b>. The ${E(pct(t, 0))} target is a review point, not a guarantee: when it is reached, or when results stop improving, you decide whether to continue. You approve every cycle, and each invoice is issued when its milestone completes.`;
+  const summary = `You are buying ${o.cycles} managed reinforcement-learning (RL) ${o.cycles === 1 ? 'cycle' : 'cycles'} to improve <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b>, from a measured baseline of ${E(pct(b, 0))} toward a target of ${E(pct(t, 0))}, over ${E(o.weeks)} weeks. The model is <b>${escapeHtml(deal.model)}</b>, ${E(o.modelSpec)}. The total is <b>${usd(o.total)}</b>. The ${E(pct(t, 0))} target is a review point, not a guarantee: when it is reached, or when results stop improving, you decide whether to continue. You approve every cycle, and each invoice is issued when its milestone completes. The total below covers everything in the three phases; only usage above the included allowances and the items under Not included are extra.`;
   const bar = o.phases.map((ph) => `<span class="seg-${ph.key}" style="width:${((ph.amount / o.total) * 100).toFixed(2)}%" title="${escapeHtml(ph.title)}"></span>`).join('');
   const legend = o.phases.map((ph) => `<li><span class="dot seg-${ph.key}"></span>${escapeHtml(ph.title)} <b>${usd(ph.amount)}</b> <span class="muted">(${E(pct(ph.amount / o.total, 0))})</span></li>`).join('');
   const change = o.mode === 'cogsBuilt' ? cogsChangeRows(deal, o) : [
