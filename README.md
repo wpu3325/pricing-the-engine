@@ -12,9 +12,9 @@ Built for the Applied Compute take-home. Live: https://wpu3325.github.io/pricing
 |---|---|---|
 | **A. COGS model**: every cost line, assumptions, flexible per deal | Eight workbook cost pools plus about 20 extension lines, each tagged to a delivery phase. Every input has a hover explanation with its workbook cell. | Deal sections 4–6 · Economics → cost ledger · [COGS_LEDGER.md](docs/COGS_LEDGER.md) |
 | A.2 Assumptions | Listed per input. Illustrative defaults are tagged *default* until replaced. | Deal sections · [PRICING_RATIONALE.md](docs/PRICING_RATIONALE.md) |
-| **B. Pricing and SOW**: proposal with rationale | Four phases, each with what the customer gets, why it costs that, effort hours and when it is invoiced. | Proposal step · [sample proposal](docs/samples/sample_pricing_proposal.html) |
+| **B. Pricing and SOW**: proposal with rationale | Four phases, each with what the customer gets, why it costs that, effort hours and when it is invoiced. | Proposal step · [rendered samples](https://wpu3325.github.io/pricing-the-engine/docs/samples/) (GitHub shows the HTML source; use the rendered link) |
 | B.2 Margin profile and reasoning | 45% target, 35% floor. The Economics step shows margin by phase and the tornado of what moves it. | Economics → margin by phase, sensitivity |
-| B.3 Contract terms, short vs long term | See the list below. | [sample SOW](docs/samples/sample_statement_of_work.html) |
+| B.3 Contract terms, short vs long term | See the list below. | [rendered SOW](https://wpu3325.github.io/pricing-the-engine/docs/samples/sample_statement_of_work.html) |
 | B.4 When to re-paper | Seven triggers in the SOW (new model, more cycles, new workflow or region, production, envelope, termination). | SOW section 5 |
 | B.5 Pushback on cost | Every charge maps to a deliverable and to effort hours by role. Internal cost and margin never reach the customer; a test checks this. | Proposal · `test/documents.test.js` |
 | B.6 A cheaper competitor | Match on scope, not rate. The calculator shows the margin left and the walk-away price. | Economics → competitor undercut |
