@@ -13,7 +13,8 @@ export function defaultDeal() {
     },
     model: 'Qwen3.6-35B-A3B',                // B7
     method: 'GRPO',                          // B9
-    data: { type: 'text', examples: 0, tokensPerExample: 0 }, // suggestion source only (see profile.js)
+    data: { type: 'text', examples: 0, tokensPerExample: 1500, taskType: 'tool-use', contextTokens: 8192 }, // drive suggestions only (profile.js)
+    customParams: { totalB: null, activeB: null, architecture: 'Unknown' },
     rl: {
       cycles: 3,                             // B10
       cadenceWeeks: 1,                       // B11
