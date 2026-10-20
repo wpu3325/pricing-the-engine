@@ -12,6 +12,8 @@
     "start": "python3 -m http.server 8080",
     "test": "node --test test/*.test.js",
     "golden": "python3 scripts/gen_golden.py",
+    "sync-data": "node scripts/sync_data.mjs",
+    "samples": "node scripts/build_samples.mjs",
     "verify": "node scripts/verify.mjs",
     "e2e": "playwright test"
   },
