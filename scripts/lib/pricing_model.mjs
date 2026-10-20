@@ -8,6 +8,7 @@ import { shell } from './page.mjs';
 import { gpuComparison, stressDeal, STRESS_CASE } from '../../src/gpuCompare.js';
 import { priceBand, fixedCostRecovery } from '../../src/economics.js';
 import { undercut } from '../../src/sensitivity.js';
+import { buildOffer } from '../../src/offer.js';
 
 const E = escapeHtml;
 const money = (n) => `$${Math.round(n).toLocaleString('en-US')}`;
@@ -53,6 +54,35 @@ function automationTable(deal, catalog) {
 <p class="note">Shown at ${pct(deal.pricing.automationShare, 0)} of the saving passed to the customer. The customer price falls as Ari replaces hours, and Applied Compute keeps the rest of the saving.</p>`;
 }
 
+
+// Checks a buyer's view of the price against cost: stopping early, overage and commitment.
+function checksBlock(deal, r, catalog) {
+  const o = buildOffer(deal, r, catalog);
+  const L = Object.fromEntries(r.pricing.lines.map((l) => [l.key, l]));
+  const cycleCost = (r.cogs.cogs - r.pricing.poolCosts.handoff - r.pricing.poolCosts.foundation) / deal.rl.cycles;
+  const setupCost = r.pricing.poolCosts.foundation;
+  const stops = [
+    ['Stop after setup', o.milestones[0].amount, setupCost],
+    ['Stop after cycle 1', o.milestones[0].amount + o.milestones[1].amount, setupCost + cycleCost],
+    ['Stop after cycle 2', o.milestones[0].amount + o.milestones[1].amount + o.milestones[2].amount, setupCost + 2 * cycleCost],
+  ].filter(([n]) => n !== 'Stop after cycle 2' || deal.rl.cycles >= 2);
+  const stopRows = stops.map(([n, rev, cost]) => `<tr><td>${E(n)}</td><td class="num">${money(rev)}</td><td class="num">${money(cost)}</td><td class="num">${pct(1 - cost / rev, 0)}</td></tr>`).join('');
+  const overageCost = (r.cogs.gpu / r.cogs.gpuHours) || 0;
+  const meter = r.pricing.meters.gpuHourRate;
+  const commitRows = [3, 4, 6].map((n) => {
+    const d = clone(deal); d.rl.cycles = n;
+    const rr = compute(d, catalog);
+    return `<tr><td class="num">${n}</td><td class="num">${pct(rr.pricing.commitDiscount ?? 0, 0)}</td><td class="num">${money(rr.pricing.quote)}</td><td class="num">${pct(rr.pricing.grossMargin)}</td></tr>`;
+  }).join('');
+  return `<h3>Early exit</h3>
+<table><thead><tr><th>Stop point</th><th class="num">Invoiced</th><th class="num">Cost to that point</th><th class="num">Margin</th></tr></thead><tbody>${stopRows}</tbody></table>
+<h3>Overage against buying GPUs</h3>
+<p>A GPU-hour above the allowance is metered at <b>${money(meter)}</b>, against a blended cost of ${money(overageCost)} and a list price of ${money(deal.capacity.paygoPrice)} to buy one more. The meter covers the marginal price, so it never loses money.</p>
+<h3>Committed cycles</h3>
+<table><thead><tr><th class="num">Cycles</th><th class="num">Commit discount</th><th class="num">Quote</th><th class="num">Blended margin</th></tr></thead><tbody>${commitRows}</tbody></table>
+<p class="note">The commit discount falls on the cycle packages only, so the blended margin falls as commitment rises. Each level shown stays above the minimum margin.</p>`;
+}
+
 export function buildPricingModelPage(deal, r, catalog) {
   const gpuBase = gpuComparison(deal, catalog);
   const gpuStress = gpuComparison(stressDeal(deal), catalog);
@@ -94,7 +124,10 @@ ${automationTable(deal, catalog)}
 <tr><td>Net per month at 2 engagements</td><td class="num">${money(fixed.netMonthly)}</td></tr>
 </tbody></table></div>
 
-<h2>6. Defensibility</h2>
+<h2>6. Stop points, overage and commitment checks</h2>
+${checksBlock(deal, r, catalog)}
+
+<h2>7. Defensibility</h2>
 <ul>
 <li><b>Price band.</b> ${money(band.low)} to ${money(band.high)} around ${money(band.base)} when throughput, GPU cost and effort each move ${pct(band.swing, 0)} together. Quote the band until throughput is measured.</li>
 <li><b>Floor.</b> No line can be priced below its cost. The blended margin must stay above the ${pct(r.pricing.minGrossMargin, 0)} floor, or the quote is held as HOLD - MARGIN.</li>
@@ -102,7 +135,7 @@ ${automationTable(deal, catalog)}
 <li><b>Holds.</b> The quote is held while the handoff has no holdout evaluation cost (HOLD - COST GAP), while token prices are unmeasured (HOLD - THROUGHPUT), or while the model is unverified.</li>
 </ul>
 
-<h2>7. The customer copy</h2>
+<h2>8. The customer copy</h2>
 <iframe class="doc-frame" src="customer/pricing-proposal.html" title="Pricing proposal, customer copy"></iframe>
 <p class="note"><a href="customer/pricing-proposal.html">Open the customer copy in its own tab</a>.</p>`;
 

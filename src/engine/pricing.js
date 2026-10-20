@@ -11,7 +11,7 @@ import { safeDiv } from './safe.js';
 import { classFactors } from './workload.js';
 
 // Price class of each ledger line. Compute and software are priced at their own margins.
-const COMPUTE = new Set(['gpuPolicy', 'gpuRollout', 'gpuEval', 'gpuBaseline', 'dev', 'rerun', 'holdoutEval', 'idleCapacity']);
+const COMPUTE = new Set(['gpuPolicy', 'gpuRollout', 'gpuEval', 'gpuBaseline', 'dev', 'rerun', 'holdoutEval', 'idleCapacity', 'headroomReserve']);
 const SOFTWARE = new Set(['ari', 'platform', 'seats', 'licences', 'baseLicence']);
 const LABOUR = /^(fde|research|infra|delivery)(Setup|Cycles)$|^(review|dataLabour|scoping|cs|security|legal|verifier)$/;
 
@@ -46,9 +46,14 @@ function cogsBuiltPricing(deal, cogs, model) {
     software: pools.software + alloc(pools.software),
     handoff: pools.handoff + alloc(pools.handoff),
   };
+  // Committed-cycles price: applies to the cycle packages only, and only to cycles the
+  // customer commits to in the order (the highest tier the approved count reaches).
+  const N = deal.rl.cycles;
+  const tier = [...(p.commitTiers ?? [])].filter((t) => N >= t.minCycles).sort((a, b) => b.minCycles - a.minCycles)[0];
+  const commitDiscount = tier ? tier.discount : 0;
   const price = {
     foundation: cost.foundation / (1 - m.package),
-    cycles: cost.cycles / (1 - m.package),
+    cycles: (cost.cycles / (1 - m.package)) * (1 - commitDiscount),
     compute: cost.compute / (1 - m.compute),
     software: cost.software / (1 - m.software),
     handoff: cost.handoff / (1 - m.package),
@@ -65,7 +70,7 @@ function cogsBuiltPricing(deal, cogs, model) {
     { key: 'handoff', label: 'Handoff and verification package', value: price.handoff, cost: cost.handoff, margin: m.package, unit: 'Once, on signed handoff', group: 'Fixed' },
     { key: 'discount', label: 'Negotiated discount', value: discount, cost: 0, margin: 0, unit: 'Once', group: 'Adjustments' },
   ];
-  return { lines, pools, cost, price, gross, quote };
+  return { lines, pools, cost, price, gross, quote, commitDiscount };
 }
 
 export function computePricing(deal, work, cogs, model) {
@@ -96,6 +101,7 @@ export function computePricing(deal, work, cogs, model) {
     return {
       ...common,
       mode: 'cogsBuilt',
+      commitDiscount: b.commitDiscount,
       lines: b.lines,
       pools: b.pools,
       poolCosts: b.cost,
@@ -142,14 +148,18 @@ export function computePricing(deal, work, cogs, model) {
 export function meters(deal, cogs, model) {
   const p = deal.pricing;
   const gh = cogs.gpuHours ?? 0;
-  const gpuCostPerHour = safeDiv(cogs.gpu ?? 0, gh);
-  const servingRate = deal.capacity.paygoPrice ?? 0;
+  // Overage is priced on the higher of the blended cost and the marginal price of buying
+  // one more GPU-hour, so an overage hour can never lose money.
+  const blended = safeDiv(cogs.gpu ?? 0, gh);
+  const marginal = deal.capacity.paygoPrice ?? 0;
+  const gpuCost = Math.max(blended, marginal);
   const tp = deal.ari?.servingTokensPerGpuHour ?? 0;
-  const tokenCostPerM = safeDiv(servingRate * 1e6, tp);
+  const tokenCostPerM = safeDiv(marginal * 1e6, tp);
   return {
-    gpuHourRate: gpuCostPerHour / (1 - p.lineMargins.compute),
+    gpuHourRate: gpuCost / (1 - p.lineMargins.compute),
     tokenPerMillion: tokenCostPerM / (1 - p.lineMargins.software),
     tokenCostPerMillion: tokenCostPerM,
+    marginalGpuHour: marginal,
     reviewCadence: 'quarterly',
     provisional: !deal.approvals?.servingThroughputMeasured,
   };

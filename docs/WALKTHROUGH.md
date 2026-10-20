@@ -21,7 +21,7 @@ Choose a model. The list shows candidates for your data type, with the reasons t
 ## Step 3 · RL plan
 Set the approved number of RL cycles (for example `3`), the cadence (weekly), and the success target.
 
-- Watch the **Duration** and **Price by phase** update. Each extra cycle adds its fee, and the **last change** line shows the exact amount.
+- Watch the **Duration** and **Price by phase** update. Each extra cycle adds a managed cycle package, and the **last change** line shows the exact amount.
 
 ## Step 4 · Compute demand
 Mostly auto-filled. Enter the measured throughput when you have it. Until then the value is marked *default*.

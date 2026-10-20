@@ -187,7 +187,7 @@ export const FAQ = [
   ['What is included in the total?', 'Everything in the three phases: setup, managed cycles with compute and platform usage up to the allowances, and handoff. Only usage above the allowances and the items under Not included are extra.'],
   ['Why does the price depend on the model?', 'A larger model needs more compute for each cycle, so the managed cycle price is higher. The price shown already reflects the model you have chosen.'],
   ['What if a cycle does not improve the score?', 'You decide after each cycle whether to continue, change direction or stop. You pay for the cycles and milestones completed. We do not stop contracted work silently, and we do not charge for work you have stopped before it starts.'],
-  ['What happens if I stop early?', 'You pay for approved work completed and for any non-cancellable third-party compute committed for your engagement, net of reasonable reuse. The handoff fee is billed only on a signed handoff.'],
+  ['What happens if I stop early?', 'You pay the invoices up to the stop point, and nothing more. Any third-party compute we committed for you on your approval is billed at cost. The acceptance payment is billed only on a signed handoff.'],
 ];
 
 // Usage-based offer (pricing.mode 'cogsBuilt'). Three customer phases: a setup package,
@@ -202,9 +202,18 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
   const byKey = Object.fromEntries(p.lines.map((l) => [l.key, l.value]));
   const discount = Math.round(byKey.discount ?? 0);
   const managed = (byKey.cycles ?? 0) + (byKey.compute ?? 0) + (byKey.software ?? 0);
-  const [setup, cycles, handoff] = foldLines([byKey.readiness ?? 0, managed, byKey.handoff ?? 0], p.quote, 0);
-  const allowance = Math.ceil(r.work.totalGpuHours / 10) * 10;
-  const allowanceTokens = Math.round((deal.ari?.tokensMPerCycle ?? 0) * 1e6 * N);   // tokens, for the whole engagement
+  // Payment shape: setup invoice at the gate, managed cycles split across the cycles, and
+  // the acceptance payment on signed handoff. The total is the quote; only timing changes.
+  const pay = deal.pricing.payment ?? { setupPct: 0.2, acceptancePct: 0.1 };
+  const setup = Math.round(total * pay.setupPct);
+  const handoff = Math.round(total * pay.acceptancePct);
+  const cycles = total - setup - handoff;
+  void managed;
+  const headroom = 1 + Math.max(0, deal.pricing.allowanceHeadroom ?? 0);
+  const allowance = Math.ceil((r.work.totalGpuHours * headroom) / 10) * 10;
+  const allowanceTokens = Math.round((deal.ari?.tokensMPerCycle ?? 0) * 1e6 * N * headroom);   // tokens, whole engagement
+  const overageCap = Math.round((total * (deal.pricing.overageCapPct ?? 0)) / 1000) * 1000;
+  const validityDays = deal.pricing.validityDays ?? 30;
   const meters = p.meters ?? {};
   const perCycle = Math.floor(cycles / N);
   const sizeWord = classFactors(r.model.proxyClass).cycleEngineeringFactor < 1 ? 'a smaller model'
@@ -259,7 +268,7 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
   const split = (amt) => Array.from({ length: N }, (_, i) => (i === N - 1 ? amt - Math.floor(amt / N) * (N - 1) : Math.floor(amt / N)));
   const cycleSplit = split(cycles);
   const milestones = [
-    { label: 'Setup gate', week: R, amount: setup, note: discount ? 'Includes the negotiated discount' : '' },
+    { label: 'Setup gate', week: R, amount: setup, note: discount ? 'Share of the negotiated discount included' : '' },
     ...cycleSplit.map((amt, i) => ({ label: `Cycle ${i + 1} of ${N}`, week: R + (i + 1) * cad, amount: amt, note: 'Managed cycle, usage included' })),
     { label: 'Handoff and verification', week: r.work.totalWeeks, amount: handoff, note: '' },
   ];
@@ -275,7 +284,8 @@ export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
 
   return {
     total, discount, phases, milestones, scale, allowance, allowanceTokens, meters,
-    tiers: null, stopAfterFirstCycle,
+    tiers: null, stopAfterFirstCycle, overageCap, validityDays, commitDiscount: p.commitDiscount ?? 0,
+    maxCommitted: total,
     modelSpec: r.model.totalB == null ? 'a model whose parameter count is not yet verified' : `an open-weight model with ${r.model.totalB} billion parameters${r.model.activeB ? `, of which ${r.model.activeB} billion are active for each token` : ''}`,
     sizeClass: sizeWord,
     sumCheck: phases.reduce((s, ph) => s + ph.amount, 0),

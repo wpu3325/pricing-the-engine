@@ -93,7 +93,7 @@ ${renderEconomics(state)}`;
   } else {
     html = `${header()}<div class="eyebrow">Customer</div>
 <h1>Customer proposal and SOW</h1>
-<p class="lede">The statement of work and itemized pricing, generated from the same run. Download, print or share once the status clears review.</p>
+<p class="lede">The statement of work and the price, generated from the same run. Download, print or share once the status clears review.</p>
 ${renderProposalStep(state)}`;
   }
   $('#view').innerHTML = html;

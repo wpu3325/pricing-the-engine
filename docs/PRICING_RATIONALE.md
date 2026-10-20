@@ -1,42 +1,52 @@
 # Pricing rationale
 
-Why the example deal is priced the way it is, what each part is for, and how far the evidence goes. The line-by-line numbers and the live inputs are on the internal pricing model page. The policy itself is in [PRICING_POLICY.md](https://github.com/wpu3325/pricing-the-engine/blob/main/docs/PRICING_POLICY.md).
+Why the example deal is priced the way it is, what each part is for, and how far the evidence goes. The live figures are in the block below; the internal pricing page shows the same numbers line by line, and the policy is in [PRICING_POLICY.md](https://github.com/wpu3325/pricing-the-engine/blob/main/docs/PRICING_POLICY.md).
+
+<!-- numbers:begin -->
+| Figure | Example deal |
+|---|---|
+| Quote (customer total) | $247,247 |
+| Delivery COGS, risk-adjusted | $136,789 |
+| Blended margin | 44.7% |
+| Setup invoice (week 2) | $49,449 |
+| Each cycle invoice | $57,691 |
+| Acceptance payment (signed handoff) | $24,725 |
+| Maximum committed fee | $247,247 |
+| Overage cap (approved use) | $25,000 |
+| Included GPU-hours | 3,870 |
+<!-- numbers:end -->
 
 ## 1. How the price is built
 
 The price is an output of the cost model. Each customer line is its own cost pool divided by (1 − its margin):
 
-| Customer line | What it covers | Margin | Example |
-|---|---|---|---|
-| Setup package | Evaluation set, grader, environment and baseline | 45% | $61,952 |
-| Managed RL cycles | Three cycles: engineering, agent platform, compute and evaluation | 45% and 30% and 60% | $174,860 |
-| Handoff package | Independent holdout evaluation and handoff | 45% | $7,106 |
-| **Total** | | **44.6% blended** | **$243,918** |
+| Customer line | What it covers | Margin |
+|---|---|---|
+| Setup package | Evaluation set, grader, environment and baseline | 45% |
+| Managed RL cycles | Engineering, agent platform, compute and evaluation for each cycle | 45% packages, 30% compute, 60% platform and Ari usage |
+| Handoff package | Independent holdout evaluation and handoff | 45% |
 
-Each line is a different kind of work, so each has a different margin. Packages carry 45%, the target. Managed compute carries 30%, because it is the part a compute-only competitor can undercut. Platform and Ari usage carries 60%, because that is where the product is differentiated.
+Each line is a different kind of work, so each has a different margin. Packages carry the 45% target. Managed compute carries 30%, because a compute-only competitor can undercut it. Platform and Ari usage carries 60%, because that is where the product is differentiated.
 
-Human hours are never a customer line. Engineering effort sets each package from standard effort. Ari replaces some of that effort over time, and the customer keeps a set share of the saving (`pricing.automationShare`, 50% in the example). The rest stays with Applied Compute, so the business gets more margin as Ari automates the work.
+Human hours are never a customer line. Engineering effort sets each package from standard effort. Ari replaces some of that effort over time, and the customer keeps a set share of the saving. The rest stays with Applied Compute, so the business earns more as Ari automates the work.
+
+For the buyer, the invoices are the setup at the gate, one per cycle, and the acceptance payment on signed handoff. The total is the maximum committed fee; the customer copy states it in the same words.
 
 ## 2. Why this structure
 
-- **Defensible.** Every dollar of price traces to a cost pool, and every pool adds back to COGS. A challenge on any line is a question about that line's cost, not about a rate card.
-- **Sustainable.** Usage meters (extra GPU-hours and agent tokens) move cost to the customer when the workload grows, so margin does not erode with scope.
-- **Protects the margin.** Fixed packages carry a margin floor. The quote is held (`HOLD - COST GAP`, `HOLD - THROUGHPUT`, `HOLD - MARGIN`) when a cost is missing, unmeasured, or too thin.
-- **Honest about what is unknown.** Ari token prices stay provisional until serving throughput is measured. The quote is shown as a band until then.
+- **Defensible.** Every dollar of price traces to a cost pool, and the pools add back to COGS. A challenge on any line is a question about that line's cost.
+- **Protects margin as the work grows.** Usage above the allowances is metered at the marginal cost of buying GPU time, so an overage hour never loses money. Usage above the allowances needs written approval, up to a cap.
+- **Fair to the buyer.** A 15% buffer in the allowances means a small overrun is never billed. Committing to four or more cycles earns a lower cycle price.
+- **Honest about what is unknown.** Ari token prices stay provisional until serving throughput is measured. The quote is held rather than sent on a guess.
+- **Stops are cheap to exit.** Payment is back-loaded so the margin holds at every stop point, and the buyer can see what each stop costs them.
 
 ## 3. Where a competitor can undercut
 
-- **Managed compute** is the exposed line. A compute-only competitor sells raw GPU time, so the managed compute margin is kept at 30%. The defence is the managed loop, not the GPU.
-- **The packages** are exposed to a competitor who offers the same tooling without engineers. The answer is that the customer keeps the evaluation, grader and environment, and the engineers are part of the product.
-- **Trade scope, not rate.** Fewer cycles, a narrower workflow, or a smaller automation share lower the price while the line margins stay intact.
+- **Managed compute** is the exposed line. A compute-only competitor sells raw GPU time. The defence is the managed loop, not the GPU.
+- **The packages** are exposed to a competitor who offers the same tooling without engineers. The answer is that the buyer keeps the evaluation, grader and environment, and the engineers are part of the product.
+- **Trade scope, not rate.** Fewer cycles, a narrower workflow or a smaller automation share lower the price while the line margins stay intact.
 
-## 4. Margin
-
-- Target 45% blended, floor 35% (policy inputs, not company-published figures).
-- The example lands at 44.6% blended, just under the target, because the managed compute and handoff costs are set from illustrative inputs.
-- The price band moves about ±15% when throughput, GPU cost and effort each move by 20% together. Quote the band until those inputs are measured.
-
-## 3. Evidence quality (read before relying on a number)
+## 4. Evidence quality (read before relying on a number)
 
 | Evidence | What it supports | Strength |
 |---|---|---|
@@ -52,11 +62,28 @@ Human hours are never a customer line. Engineering effort sets each package from
 
 **Stale input:** the workbook's $3.99 PayGo H100 price is the expired promotion. The example uses the $5.49 list price.
 
+## 5. Buyer questions and answers
+
+These are the questions a buyer will ask, with the answer and where the customer copy gives it.
+
+| Question | Answer | Where in the copy |
+|---|---|---|
+| Why do I pay for setup before training? | The setup builds the evaluation and grader you keep. Without it no cycle is measurable. | Setup package; FAQ |
+| Is engineering billed by the hour? | No. It is inside the setup and cycle prices. You are not invoiced for hours. | FAQ; cycle phase |
+| What does a cycle include? | The engineers who run it, the agent platform, the compute to train and roll out, and the held-out evaluation. | What one cycle includes |
+| What is the most I can be charged? | The maximum committed fee. Usage above allowances needs your approval, up to a cap. | What you can be charged |
+| What if the model does not improve? | Fees are not contingent on the score. Reaching the target or a plateau triggers a review; you decide. | Stop points note; SOW section 3 |
+| What do I pay if I stop early? | The invoices up to the stop point, and nothing more. | Stop-point table |
+| Why does an extra cycle cost less than the average invoice? | An added cycle adds only its own compute, platform use and engineering. Invoices are a split of the cycle total, not a price per cycle. | Change-order note |
+| Are the usage rates fair against buying GPUs? | Overage is priced at the higher of the blended cost and the marginal price of buying one GPU-hour, plus margin. | Usage section |
+| What do I own after handoff? | The weights, grader, evaluation set and environment, subject to licence terms counsel will confirm. | Ownership (placeholder) |
+| Can I cap spend? | Yes: the maximum committed fee, and the overage cap. | What you can be charged |
+
 ## 6. Known gap
 
-The final holdout evaluation is costed as its own line (`holdoutEval`), but the example's 400 GPU-hours is illustrative. Until the team measures it, the quote is held (`HOLD - COST GAP`). The handoff package also looks small against the setup package: its cost is the verifier's labour and the holdout evaluation, so it should be reviewed before a quote goes out.
+The final holdout evaluation is costed as its own line (`holdoutEval`). The example enters an illustrative number of GPU-hours. Until the team measures it, the quote is held (`HOLD - COST GAP` fires only when it is zero). The handoff package is the smallest customer line, because its cost is verifier labour and the holdout evaluation. Review it before a quote goes out.
 
-## 5. Sources
+## 6. Sources
 
 - OpenAI, Billing guide for the Reinforcement Fine-Tuning API: https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api
 - OpenAI, API pricing: https://platform.openai.com/docs/pricing/

@@ -20,25 +20,6 @@ export function statusBanner(status) {
     : `PRELIMINARY: DO NOT SEND CUSTOMER: ${status}`;
 }
 
-const PHASES = [
-  { phase: '0 · Readiness', week: 'Weeks 1–2',
-    delivers: 'Scope workflow, assess data quality, compare base model options and estimate capacity.',
-    customer: 'Provides data and SME time; decides the initial base model and success metric.',
-    evidence: 'Signed workflow/eval charter; dataset sample; frozen baseline score and review findings.' },
-  { phase: '1 · Graders + harness', week: 'Week 2',
-    delivers: 'Build environment, grader version, rollout instrumentation and held-out evaluation.',
-    customer: 'Approves graders, thresholds, privacy assumptions and success/stop rules.',
-    evidence: 'Versioned grader/harness, reproducible baseline run ID, acceptance sign-off.' },
-  { phase: '2 · RL cycle (repeat)', week: 'Per cycle',
-    delivers: 'Train checkpoint; sample rollouts; compute reward and held-out score; investigate failures.',
-    customer: 'Reviews score and research evidence; explicitly chooses Stop or Continue.',
-    evidence: 'Checkpoint/run ID, token ledger, graded metrics, failure samples, signed cycle decision.' },
-  { phase: '3 · Independent handoff', week: 'Final week',
-    delivers: 'Evaluate untouched holdout; package checkpoint/weights, traces, config, results and runbook.',
-    customer: 'Accepts delivery by checking objective artifacts, not a guaranteed quality uplift.',
-    evidence: 'Reproducibility report, model version, delivered files and signed handoff.' },
-];
-
 const AMENDMENTS = [
   ['New base model or method', 'Re-confirm model fit, memory, unit rates, training throughput and evaluator comparability; sign a revised order.'],
   ['More cycles or higher token volume', 'Written change order before exceeding the approved cycle count or compute allowance.'],
@@ -97,6 +78,42 @@ ${body}
 </main></body></html>`;
 }
 
+// Buyer-facing commercial terms for the usage model: the most the customer can be charged,
+// what they can stop at and what they pay, and what the price does not include.
+function commercialBlock(deal, o) {
+  if (o.mode !== 'cogsBuilt') return '';
+  const N = o.cycles;
+  const head = deal.pricing.allowanceHeadroom ?? 0;
+  const millions = o.allowanceTokens ? `${(o.allowanceTokens / 1e6).toLocaleString('en-US')} million tokens` : 'as set in the order';
+  const commit = o.commitDiscount
+    ? `${pct(o.commitDiscount, 0)} off the cycle packages for the ${N} cycles you commit to`
+    : 'Available when you commit to 4 or more cycles (5% off) or 6 or more (10% off)';
+  const stops = [
+    ['Stop after setup', o.milestones[0].amount],
+    ['Stop after cycle 1', o.milestones[0].amount + o.milestones[1].amount],
+    ...(N >= 2 ? [[`Stop after cycle 2`, o.milestones[0].amount + o.milestones[1].amount + o.milestones[2].amount]] : []),
+    ['Full engagement (with acceptance)', o.total],
+  ];
+  const stopRows = stops.map(([a, b]) => `<tr><td>${escapeHtml(a)}</td><td class="num">${usd(b)}</td></tr>`).join('');
+  return `<h2>What you can be charged</h2>
+<table><tbody>
+<tr><td><strong>Maximum committed fee</strong></td><td>${usd(o.maxCommitted)}. The three invoices add up to this and no more, whatever the cycle timing.</td></tr>
+<tr><td><strong>Included usage</strong></td><td>${E(o.allowance.toLocaleString('en-US'))} GPU-hours of managed compute and ${E(millions)} on the agent platform${head > 0 ? `, which includes a ${pct(head, 0)} buffer over planned use` : ''}.</td></tr>
+<tr><td><strong>Usage above those allowances</strong></td><td>Only with your written approval, billed at the rates in the usage section, and up to ${usd(o.overageCap)} in total without a further change order.</td></tr>
+<tr><td><strong>Committed-cycles price</strong></td><td>${E(commit)}.</td></tr>
+<tr><td><strong>Rates</strong></td><td>Fixed for the term of this statement of work.</td></tr>
+<tr><td><strong>Price validity</strong></td><td>${E(o.validityDays)} days from issue.</td></tr>
+</tbody></table>
+<h2>What one cycle includes, and what you pay if you stop</h2>
+<p>Each managed cycle includes the engineers who run it, the agent platform, the compute to train and roll out the model, and the held-out evaluation. Cycles are invoiced in equal parts of the cycle total, because each one carries the same work.</p>
+<table><thead><tr><th>If you stop at</th><th class="num">Total invoiced to that point</th></tr></thead><tbody>${stopRows}</tbody></table>
+<p class="note">Fees are not contingent on the score. Reaching the target, or a plateau, triggers a review; you then decide whether to continue, and no later invoice is issued unless you approve it.</p>
+<p class="note">Adding a cycle costs ${usd(o.scale.plusCycle)}: only that cycle's compute, platform use and engineering are added, while the setup and handoff do not change. The per-cycle invoice is a share of the cycle total, so it is not the price of one more cycle.</p>
+<h2>Ownership of deliverables</h2>
+<p>[The trained weights, grader, held-out evaluation set, environment and traces delivered to you: ownership and licence terms, including the base-model licence, to be confirmed by counsel.]</p>
+`;
+}
+
 const usd = (v) => money(v);
 const hrs = (n) => `${Number(n).toLocaleString('en-US')} hours`;
 
@@ -120,12 +137,12 @@ function meterSection(o) {
 <tr><td>Managed compute</td><td>${E(o.allowance.toLocaleString('en-US'))} GPU-hours across the engagement</td></tr>
 <tr><td>Agent platform usage</td><td>${E(millions)}</td></tr>
 </tbody></table>
-<p>Usage above these allowances, if it happens, is billed at:</p>
+<p>Usage above these allowances is billed only with your written approval, up to ${usd(o.overageCap)} in total, at:</p>
 <table><tbody>
 <tr><td>Managed compute above the allowance</td><td class="num">${usd(o.meters.gpuHourRate)} for each GPU-hour</td></tr>
 <tr><td>Agent platform usage above the allowance</td><td class="num">${usd(o.meters.tokenPerMillion)} for each million tokens</td></tr>
 </tbody></table>
-<p class="note">Every cycle score report shows the usage so far against the allowances, so there are no surprise charges. Rates are reviewed quarterly; any change applies from the next invoice and is notified in writing.</p>`;
+<p class="note">Every cycle score report shows usage so far against the allowances, so there are no surprise charges. Rates are fixed for this statement of work; any later order is priced at the rates then current.</p>`;
 }
 
 function cogsChangeRows(deal, o) {
@@ -166,6 +183,7 @@ export function buildSow(deal, r) {
     ['4 · Independent handoff', `Week ${E(o.weeks)}`, 'Final evaluation on untouched data; checkpoint, configuration, traces and runbook.', 'Accepts delivery by checking the listed artifacts.', 'Reproducibility report, model version, delivered files and signed handoff.'],
   ];
   const phaseRows = phases.map((p) => `<tr><td><strong>${escapeHtml(p[0])}</strong><div class="note">${escapeHtml(p[1])}</div></td><td>${escapeHtml(p[2])}</td><td>${escapeHtml(p[3])}</td><td>${escapeHtml(p[4])}</td></tr>`).join('');
+  const respSec = s.include ? 7 : 6;
   const serving = s.include ? `<h2>6. Optional production serving (separate service order)</h2>
 <p>Production inference is not part of this training engagement. If elected, it is contracted under a separate service order with indicative terms:</p>
 <table><tbody>
@@ -182,7 +200,7 @@ export function buildSow(deal, r) {
 <tr><td>Customer</td><td>${escapeHtml((deal.customer.name || '[Customer name]'))}</td></tr>
 <tr><td>Provider</td><td>Applied Compute</td></tr>
 <tr><td>Workflow in scope</td><td>${escapeHtml(deal.customer.workflow)}</td></tr>
-<tr><td>Base model</td><td>${escapeHtml(deal.model)} (open-weight; access and licence per Section 7)</td></tr>
+<tr><td>Base model</td><td>${escapeHtml(deal.model)} (open-weight; access and licence per Section ${respSec})</td></tr>
 <tr><td>Method</td><td>${escapeHtml(deal.method)} reinforcement learning</td></tr>
 <tr><td>Approved RL cycles</td><td>${E(o.cycles)} (every ${E(deal.rl.cadenceWeeks)} week${deal.rl.cadenceWeeks === 1 ? '' : 's'}); change orders required beyond ${E(o.cycles)}</td></tr>
 <tr><td>Planned duration</td><td>${E(o.weeks)} weeks</td></tr>
@@ -203,6 +221,7 @@ export function buildSow(deal, r) {
 
 <h2>4. Commercial schedule</h2>
 <p>Invoices follow the milestones below. Payment terms: [net terms: counsel review].</p>
+${o.mode === 'cogsBuilt' ? `<p>The maximum committed fee is ${usd(o.maxCommitted)}. Usage above the allowances needs your written approval and is capped at ${usd(o.overageCap)} in total without a change order. This price is valid for ${E(o.validityDays)} days from issue.</p>` : ''}
 ${scheduleTable(o)}
 ${meterSection(o)}
 
@@ -211,7 +230,7 @@ ${meterSection(o)}
 <table><thead><tr><th>Trigger</th><th>What happens</th></tr></thead><tbody>${amend}</tbody></table>
 
 ${serving.replace('<h2>6.', '<h2>6.')}
-<h2>${s.include ? '7' : '6'}. Customer responsibilities and assumptions</h2>
+<h2>${respSec}. Customer responsibilities and assumptions</h2>
 <ul>
 <li>Customer provides data and access by kickoff, and confirms the base-model licence and training access.</li>
 <li>Scope is limited to the one workflow above. Material changes follow Section 5.</li>
@@ -233,12 +252,12 @@ export function buildProposal(deal, r) {
   const change = o.mode === 'cogsBuilt' ? cogsChangeRows(deal, o) : [
     ['One more cycle', `+${usd(o.scale.plusCycle)}`, `The cycle fee of ${usd(deal.pricing.cycleFee)} plus extra-cycle engineering, because it goes beyond the ${deal.pricing.includedCycles} included cycles.`],
     o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), `The cycle fee of ${usd(deal.pricing.cycleFee)} is not charged. The engineering fee does not change.`],
-    ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The readiness invoice and the first cycle invoice. No later invoices are issued. You are not billed the handoff fee unless the handoff is signed.'],
+    ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The setup invoice and the first cycle invoice. No later invoices are issued. You are not billed the handoff fee unless the handoff is signed.'],
     o.tiers ? ['A smaller model (small class)', `${usd(o.tiers.small)} per cycle`, 'The cycle price for a small model, set at 0.65 times the standard cycle fee.'] : null,
     o.tiers ? ['A larger model (large class)', `${usd(o.tiers.large)} per cycle`, 'The cycle price for a large mixture-of-experts model, set at 2.5 times the standard cycle fee.'] : null,
     ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately, through a change order, before any work starts.'],
   ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
-  const discountRow = o.discount ? `<p class="note">Includes a negotiated discount of ${usd(-o.discount)}, applied to the readiness invoice.</p>` : '';
+  const discountRow = o.discount ? `<p class="note">Includes a negotiated discount of ${usd(-o.discount)}, spread across the three invoices.</p>` : '';
   const s = deal.serving;
   const serving = s.include ? `<h2>Optional production serving (separate order)</h2>
 <table><tbody>
@@ -260,6 +279,7 @@ ${phaseCards}
 ${scheduleTable(o)}
 <h2>What changes the price</h2>
 <table><thead><tr><th>If you…</th><th class="num">Price effect</th><th>Why</th></tr></thead><tbody>${change}</tbody></table>
+${commercialBlock(deal, o)}
 <h2>Not included</h2>
 <ul>${NOT_INCLUDED.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
 ${serving}
@@ -270,6 +290,18 @@ ${FAQ.map(([q, a]) => `<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join('
 <h2>Acceptance</h2>
 <p>Each phase is accepted against the objective evidence listed in the statement of work, and each invoice follows the same milestone.</p>`;
   return doc('Pricing Proposal', body, r.gates.status, (deal.customer.name || '[Customer name]'));
+}
+
+// Bridge from the workbook's own COGS (core lines plus rework, at the workbook inputs) to
+// this deal's COGS. Extension lines are the difference; the workbook total is unchanged.
+export function cogsBridgeRows(r) {
+  const core = r.cogs.coreTotal, ext = r.cogs.extendedTotal, rework = r.cogs.rework;
+  return [
+    ['Workbook core COGS (sheet 02 lines, before rework)', core.toFixed(2)],
+    ['Extension lines (ledger, insurance, Ari, holdout, idle capacity, headroom)', ext.toFixed(2)],
+    ['Expected rework allowance', rework.toFixed(2)],
+    ['This deal: risk-adjusted COGS', r.cogs.cogs.toFixed(2)],
+  ];
 }
 
 export function buildCogsCsv(deal, r) {
@@ -291,7 +323,11 @@ export function buildCogsCsv(deal, r) {
     ...r.cogs.lines.map((l) => ['COGS', l.label, l.value.toFixed(2)]),
     ['COGS', 'Rework allowance', r.cogs.rework.toFixed(2)],
     ['COGS', 'Risk-adjusted COGS', r.cogs.cogs.toFixed(2)],
-    ['Price', 'Itemized fees', r.pricing.itemized.toFixed(2)],
+    ...cogsBridgeRows(r).map(([a, b, c]) => ['Bridge', a, c === undefined ? b : `${b}`]),
+    ...(r.pricing.mode === 'cogsBuilt'
+      ? r.pricing.lines.filter((l) => l.key !== 'discount').map((l) => ['Price line', `${l.label} (cost ${l.cost.toFixed(2)}, margin ${(l.margin * 100).toFixed(0)}%)`, l.value.toFixed(2)])
+      : []),
+    ['Price', r.pricing.mode === 'cogsBuilt' ? 'Sum of customer lines' : 'Itemized fees', r.pricing.itemized.toFixed(2)],
     ['Price', 'Target-margin floor', r.pricing.marginFloorPrice.toFixed(2)],
     ['Price', 'Quote', r.pricing.quote.toFixed(2)],
     ['Price', 'Gross margin', (r.pricing.grossMargin * 100).toFixed(2) + '%'],
@@ -333,6 +369,7 @@ main{max-width:980px;margin:0 auto;padding:40px 24px 72px}
 h1{font:400 34px/1.15 Newsreader,Georgia,serif;margin:10px 0 6px}h2{font:400 21px Newsreader,Georgia,serif;margin:30px 0 10px}
 .banner{border:1px solid #101010;background:#101010;color:#fff;padding:10px 14px;border-radius:8px;font-weight:600;margin:16px 0}
 table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+@media (max-width:640px){table{display:block;overflow-x:auto;white-space:nowrap}}
 th{font:600 11px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var(--muted)}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 tr.group th{background:#fcfcf9;color:var(--ink);font:600 13px Inter,sans-serif;text-transform:none}
 tr.total td{font-weight:700;border-top:2px solid var(--ink)}
@@ -349,6 +386,15 @@ tr.total td{font-weight:700;border-top:2px solid var(--ink)}
 <div><span class="muted">Gross margin</span><b>${E(pct(r.pricing.grossMargin))}</b></div>
 <div><span class="muted">Training GPU-hours</span><b>${E(count(r.work.totalGpuHours))}</b></div>
 </div>
+${r.pricing.mode === 'cogsBuilt' ? `<h2>Price by customer line</h2>
+<table><thead><tr><th>Customer line</th><th class="num">Cost, incl. shared</th><th class="num">Margin</th><th class="num">Price</th></tr></thead><tbody>${r.pricing.lines.filter((l) => l.key !== 'discount').map((l) => `<tr><td>${E(l.label)}</td><td class="num">${E(money(l.cost))}</td><td class="num">${E(pct(l.margin, 0))}</td><td class="num">${E(money(l.value))}</td></tr>`).join('')}
+<tr class="total"><td>Total</td><td class="num">${E(money(r.cogs.cogs))}</td><td></td><td class="num">${E(money(r.pricing.quote))}</td></tr></tbody></table>
+<p class="muted">Shared cost (storage, rework, insurance, support, legal) is allocated across the lines by direct cost. Blended margin ${E(pct(r.pricing.grossMargin))}.</p>
+<h2>Bridge from the workbook</h2>
+<table><tbody>${cogsBridgeRows(r).map(([a, b]) => `<tr><td>${E(a)}</td><td class="num">${E(money(Number(b)))}</td></tr>`).join('')}</tbody></table>
+<p class="muted">The workbook's $106,590 is its core lines plus rework at its own inputs, with no extension lines. The example adds the extension lines the workbook does not carry.</p>
+<h2>Automation</h2>
+<p>Ari replaces ${E(pct(deal.ari?.automationPct ?? 0, 0))} of human hours in this deal. The customer keeps ${E(pct(deal.pricing.automationShare ?? 0, 0))} of that saving in lower package prices; the rest stays with Applied Compute.</p>` : ''}
 <h2>Cost by group</h2>
 <table><thead><tr><th>Cost line</th><th>Phase</th><th>Source</th><th class="num">Amount</th><th class="num">Share</th></tr></thead><tbody>${rows}
 <tr class="total"><td>Total delivery COGS (incl. rework)</td><td></td><td></td><td class="num">${E(money(r.cogs.cogs))}</td><td class="num">100%</td></tr></tbody></table>

@@ -17,6 +17,7 @@ function extensionLines(X, N, gpuCost, fx) {
     ['holdoutEval', 'Final holdout evaluation GPU time', 'Compute and capacity', 'Handoff', X.holdoutEvalGpuHours * fx.holdoutRate],
     ['ari', 'Ari agent tokens (serving compute)', 'Platform and tools', 'Cycles', fx.ariCost],
     ['idleCapacity', 'Idle reserved capacity (below target utilization)', 'Compute and capacity', 'Cycles', fx.idleCost],
+    ['headroomReserve', 'Reserve for allowance headroom (expected use)', 'Compute and capacity', 'Cycles', fx.headroomCost],
     ['rerun', 'Re-run reserve for failed or pre-empted jobs', 'Compute and capacity', 'Cycles', pos(X.rerunReservePct) * gpuCost],
     ['judge', 'External judge / LLM-grader API spend', 'Evaluation and environments', 'Cycles', N * X.judgeApiPerCycle],
     ['tools', 'Third-party tool and data API spend', 'Evaluation and environments', 'Cycles', N * X.toolApiPerCycle],
@@ -31,7 +32,7 @@ function extensionLines(X, N, gpuCost, fx) {
     ['cs', 'Customer success and executive sponsorship', 'People and overhead', 'Shared', lab(X.csHours * rate)],
     ['security', 'Security and compliance review', 'People and overhead', 'Foundation', lab(X.securityReviewHours * rate)],
     ['legal', 'Legal and contracting', 'People and overhead', 'Shared', lab(X.legalHours * rate)],
-    ['verifier', 'Independent verification reviewer (Phase 4)', 'People and overhead', 'Handoff', lab(X.verifierHours * rate)],
+    ['verifier', 'Independent verification reviewer (handoff)', 'People and overhead', 'Handoff', lab(X.verifierHours * rate)],
     ['oncall', 'On-call and operations cover', 'Platform and tools', 'Shared', X.onCallWeeks * X.onCallRatePerWeek],
     ['travel', 'Travel and on-site trips', 'Platform and tools', 'Shared', X.trips * X.tripCost],
     ['seats', 'Observability and experiment-tracking seats', 'Platform and tools', 'Shared', X.seats * X.seatCost],
@@ -60,13 +61,15 @@ export function computeCogs(deal, work, capacity) {
   const gh = work.totalGpuHours;
   const sh = (x) => safeDiv(x, gh);
   const fx = effortFactors(deal);
-  const rateCard = capacity.paygoPrice ?? 0;
+  const rateCard = deal.capacity.paygoPrice ?? 0;
   const tokens = Math.max(0, (deal.ari?.tokensMPerCycle ?? 0) * 1e6) * N;
   const ariHours = safeDiv(tokens, deal.ari?.servingTokensPerGpuHour ?? 0);
   fx.ariCost = ariHours * rateCard;
   fx.holdoutRate = safeDiv(gpu, gh) || rateCard;          // blended GPU cost per hour
   const util = deal.capacity.targetUtilization ?? 1;
   fx.idleCost = util > 0 ? gpu * Math.max(0, 1 / util - 1) : 0;
+  // Headroom is priced at half its face value: buyers use about half of a buffer on average.
+  fx.headroomCost = gpu * Math.max(0, deal.pricing.allowanceHeadroom ?? 0) * 0.5;
   const lab = (v) => v * fx.auto;                          // labour after automation (in COGS)
 
   // ---- core ledger (workbook parity) ----
@@ -91,7 +94,7 @@ export function computeCogs(deal, work, capacity) {
   const coreTotal = core.reduce((s, l) => s + l.value, 0);
 
   // ---- extension ledger ----
-  const ext = extensionLines(X, N, gpu, { auto: fx.auto, ariCost: fx.ariCost, idleCost: fx.idleCost, holdoutRate: fx.holdoutRate });
+  const ext = extensionLines(X, N, gpu, { auto: fx.auto, ariCost: fx.ariCost, idleCost: fx.idleCost, headroomCost: fx.headroomCost, holdoutRate: fx.holdoutRate });
   const extSum = ext.reduce((s, l) => s + l.value, 0);
   const insurance = pos(X.insurancePct) * (coreTotal + extSum);
   ext.push({ id: 'insurance', label: 'Insurance allocation (% of direct cost)', group: 'Risk', phase: 'Shared', value: insurance, source: 'extension' });

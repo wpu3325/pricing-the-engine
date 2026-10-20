@@ -16,7 +16,7 @@ export const REQUIREMENTS = [
   { req: 'A. Assumptions needed to price accurately', where: [['Excel model', 'deliverables/excel-model.html'], ['Pricing rationale', 'deliverables/pricing-rationale.html']],
     why: 'Every input is either measured or tagged as an assumption. Unverified inputs hold the quote (HOLD) rather than being rounded into a confident price.' },
   { req: 'A. An asset the team can flex per deal', where: [['Live tool', 'app/index.html'], ['Excel model', 'deliverables/excel-model.html']],
-    why: 'The workbook is the reference; the tool is the flexible version. The parity table shows they agree cell by cell, so a change in one can be carried to the other.' },
+    why: 'The workbook is the reference; the tool is the flexible version. The parity table shows they agree cell by cell for COGS, capacity and the rate card. The usage-model price has no workbook counterpart, so it is checked by its own tests.' },
   { req: 'B. Scope of work and pricing proposal with rationale', where: [['Proposal', 'deliverables/pricing-model.html'], ['SOW', 'deliverables/statement-of-work.html']],
     why: 'Three phases: a setup package, managed RL cycles with compute and Ari usage included, and a handoff package. Each shows what the customer gets and when it is invoiced. No hours are sold.' },
   { req: 'B. Margin profile and reasoning', where: [['Pricing and margin', 'deliverables/pricing-rationale.html'], ['Live tool: economics', 'app/index.html']],
@@ -53,7 +53,7 @@ export function buildHub() {
   const body = `
 <div class="mark">| · APPLIED COMPUTE · TAKE-HOME ·</div>
 <h1>Pricing the Engine</h1>
-<p class="lede">The cost, price, margin and contract for one enterprise RL post-training engagement. Every page is generated from one engine, and the Excel model is the reference the engine is checked against.</p>
+<p class="lede">The cost, price, margin and contract for one enterprise RL post-training engagement. Every page is generated from one engine, and the Excel model is the reference for COGS, capacity and the rate card.</p>
 
 <h2>The deliverables, in reading order</h2>
 <div class="cards">${cardHtml}</div>
