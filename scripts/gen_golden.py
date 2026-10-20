@@ -13,7 +13,7 @@ import json, os, re, shutil, subprocess, sys, tempfile, zipfile, html
 from xml.etree import ElementTree as ET
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-WB = os.path.join(ROOT, 'docs/reference/configurator/AppliedCompute_Deal_Configurator_Dropdowns.xlsx')
+WB = os.path.join(ROOT, 'deliverables/downloads/AppliedCompute_Deal_Configurator_Dropdowns.xlsx')
 SCEN = os.path.join(ROOT, 'data/scenarios/scenarios.json')
 OUT = os.path.join(ROOT, 'test/golden')
 NS = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'

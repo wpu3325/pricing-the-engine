@@ -2,7 +2,7 @@
 
 Follow this once from top to bottom. You will end with a quote, a margin, and a proposal you can read as the customer would.
 
-**Before you start:** open `index.html` in a browser (or run `npm start`). Click **Start here** to read the process. Then click **Deal**.
+**Before you start:** open the [live tool](https://wpu3325.github.io/pricing-the-engine/app/) (or `app/index.html` locally, or run `npm start`). Click **Start here** to read the process. Then click **Deal**.
 
 ---
 
@@ -74,4 +74,4 @@ Only if the customer wants the model served afterwards. This is a separate month
 - The customer decides after every cycle whether to continue. A score can prompt a review, but never stops contracted work on its own.
 - The internal COGS export is for Applied Compute only. Never send it to a customer.
 
-Sample outputs: [rendered samples](https://wpu3325.github.io/pricing-the-engine/docs/samples/). Requirement map: [ANSWERS.md](ANSWERS.md).
+Every page this walkthrough produces is linked from the [deliverables hub](https://wpu3325.github.io/pricing-the-engine/), which also maps each take-home requirement to its answer.
