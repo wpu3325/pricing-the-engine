@@ -1,7 +1,7 @@
 // Model catalog lookups. Mirrors workbook '04 Guide Assumptions'!F26:Q55 and the
 // VLOOKUPs in '01 Deal Setup' B8, G23:G32. Null parameter counts are never
 // coerced to 0: they surface as NOT_VERIFIED so the model cannot be quoted.
-import catalogJson from '../../data/model_catalog.json' with { type: 'json' };
+import { MODEL_CATALOG as catalogJson } from '../data/model_catalog.js';
 
 export const NOT_VERIFIED = 'Not verified';
 

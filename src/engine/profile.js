@@ -2,8 +2,8 @@
 // actually has (data type, dataset size, task type, context, target model).
 // Suggestions never overwrite the deal; the UI applies them on request.
 // Pure functions, no DOM. Values are labelled as proxies (presets JSON).
-import presets from '../../data/workload_presets.json' with { type: 'json' };
-import skus from '../../data/gpu_skus.json' with { type: 'json' };
+import { WORKLOAD_PRESETS as presets } from '../data/workload_presets.js';
+import { GPU_SKUS as skus } from '../data/gpu_skus.js';
 import { NON_TRAINABLE } from './catalog.js';
 
 export const DATA_TYPES = presets.dataTypes;
