@@ -24,7 +24,8 @@ export function computePricing(deal, work, cogs, model) {
     : Math.max(0, marginFloorPrice - itemized);                                   // B99
   const quote = itemized + adjustment;                                            // B100
   const grossMargin = quote === 0 ? 0 : 1 - cogs.cogs / quote;                    // B101
-  const remainingBudget = p.budgetCeiling - quote;                                // B103
+  const budgetSet = p.budgetCeiling > 0;                                          // 0 = not set by the customer
+  const remainingBudget = budgetSet ? p.budgetCeiling - quote : 0;                // B103
 
   return {
     mode: p.mode,
@@ -40,6 +41,7 @@ export function computePricing(deal, work, cogs, model) {
     marginFloorPrice,
     adjustment, quote, grossMargin, remainingBudget,
     budgetCeiling: p.budgetCeiling,
+    budgetSet,
     targetGrossMargin: p.targetGrossMargin,
     minGrossMargin: p.minGrossMargin,
     cycleEngineeringFactor,

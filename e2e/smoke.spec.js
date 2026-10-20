@@ -1,23 +1,34 @@
 import { test, expect } from '@playwright/test';
 
-test('default deal reproduces the workbook headline numbers', async ({ page }) => {
+test('first load is a blank deal that asks for inputs, with no invented customer', async ({ page }) => {
   await page.goto('/index.html');
-  await expect(page.locator('.strip')).toContainText('$210,000');
-  await expect(page.locator('.strip')).toContainText('$106,590');
-  await expect(page.locator('.strip')).toContainText('3,360 GPU-h');
-  await expect(page.locator('.strip .kpi').last().locator('.chip')).toContainText('HOLD - MODEL');
+  await expect(page.locator('#rail')).toContainText('0 of 9');
+  await expect(page.locator('#rail')).toContainText('Choose a target model');
+  await expect(page.locator('body')).not.toContainText('Step 1');
+});
+
+test('the worked example reproduces the workbook headline numbers in the side panel', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.locator('#starter').selectOption('workflow');
+  await expect(page.locator('#rail')).toContainText('$210,000');
+  await expect(page.locator('#rail')).toContainText('$106,590');
+  await expect(page.locator('#rail')).toContainText('3,360 GPU-h');
+  await expect(page.locator('#rail .rail-head')).toContainText('HOLD - MODEL');
 });
 
 test('changing cycles updates the quote live and focus stays in the form', async ({ page }) => {
   await page.goto('/index.html');
+  await page.locator('#starter').selectOption('workflow');
   const cycles = page.locator('[data-path="rl.cycles"]');
   await cycles.fill('4');
   await cycles.press('Tab');
-  await expect(page.locator('.strip')).toContainText('$258,000');
+  await expect(page.locator('#rail')).toContainText('$258,000');
+  await expect(page.locator('#rail .last-change')).toContainText('quote +$48,000');
 });
 
 test('every ⓘ shows an explanation with this deal’s numbers', async ({ page }) => {
   await page.goto('/index.html');
+  await page.locator('#starter').selectOption('workflow');
   await page.locator('[data-explain="kpi.quote"]').first().hover();
   await expect(page.locator('#tip')).toContainText('floor');
 });

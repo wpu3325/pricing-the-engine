@@ -3,12 +3,12 @@
 // Every path here must have an entry in explain.js (enforced by test/explain.test.js).
 export const SECTIONS = [
   {
-    id: 'customer', title: 'Customer & data', eyebrow: 'Step 1 · Intake',
+    id: 'customer', title: 'Customer & data', num: 1, feeds: 'Feeds: demand, workload size',
     fields: [
-      { path: 'customer.name', label: 'Customer', type: 'text', essential: true },
-      { path: 'customer.workflow', label: 'Workflow / task', type: 'text', essential: true },
+      { path: 'customer.name', label: 'Customer', type: 'text', essential: true, placeholder: 'e.g. Northwind Bank' },
+      { path: 'customer.workflow', label: 'Workflow / task', type: 'text', essential: true, placeholder: 'e.g. claims triage on policy documents' },
       { path: 'data.type', label: 'Primary data type', type: 'select', essential: true, options: 'dataTypes' },
-      { path: 'data.examples', label: 'Training examples', type: 'number', unit: 'examples', essential: true, step: 1000 },
+      { path: 'data.examples', label: 'Training examples', type: 'number', unit: 'examples', essential: true, step: 1000, blank: true, placeholder: 'e.g. 28000' },
       { path: 'data.tokensPerExample', label: 'Tokens per example', type: 'number', unit: 'tokens', essential: true, step: 100 },
       { path: 'data.taskType', label: 'Task / RL environment', type: 'select', essential: true, options: 'taskTypes' },
       { path: 'data.contextTokens', label: 'Context length', type: 'number', unit: 'tokens', step: 1024 },
@@ -16,15 +16,17 @@ export const SECTIONS = [
       { path: 'customer.dataSensitive', label: 'Regulated / sensitive data', type: 'bool' },
     ],
   },
+
   {
-    id: 'model', title: 'Model & method', eyebrow: 'Step 1 · Model',
+    id: 'model', title: 'Model & method', num: 2, feeds: 'Feeds: GPU count, cycle price, hardware gate',
     fields: [
       { path: 'model', label: 'Target open-weight model', type: 'model', essential: true },
       { path: 'method', label: 'Training method', type: 'select', essential: true, options: ['GRPO', 'SFT', 'OPSD (online)', 'OPSD (offline)', 'RMSD', 'Decision training', 'Other / custom'] },
     ],
   },
+
   {
-    id: 'rl', title: 'RL plan & stop rules', eyebrow: 'Step 1 · RL plan',
+    id: 'rl', title: 'RL plan & stop rules', num: 3, feeds: 'Feeds: weeks, labour, cycle price',
     fields: [
       { path: 'rl.cycles', label: 'Approved RL cycles', type: 'number', unit: 'cycles', essential: true, step: 1 },
       { path: 'rl.cadenceWeeks', label: 'Cadence', type: 'number', unit: 'weeks per cycle', essential: true, step: 1 },
@@ -39,8 +41,9 @@ export const SECTIONS = [
       { path: 'rl.decision', label: 'Customer continuation decision', type: 'select', options: ['Pending', 'Continue', 'Stop'] },
     ],
   },
+
   {
-    id: 'demand', title: 'Demand & GPU throughput', eyebrow: 'Step 1 · Demand',
+    id: 'demand', title: 'Demand & GPU throughput', num: 4, feeds: 'Feeds: GPU-hours, compute cost',
     fields: [
       { path: 'demand.policyTokensPerCycle', label: 'Policy-update tokens per cycle', type: 'number', unit: 'tokens', essential: true, step: 1000000, suggest: 'policy' },
       { path: 'demand.rolloutAttemptsPerCycle', label: 'Rollout attempts per cycle', type: 'number', unit: 'attempts', essential: true, step: 100, suggest: 'rollout' },
@@ -58,8 +61,36 @@ export const SECTIONS = [
       { path: 'demand.evalGpus', label: 'Evaluation GPUs (standard)', type: 'number', unit: 'GPUs', step: 1 },
     ],
   },
+
   {
-    id: 'labor', title: 'Delivery labour & external costs', eyebrow: 'Step 1 · Delivery cost',
+    id: 'capacity', title: 'GPU capacity & procurement', num: 5, feeds: 'Feeds: buy vs existing GPUs, cash cost',
+    fields: [
+      { path: 'capacity.useExisting', label: 'Use compatible existing GPUs?', type: 'bool' },
+      { path: 'capacity.gpuSku', label: 'GPU accelerator planned', type: 'select', essential: true, options: ['H100', 'B200', 'B300', 'Other'] },
+      { path: 'capacity.acquisition', label: 'New capacity acquisition', type: 'select', options: ['Auto', 'PayGo', 'Extend', 'Reserve', 'Existing only', 'BYOC'] },
+      { path: 'capacity.canObtainExtra', label: 'Extra capacity can be obtained?', type: 'bool' },
+      { path: 'capacity.paygoPrice', label: 'PayGo unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
+      { path: 'capacity.extendPrice', label: 'One-week extension unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
+      { path: 'capacity.reservePrice', label: 'New reservation unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
+      { path: 'capacity.minReservationWeeks', label: 'Minimum new reservation', type: 'number', unit: 'weeks', step: 1 },
+      { path: 'capacity.hoursPerWeek', label: 'Hours per scheduled week', type: 'number', unit: 'hours', step: 1 },
+      { path: 'capacity.allocationRate', label: 'Existing capacity allocation cost', type: 'number', unit: '$/GPU-hour', step: 0.01 },
+      { path: 'capacity.opportunityRate', label: 'Existing capacity opportunity value', type: 'number', unit: '$/GPU-hour', step: 0.01 },
+      { path: 'capacity.provisioningFee', label: 'New provisioning / setup', type: 'number', unit: '$', step: 100 },
+      { path: 'capacity.pools.0.freeGpus', label: 'Prepaid cluster A — free GPUs', type: 'number', unit: 'GPUs', essential: true, step: 1, blank: true, placeholder: '0 if none' },
+      { path: 'capacity.pools.0.startWeek', label: 'Prepaid cluster A — start week', type: 'number', unit: 'week', step: 1 },
+      { path: 'capacity.pools.0.expiryWeek', label: 'Prepaid cluster A — expiry week', type: 'number', unit: 'week', step: 1 },
+      { path: 'capacity.pools.1.freeGpus', label: 'Other pool B — free GPUs', type: 'number', unit: 'GPUs', step: 1 },
+      { path: 'capacity.pools.1.startWeek', label: 'Other pool B — start week', type: 'number', unit: 'week', step: 1 },
+      { path: 'capacity.pools.1.expiryWeek', label: 'Other pool B — expiry week', type: 'number', unit: 'week', step: 1 },
+      { path: 'capacity.pools.2.freeGpus', label: 'Other pool C — free GPUs', type: 'number', unit: 'GPUs', step: 1 },
+      { path: 'capacity.pools.2.startWeek', label: 'Other pool C — start week', type: 'number', unit: 'week', step: 1 },
+      { path: 'capacity.pools.2.expiryWeek', label: 'Other pool C — expiry week', type: 'number', unit: 'week', step: 1 },
+    ],
+  },
+
+  {
+    id: 'labor', title: 'Delivery labour & external costs', num: 6, feeds: 'Feeds: COGS (delivery labour and external costs)',
     fields: [
       { path: 'labor.fdeSetupHours', label: 'FDE setup hours', type: 'number', unit: 'hours', step: 1 },
       { path: 'labor.fdeHoursPerCycle', label: 'FDE hours per cycle', type: 'number', unit: 'hours/cycle', step: 1 },
@@ -80,8 +111,9 @@ export const SECTIONS = [
       { path: 'costs.reworkPct', label: 'Expected rework allowance', type: 'percent', unit: '% of COGS', step: 0.01 },
     ],
   },
+
   {
-    id: 'extras', title: 'Additional cost lines (not in the workbook baseline)', eyebrow: 'Step 1 · Full cost base',
+    id: 'extras', title: 'Additional cost lines (not in the workbook baseline)', num: 6, feeds: 'Feeds: COGS (additional cost lines)',
     fields: [
       { path: 'extras.devComputeGpuHours', label: 'Dev and smoke-test GPU time', type: 'number', unit: 'GPU-h', step: 1 },
       { path: 'extras.devComputeRate', label: 'Dev GPU rate', type: 'number', unit: '$/GPU-hour', step: 0.01 },
@@ -114,8 +146,9 @@ export const SECTIONS = [
       { path: 'extras.insurancePct', label: 'Insurance allocation', type: 'percent', unit: '% of direct cost', step: 0.001 },
     ],
   },
+
   {
-    id: 'pricing', title: 'Customer price & margin policy', eyebrow: 'Step 1 · Price',
+    id: 'pricing', title: 'Customer price & margin policy', num: 7, feeds: 'Feeds: quote and margin',
     fields: [
       { path: 'pricing.mode', label: 'Pricing basis', type: 'select', options: { rateCard: 'Itemized rate card', costPlus: 'Cost-plus (COGS ÷ (1 − target GM))' }, essential: true },
       { path: 'pricing.readinessFee', label: 'Readiness fixed fee', type: 'number', unit: '$', step: 1000 },
@@ -127,37 +160,12 @@ export const SECTIONS = [
       { path: 'pricing.discountPct', label: 'Negotiated project discount', type: 'percent', unit: '%', essential: true, step: 0.01 },
       { path: 'pricing.targetGrossMargin', label: 'Target engagement gross margin', type: 'percent', unit: '%', essential: true, step: 0.01 },
       { path: 'pricing.minGrossMargin', label: 'Minimum acceptable GM', type: 'percent', unit: '%', step: 0.01 },
-      { path: 'pricing.budgetCeiling', label: 'Customer maximum approval budget', type: 'number', unit: '$', essential: true, step: 5000 },
+      { path: 'pricing.budgetCeiling', label: 'Customer maximum approval budget', type: 'number', unit: '$', essential: true, step: 5000, blank: true, placeholder: 'not set' },
     ],
   },
+
   {
-    id: 'capacity', title: 'GPU capacity & procurement', eyebrow: 'Step 1 · Capacity',
-    fields: [
-      { path: 'capacity.useExisting', label: 'Use compatible existing GPUs?', type: 'bool' },
-      { path: 'capacity.gpuSku', label: 'GPU accelerator planned', type: 'select', essential: true, options: ['H100', 'B200', 'B300', 'Other'] },
-      { path: 'capacity.acquisition', label: 'New capacity acquisition', type: 'select', options: ['Auto', 'PayGo', 'Extend', 'Reserve', 'Existing only', 'BYOC'] },
-      { path: 'capacity.canObtainExtra', label: 'Extra capacity can be obtained?', type: 'bool' },
-      { path: 'capacity.paygoPrice', label: 'PayGo unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
-      { path: 'capacity.extendPrice', label: 'One-week extension unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
-      { path: 'capacity.reservePrice', label: 'New reservation unit price', type: 'number', unit: '$/GPU-hour', step: 0.01 },
-      { path: 'capacity.minReservationWeeks', label: 'Minimum new reservation', type: 'number', unit: 'weeks', step: 1 },
-      { path: 'capacity.hoursPerWeek', label: 'Hours per scheduled week', type: 'number', unit: 'hours', step: 1 },
-      { path: 'capacity.allocationRate', label: 'Existing capacity allocation cost', type: 'number', unit: '$/GPU-hour', step: 0.01 },
-      { path: 'capacity.opportunityRate', label: 'Existing capacity opportunity value', type: 'number', unit: '$/GPU-hour', step: 0.01 },
-      { path: 'capacity.provisioningFee', label: 'New provisioning / setup', type: 'number', unit: '$', step: 100 },
-      { path: 'capacity.pools.0.freeGpus', label: 'Prepaid cluster A — free GPUs', type: 'number', unit: 'GPUs', essential: true, step: 1 },
-      { path: 'capacity.pools.0.startWeek', label: 'Prepaid cluster A — start week', type: 'number', unit: 'week', step: 1 },
-      { path: 'capacity.pools.0.expiryWeek', label: 'Prepaid cluster A — expiry week', type: 'number', unit: 'week', step: 1 },
-      { path: 'capacity.pools.1.freeGpus', label: 'Other pool B — free GPUs', type: 'number', unit: 'GPUs', step: 1 },
-      { path: 'capacity.pools.1.startWeek', label: 'Other pool B — start week', type: 'number', unit: 'week', step: 1 },
-      { path: 'capacity.pools.1.expiryWeek', label: 'Other pool B — expiry week', type: 'number', unit: 'week', step: 1 },
-      { path: 'capacity.pools.2.freeGpus', label: 'Other pool C — free GPUs', type: 'number', unit: 'GPUs', step: 1 },
-      { path: 'capacity.pools.2.startWeek', label: 'Other pool C — start week', type: 'number', unit: 'week', step: 1 },
-      { path: 'capacity.pools.2.expiryWeek', label: 'Other pool C — expiry week', type: 'number', unit: 'week', step: 1 },
-    ],
-  },
-  {
-    id: 'approvals', title: 'Approvals before quoting', eyebrow: 'Step 1 · Gates',
+    id: 'approvals', title: 'Approvals before quoting', num: 8, feeds: 'Feeds: approval status',
     fields: [
       { path: 'approvals.benchmarkConfirmed', label: 'AC workload benchmark confirmed (model + GPU)', type: 'bool', essential: true },
       { path: 'approvals.accessApproved', label: 'Training access / licence approved', type: 'bool', essential: true },
@@ -165,8 +173,9 @@ export const SECTIONS = [
       { path: 'approvals.dataAccess', label: 'Data / access readiness', type: 'select', essential: true, options: ['Customer supplies by kickoff', 'Ready / validated', 'Access pending', 'Not available'] },
     ],
   },
+
   {
-    id: 'serving', title: 'Optional production serving', eyebrow: 'Step 1 · Production (separate order)',
+    id: 'serving', title: 'Optional production serving', num: 9, feeds: 'Feeds: production order (separate from training)',
     fields: [
       { path: 'serving.include', label: 'Include production proposal?', type: 'bool' },
       { path: 'serving.contract', label: 'Serving contract type', type: 'select', options: ['Dedicated', 'Shared'] },
@@ -184,6 +193,6 @@ export const SECTIONS = [
       { path: 'serving.supportPerMonth', label: 'Serving engineering support', type: 'number', unit: '$/month', step: 100 },
     ],
   },
-];
+  ];
 
 export const ALL_FIELD_PATHS = SECTIONS.flatMap((s) => s.fields.map((f) => f.path));

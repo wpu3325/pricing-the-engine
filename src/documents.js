@@ -142,7 +142,7 @@ export function buildSow(deal, r) {
   const body = `
 <h2>1. Parties and scope</h2>
 <table><tbody>
-<tr><td>Customer</td><td>${escapeHtml(deal.customer.name)}</td></tr>
+<tr><td>Customer</td><td>${escapeHtml((deal.customer.name || '[Customer name]'))}</td></tr>
 <tr><td>Provider</td><td>Applied Compute</td></tr>
 <tr><td>Workflow in scope</td><td>${escapeHtml(deal.customer.workflow)}</td></tr>
 <tr><td>Base model</td><td>${escapeHtml(deal.model)} (open-weight; access and licence per Section 7)</td></tr>
@@ -181,9 +181,9 @@ ${serving.replace('<h2>6.', '<h2>6.')}
 </ul>
 <p class="note">[Data rights and confidentiality — counsel review] · [Liability and indemnity — counsel review] · [Termination payment — counsel review] · [Governing law — counsel review]</p>
 <h2>Signatures</h2>
-<table><tbody><tr><td>For ${escapeHtml(deal.customer.name)}</td><td>For Applied Compute</td></tr>
+<table><tbody><tr><td>For ${escapeHtml((deal.customer.name || '[Customer name]'))}</td><td>For Applied Compute</td></tr>
 <tr><td>Name / title / date:</td><td>Name / title / date:</td></tr></tbody></table>`;
-  return doc('Statement of Work', body, r.gates.status, deal.customer.name);
+  return doc('Statement of Work', body, r.gates.status, (deal.customer.name || '[Customer name]'));
 }
 
 export function buildProposal(deal, r) {
@@ -231,14 +231,14 @@ ${serving}
 ${FAQ.map(([q, a]) => `<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join('')}
 <h2>Acceptance</h2>
 <p>Each phase is accepted against the objective evidence listed in the statement of work, and each invoice follows the same milestone.</p>`;
-  return doc('Pricing Proposal', body, r.gates.status, deal.customer.name);
+  return doc('Pricing Proposal', body, r.gates.status, (deal.customer.name || '[Customer name]'));
 }
 
 export function buildCogsCsv(deal, r) {
   const rows = [
     ['INTERNAL — DO NOT SEND TO CUSTOMER', '', ''],
     ['Section', 'Line', 'Value (USD or unit as stated)'],
-    ['Deal', 'Customer', deal.customer.name],
+    ['Deal', 'Customer', (deal.customer.name || '[Customer name]')],
     ['Deal', 'Model', deal.model],
     ['Deal', 'Status', r.gates.status],
     ['Demand', 'Total GPU-hours', r.work.totalGpuHours.toFixed(1)],
@@ -271,5 +271,5 @@ export function buildDealJson(deal) {
 
 export function fileName(deal, kind, date = new Date()) {
   const d = date.toISOString().slice(0, 10);
-  return `${slug(deal.customer.name)}_${slug(deal.model)}_${kind}_${d}`;
+  return `${slug((deal.customer.name || '[Customer name]'))}_${slug(deal.model)}_${kind}_${d}`;
 }

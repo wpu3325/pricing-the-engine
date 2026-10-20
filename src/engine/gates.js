@@ -52,7 +52,7 @@ export function commercialStatus(deal, { errors, readiness, capacity, pricing })
   if (errors.length) return 'HOLD - INPUT';
   if (readiness !== 'QUALIFIED*') return 'HOLD - MODEL';
   if (capacity.verdict !== 'FEASIBLE*') return 'HOLD - CAPACITY';
-  if (pricing.remainingBudget < 0) return 'HOLD - BUDGET';
+  if (pricing.budgetSet && pricing.remainingBudget < 0) return 'HOLD - BUDGET';
   if (pricing.grossMargin < deal.pricing.minGrossMargin) return 'HOLD - MARGIN';
   return 'READY FOR REVIEW';
 }

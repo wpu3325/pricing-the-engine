@@ -10,10 +10,12 @@ import { weeklyCapacityChart, cogsBars, marginGauge, tornadoChart, cycleChart } 
 import { fieldHtml } from './forms.js';
 import { infoButton } from './tooltip.js';
 import { scoreLog } from '../engine/gates.js';
+import { sectionStatus, estimateQuality } from '../progress.js';
 import { buildOffer } from '../offer.js';
 import { COGS_EXTENDED_PRESETS } from '../data/cogs_extended_presets.js';
 
 export const STEPS = [
+  { id: 'start', n: '★', name: 'Start here', sub: 'How the process works' },
   { id: 'deal', n: '1', name: 'Deal', sub: 'Inputs & approvals' },
   { id: 'economics', n: '2', name: 'Economics', sub: 'Cost, capacity, sensitivity' },
   { id: 'proposal', n: '3', name: 'Proposal', sub: 'Customer documents & export' },
@@ -21,45 +23,60 @@ export const STEPS = [
 
 const yesNo = (b) => (b ? 'Yes' : 'No');
 
-export function renderNav(step) {
-  return `<div class="group">Deal</div>${STEPS.map((s) => `<button type="button" class="nav" data-step="${s.id}" ${step === s.id ? 'aria-current="step"' : ''}><span class="num">${s.n}</span><span>${escapeHtml(s.name)}<span class="sub">${escapeHtml(s.sub)}</span></span></button>`).join('')}
+export function renderNav(step, deal, touched) {
+  const top = STEPS.map((s) => `<button type="button" class="nav" data-step="${s.id}" ${step === s.id ? 'aria-current="step"' : ''}><span class="num">${s.n}</span><span>${escapeHtml(s.name)}<span class="sub">${escapeHtml(s.sub)}</span></span></button>`).join('');
+  const subs = step === 'deal' ? `<div class="sub-nav" aria-label="Deal sections">${DEAL_NAV.map((d) => {
+    const st = sectionStatus(deal, touched, d.id);
+    return `<button type="button" class="nav-sub" data-goto="sec-${d.id}"><span class="dot st-${st}" aria-hidden="true"></span><span class="num-s">${d.num}</span>${escapeHtml(d.label)}</button>`;
+  }).join('')}</div>` : '';
+  return `<div class="group">Work</div>${top}${subs}
 <div class="spacer"></div>
 <div class="group">Reference</div>
 <button type="button" class="nav" data-action="guide"><span class="num">?</span><span>Guide & sources<span class="sub">Every equation, with workbook refs</span></span></button>
 <div class="foot">Planning tool. Not a quote until every approval gate clears.</div>`;
 }
 
-export function renderStrip(deal, r) {
-  const p = r.pricing;
-  const statusCls = r.gates.status === 'READY FOR REVIEW' ? 'ok' : '';
-  const gmCls = p.grossMargin < p.minGrossMargin ? 'no' : 'yes';
-  return `<div class="strip" role="region" aria-label="Live deal outputs">
-<div class="kpi"><div class="k">Customer quote ${infoButton('kpi.quote', 'Customer quote')}</div><div class="v">${money(p.quote)}</div><div class="s">floor ${money(p.marginFloorPrice)} · budget headroom ${money(p.remainingBudget)}</div></div>
-<div class="kpi"><div class="k">Expected gross margin ${infoButton('kpi.grossMargin', 'Expected gross margin')}</div><div class="v ${gmCls}">${pct(p.grossMargin)}</div><div class="s">target ${pct(p.targetGrossMargin, 0)} · minimum ${pct(p.minGrossMargin, 0)}</div></div>
-<div class="kpi"><div class="k">Forecast COGS ${infoButton('kpi.cogs', 'Forecast COGS')} <span class="chip internal" style="padding:3px 6px">internal</span></div><div class="v">${money(r.cogs.cogs)}</div><div class="s">delivery cost incl. rework</div></div>
-<div class="kpi"><div class="k">Demand ${infoButton('kpi.gpuHours', 'Demand GPU-hours')}</div><div class="v">${hours(r.work.totalGpuHours)}</div><div class="s">${escapeHtml(String(r.work.totalWeeks))} weeks · capacity ${escapeHtml(r.capacity.method)}</div></div>
-<div class="kpi"><div class="k">Approval status ${infoButton('kpi.status', 'Approval status')}</div><div style="margin-top:8px"><span class="chip ${statusCls}">${escapeHtml(r.gates.status)}</span></div><div class="s">${escapeHtml(r.capacity.verdict)}</div></div>
-</div>`;
-}
+const DEAL_NAV = [
+  { id: 'customer', num: 1, label: 'Customer & data' },
+  { id: 'model', num: 2, label: 'Model & method' },
+  { id: 'rl', num: 3, label: 'RL plan & stop rules' },
+  { id: 'demand', num: 4, label: 'Compute demand' },
+  { id: 'capacity', num: 5, label: 'GPU capacity' },
+  { id: 'labor', num: 6, label: 'Delivery costs' },
+  { id: 'pricing', num: 7, label: 'Price & margin' },
+  { id: 'approvals', num: 8, label: 'Approvals' },
+  { id: 'serving', num: 9, label: 'Production (optional)' },
+];
 
 // ---------- Step 1: Deal ----------
-export function renderDealForm(deal, r, catalog) {
+export function renderDealForm(deal, r, catalog, touched = new Set()) {
   const suggestions = suggestAll(deal, r.model);
   return SECTIONS.map((sec) => {
     const ess = sec.fields.filter((f) => f.essential);
     const adv = sec.fields.filter((f) => !f.essential);
     const extra = sec.id === 'rl' ? scoreEntryHtml(deal) : '';
-    const body = (list) => list.map((f) => fieldHtml(f, deal, { catalog, suggestions })).join('');
+    const body = (list) => list.map((f) => fieldHtml(f, deal, { catalog, suggestions, touched })).join('');
     const extrasHead = sec.id === 'extras' ? `<p class="small muted" style="margin:0 0 10px">These lines are not in the workbook baseline, so they are $0 until you add them. Fill the illustrative estimates to see a complete cost base, or enter your own figures. Every value is editable and is labelled UNVERIFIED until finance confirms it.</p>
 <div class="chips" style="margin-bottom:12px"><button type="button" class="pill dark" data-action="fill-extras">Fill illustrative estimates</button><button type="button" class="pill ghost" data-action="clear-extras">Clear to workbook baseline</button></div>` : '';
-    return `<section class="card" id="sec-${sec.id}" aria-labelledby="h-${sec.id}">
-<div class="card-head"><div><div class="eyebrow" style="margin-top:0">${escapeHtml(sec.eyebrow)}</div><h2 id="h-${sec.id}">${escapeHtml(sec.title)}</h2></div></div>
+    const status = sec.id === 'extras' ? '' : statusChip(sectionStatus(deal, touched, sec.id));
+    const head = sec.id === 'extras'
+      ? `<div class="eyebrow" style="margin-top:0">Delivery costs · additional lines</div><h2 id="h-${sec.id}">${escapeHtml(sec.title)}</h2>`
+      : `<div class="sec-num">${sec.num}</div><div><div class="sec-feeds">${escapeHtml(sec.feeds)}</div><h2 id="h-${sec.id}">${escapeHtml(sec.title)}</h2></div>`;
+    const suggest = sec.id === 'model' ? renderSuggest(deal, r, catalog) : '';
+    return `<section class="card section ${sec.id === 'extras' ? 'sub' : ''}" id="sec-${sec.id}" aria-labelledby="h-${sec.id}">
+<div class="card-head sec-head">${sec.id === 'extras' ? '' : '<div class="sec-num-wrap"></div>'}${head}${status ? `<div class="sec-status">${status}</div>` : ''}</div>
 ${extrasHead}
 ${ess.length ? `<div class="fields">${body(ess)}</div>` : ''}
-${sec.id === 'customer' ? '' : ''}
-${adv.length || extra ? `<details class="adv"${sec.id === 'extras' ? ' open' : ''}><summary>${sec.id === 'extras' ? 'Cost lines' : 'Advanced assumptions'} (${adv.length} fields)</summary><div class="fields">${body(adv)}</div>${extra}</details>` : ''}
+${suggest}
+${adv.length || extra ? `<details class="adv"${sec.id === 'extras' ? ' open' : ''}><summary>${sec.id === 'extras' ? 'Cost lines' : 'More assumptions'} (${adv.length} fields)</summary><div class="fields">${body(adv)}</div>${extra}</details>` : ''}
 </section>`;
   }).join('');
+}
+
+function statusChip(st) {
+  const m = { needs: ['Needs input', 'need'], defaults: ['On defaults', 'def'], done: ['Set', 'ok'], none: ['', ''] };
+  const [t, c] = m[st] || m.none;
+  return t ? `<span class="status-chip ${c}">${t}</span>` : '';
 }
 
 function scoreEntryHtml(deal) {
@@ -255,3 +272,69 @@ export function renderGuide() {
 }
 
 export const scoresFromLog = scoreLog;
+
+// ---------- Start here: the process, for a new user ----------
+const PROCESS = [
+  ['1', 'Customer & data', 'customer', 'Who the customer is, what they want improved, and how much training data they have.', 'Sets the amount of training work: the panel shows training compute as soon as examples are entered.'],
+  ['2', 'Model & method', 'model', 'The open-weight model to train. The tool ranks candidates for their data and shows the gates still open.', 'Sets the GPU count, the price per cycle and the hardware gate. A custom model is held until verified.'],
+  ['3', 'RL plan & stop rules', 'rl', 'How many RL cycles, how often they run, the success target and when to review progress.', 'Sets the duration and the price per cycle. The customer always decides to continue or stop.'],
+  ['4', 'Compute demand', 'demand', 'How much data each cycle uses and how fast our hardware trains on it. Most values are auto-filled from your data.', 'Sets the GPU-hours, which is the main driver of delivery cost.'],
+  ['5', 'GPU capacity', 'capacity', 'Whether spare GPUs are already paid for, and whether more can be bought.', 'Decides whether compute is an existing cost or new cash, and whether the schedule is feasible.'],
+  ['6', 'Delivery costs', 'labor', 'Engineering hours by role, graders, storage, platform and any extra cost lines.', 'Sets the full delivery cost (COGS). Shown internally only.'],
+  ['7', 'Price & margin', 'pricing', 'The target margin, the customer budget and any discount.', 'Sets the quote. If cost would push margin below target, the price rises to the floor, shown inside the phases.'],
+  ['8', 'Approvals', 'approvals', 'Benchmark confirmed, training licence approved, GPU rate confirmed.', 'Decides READY or HOLD. A quote can never be ready on an unverified assumption.'],
+  ['9', 'Production (optional)', 'serving', 'Whether the customer also wants the model served after training.', 'Adds a separate monthly order. It is never part of the training price.'],
+];
+
+export function renderHome(state) {
+  const { deal, r, touched } = state;
+  const q = estimateQuality(deal, touched);
+  const rows = PROCESS.map(([n, title, sec, what, feeds]) => `<li class="proc-step">
+<button type="button" class="proc-num" data-goto="sec-${sec}" data-go-step="deal" aria-label="Go to section ${n}">${n}</button>
+<div><div class="proc-title"><button type="button" class="linkish big" data-goto="sec-${sec}" data-go-step="deal">${escapeHtml(title)}</button></div>
+<p>${escapeHtml(what)}</p><p class="proc-feeds"><b>What it changes:</b> ${escapeHtml(feeds)}</p></div></li>`).join('');
+  return `<div class="eyebrow">Start here</div>
+<h1>How this tool prices an engagement</h1>
+<p class="lede">It takes one customer's request and shows, before anything is promised, what it costs to deliver, what to charge, and whether the deal can be approved. Work top to bottom: each section changes the live panel on the right.</p>
+
+<div class="home-grid">
+<section class="card"><h2>What it does for the business</h2>
+<ul class="plain">
+<li>Turns a customer request into GPU-hours, delivery cost and a price in one run.</li>
+<li>Shows what each decision costs before it is made: which model, how many cycles, buying GPUs or using spare ones.</li>
+<li>Keeps every deal honest: a proxy can never be quoted as ready, and a missing approval holds the quote.</li>
+<li>Produces the proposal and statement of work from the same numbers, so they cannot disagree.</li>
+</ul></section>
+<section class="card"><h2>What it does for the customer</h2>
+<ul class="plain">
+<li>A proposal that explains each charge: what it buys, why it costs that amount, and the effort behind it.</li>
+<li>Invoices tied to milestones, with the amount due if they stop after any cycle.</li>
+<li>They decide after every cycle whether to continue or stop. Progress reviews never stop contracted work on their own.</li>
+<li>Clear exclusions and a plain-language glossary, so there are no surprise costs.</li>
+</ul></section>
+</div>
+
+<section class="card"><div class="eyebrow" style="margin-top:0">The process, in order</div><h2>Nine sections, then the proposal</h2>
+<p class="small muted">Section numbers match the left menu. Click any step to jump to it. You do not need every field to see a result: the panel shows what is still missing.</p>
+<ol class="proc">${rows}</ol>
+<div class="proc-last"><b>10 · Review and send.</b> Open the Proposal step. It shows the customer's proposal and the statement of work, with a status banner. Send only when the banner reads ready for review, and after commercial and legal review.</div>
+</section>
+
+<div class="home-grid">
+<section class="card"><h2>Reading the status</h2>
+<table class="t"><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><span class="chip">Select a model</span></td><td>Start by choosing the model in section 2.</td></tr>
+<tr><td><span class="chip">HOLD</span> (any reason)</td><td>A required approval or input is missing. The panel says which one.</td></tr>
+<tr><td><span class="chip ok">Ready for review</span></td><td>Every gate passes. It still needs commercial and legal review before it goes out.</td></tr>
+</tbody></table>
+<p class="small muted" style="margin-top:10px">Grey “default” tags mark illustrative assumptions (rates, prices, policy). Replace them with the customer's or finance's figures before relying on the price.</p></section>
+<section class="card"><h2>Where you are now</h2>
+<p><b>${q.set} of ${q.total}</b> key inputs set${q.defaults ? `, ${q.defaults} on defaults` : ''}.</p>
+<div class="home-actions">
+<button type="button" class="pill dark" data-goto="sec-customer" data-go-step="deal">Start with section 1</button>
+<button type="button" class="pill" data-action="load-example">Load a worked example</button>
+</div>
+<p class="small muted">A worked example shows a complete deal: a text workflow, three cycles, a model, and the approvals still open.</p>
+</section>
+</div>`;
+}

@@ -3,6 +3,21 @@
 import { defaultDeal } from './engine/defaults.js';
 import { setPathOn } from './path.js';
 
+// A real, empty deal: nothing about the customer is invented. Assumptions (rates,
+// prices, policy) keep their illustrative defaults and are marked as such in the UI.
+export function newDeal() {
+  const d = defaultDeal();
+  d.customer = { name: '', workflow: '', region: '', dataSensitive: false };
+  d.model = '';
+  d.data.examples = 0;
+  d.demand.policyTokensPerCycle = 0;
+  d.demand.rolloutAttemptsPerCycle = 0;
+  d.pricing.budgetCeiling = 0;
+  d.capacity.pools[0].freeGpus = 0;
+  d.rl.scores = [];
+  return d;
+}
+
 export const STARTERS = [
   { id: 'workflow', name: 'Workflow automation', model: 'Qwen3.6-35B-A3B', blurb: 'Text workflow, multi-turn tool use, 3 cycles. Default example.',
     patch: {} },
@@ -16,6 +31,7 @@ export const STARTERS = [
 ];
 
 export function starterDeal(id) {
+  if (id === 'blank') return newDeal();
   const s = STARTERS.find((x) => x.id === id) || STARTERS[0];
   const d = defaultDeal();
   for (const [k, v] of Object.entries(s.patch)) setPathOn(d, k, v);

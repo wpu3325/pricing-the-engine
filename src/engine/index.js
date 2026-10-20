@@ -11,6 +11,7 @@ export { loadCatalog } from './catalog.js';
 export { defaultDeal, SCHEMA_VERSION } from './defaults.js';
 
 export function resolveModel(deal, catalog) {
+  if (!deal.model) { const m = customModel('', null, null, 'Unknown'); m.proxyClass = 2; return m; } // standard tier until a model is chosen
   return findModel(catalog, deal.model) || customModel(deal.model, deal.customParams?.totalB, deal.customParams?.activeB, deal.customParams?.architecture);
 }
 
@@ -22,9 +23,9 @@ export function compute(deal, catalog = loadCatalog()) {
   const cogs = computeCogs(deal, work, capacity);
   const pricing = computePricing(deal, work, cogs, model);
   const serving = computeServing(deal, model, capacity, cogs.cogs);
-  const readiness = modelReadiness(deal, model);
+  const readiness = deal.model ? modelReadiness(deal, model) : 'HOLD - SELECT MODEL';
   const suitability = modelSuitability(model);
-  const status = commercialStatus(deal, { errors, readiness, capacity, pricing });
+  const status = !deal.model ? 'HOLD - SELECT MODEL' : commercialStatus(deal, { errors, readiness, capacity, pricing });
   return {
     model,
     errors,

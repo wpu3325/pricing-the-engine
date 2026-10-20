@@ -3,6 +3,16 @@
 import { defaultDeal, SCHEMA_VERSION } from './engine/defaults.js';
 
 const KEY = 'pricing-the-engine:deal:v1';
+const TOUCHED_KEY = 'pricing-the-engine:touched:v1';
+
+// Which key inputs the person has actually set (not shared in links; per viewer).
+export function loadTouched() {
+  try { const raw = globalThis.localStorage?.getItem(TOUCHED_KEY); return raw ? JSON.parse(raw) : []; } catch { return []; }
+}
+
+export function saveTouched(list) {
+  try { globalThis.localStorage?.setItem(TOUCHED_KEY, JSON.stringify(list)); } catch { /* ignore */ }
+}
 
 export function loadSavedDeal() {
   try {
@@ -16,7 +26,7 @@ export function saveDeal(deal) {
 }
 
 export function clearSavedDeal() {
-  try { globalThis.localStorage?.removeItem(KEY); } catch { /* ignore */ }
+  try { globalThis.localStorage?.removeItem(KEY); globalThis.localStorage?.removeItem(TOUCHED_KEY); } catch { /* ignore */ }
 }
 
 // Accepts a deal object or the exported {format, schemaVersion, deal} wrapper.

@@ -12,7 +12,7 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="announce">Take-home submission for Applied Compute GTM · planning model, not a quote<a href="#guide-open" data-action="guide">How it works</a></div>
+<div class="announce">Take-home submission for Applied Compute GTM · planning model, not a quote<a href="#start" data-action="start">How it works</a></div>
 <header class="topbar">
   <a class="wordmark" href="#" aria-label="Applied Compute home">
     <svg viewBox="0 0 34 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="#f04a00"/><circle cx="24" cy="10" r="8" fill="#f04a00" opacity=".75"/><circle cx="10" cy="10" r="3.5" fill="#fffaf7"/><circle cx="24" cy="10" r="3.5" fill="#fffaf7"/></svg>
@@ -20,7 +20,7 @@
   </a>
   <div class="topbar-actions">
     <label class="sr-only" for="starter">Starter scenario</label>
-    <select id="starter" class="select-pill" data-action="starter"></select>
+    <select id="starter" class="select-pill" aria-label="Start from"></select>
     <button type="button" class="pill" data-action="share">Share link</button>
     <button type="button" class="pill" data-action="save-deal">Save deal</button>
     <button type="button" class="pill" data-action="load-deal">Load deal</button>
@@ -32,7 +32,9 @@
   <div class="window">
     <nav class="side" id="nav" aria-label="Steps"></nav>
     <section class="main" id="view" aria-live="polite"></section>
+    <aside class="rail" id="rail" aria-label="Deal economics, live"></aside>
   </div>
+  <div class="rail-bar" id="railbar"></div>
   <p class="footer-note">Every number is computed by one deterministic engine (<code>src/engine</code>) that is checked cell-for-cell against the supplied workbook. Illustrative inputs are labelled. Source and tests: see the README.</p>
 </main>
 <dialog id="guide" aria-labelledby="guide-title" style="max-width:860px;width:calc(100% - 32px);border:1px solid var(--line-2);border-radius:14px;padding:22px 24px;background:#fff"></dialog>
