@@ -12,7 +12,6 @@ export const EXPLAIN = {
   'customer.name': I('Customer', 'Legal entity name that appears on the SOW and proposal.', '01!B5'),
   'customer.workflow': I('Workflow / task', 'One defined use case. Material changes require a written amendment.', '01!B6'),
   'customer.region': I('Hosting region', 'Data residency and supply feasibility must be confirmed for this region.', '01!B32'),
-  'customer.dataSensitive': I('Regulated / sensitive data', 'Flags data that needs an extra security and access review before kickoff.', 'none (MVP addition)'),
   'data.type': I('Primary data type', 'The kind of data the model learns from. Drives the suggested per-example token size and the modality filter for model choice.', 'none (profile layer)'),
   'data.examples': I('Training examples', 'Number of training items (documents, traces, images, etc.). Multiplied by tokens per example to suggest policy-update tokens.', 'none (profile layer)'),
   'data.tokensPerExample': I('Tokens per example', 'Average token-equivalent size of one training example. Presets are proxies; replace with a measured sample.', 'none (profile layer)'),

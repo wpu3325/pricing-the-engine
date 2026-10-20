@@ -7,7 +7,7 @@ import { setPathOn } from './path.js';
 // prices, policy) keep their illustrative defaults and are marked as such in the UI.
 export function newDeal() {
   const d = defaultDeal();
-  d.customer = { name: '', workflow: '', region: '', dataSensitive: false };
+  d.customer = { name: '', workflow: '', region: '' };
   d.model = '';
   d.data.examples = 0;
   d.demand.policyTokensPerCycle = 0;

@@ -3,7 +3,7 @@
 // can light up the rows it drives.
 import { money, pct, hours, count, decimal } from '../format.js';
 import { escapeHtml } from '../documents.js';
-import { estimateQuality, sectionStatus } from '../progress.js';
+import { estimateQuality } from '../progress.js';
 import { buildOffer } from '../offer.js';
 import { infoButton } from './tooltip.js';
 

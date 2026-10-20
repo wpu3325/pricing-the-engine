@@ -9,7 +9,6 @@ export function defaultDeal() {
       name: 'Example Enterprise',            // B5
       workflow: 'Internal workflow automation', // B6
       region: 'US region TBD',               // B32
-      dataSensitive: false,
     },
     model: 'Qwen3.6-35B-A3B',                // B7
     method: 'GRPO',                          // B9

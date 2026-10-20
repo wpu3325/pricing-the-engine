@@ -26,14 +26,6 @@ export function weeklyCapacityChart(weeks, { width = 760, height = 240 } = {}) {
   return s + '</svg>';
 }
 
-export function cogsBars(lines, total) {
-  const max = Math.max(1, ...lines.map((l) => l.value));
-  const rows = lines.map((l) => `<div class="bar-row"><span class="bar-label">${escapeHtml(l.label)}</span>
-<span class="bar-track"><span class="bar-fill" style="width:${((l.value / max) * 100).toFixed(2)}%"></span></span>
-<span class="bar-value">${money(l.value)}</span><span class="bar-share">${pct(total ? l.value / total : 0, 0)}</span></div>`);
-  return `<div class="bars" role="list" aria-label="COGS by cost pool">${rows.join('')}</div>`;
-}
-
 export function marginGauge(gm, min, target) {
   const clamp = (v) => Math.min(1, Math.max(0, v));
   const fillCls = gm < min ? 'below' : gm < target ? 'mid' : 'ok';

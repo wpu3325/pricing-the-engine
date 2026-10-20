@@ -13,7 +13,6 @@ export const SECTIONS = [
       { path: 'data.taskType', label: 'Task / RL environment', type: 'select', essential: true, options: 'taskTypes' },
       { path: 'data.contextTokens', label: 'Context length', type: 'number', unit: 'tokens', step: 1024 },
       { path: 'customer.region', label: 'Hosting region', type: 'text' },
-      { path: 'customer.dataSensitive', label: 'Regulated / sensitive data', type: 'bool' },
     ],
   },
 

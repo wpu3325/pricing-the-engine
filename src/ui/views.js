@@ -6,10 +6,9 @@ import { SECTIONS } from '../schema.js';
 import { EXPLAIN } from '../explain.js';
 import { suggestAll, shortlistModels } from '../engine/profile.js';
 import { tornado, cycleSweep, undercut } from '../sensitivity.js';
-import { weeklyCapacityChart, cogsBars, marginGauge, tornadoChart, cycleChart } from './charts.js';
+import { weeklyCapacityChart, marginGauge, tornadoChart, cycleChart } from './charts.js';
 import { fieldHtml } from './forms.js';
 import { infoButton } from './tooltip.js';
-import { scoreLog } from '../engine/gates.js';
 import { sectionStatus, estimateQuality } from '../progress.js';
 import { buildOffer } from '../offer.js';
 import { COGS_EXTENDED_PRESETS } from '../data/cogs_extended_presets.js';
@@ -64,7 +63,7 @@ export function renderDealForm(deal, r, catalog, touched = new Set()) {
       : `<div class="sec-num">${sec.num}</div><div><div class="sec-feeds">${escapeHtml(sec.feeds)}</div><h2 id="h-${sec.id}">${escapeHtml(sec.title)}</h2></div>`;
     const suggest = sec.id === 'model' ? renderSuggest(deal, r, catalog) : '';
     return `<section class="card section ${sec.id === 'extras' ? 'sub' : ''}" id="sec-${sec.id}" aria-labelledby="h-${sec.id}">
-<div class="card-head sec-head">${sec.id === 'extras' ? '' : '<div class="sec-num-wrap"></div>'}${head}${status ? `<div class="sec-status">${status}</div>` : ''}</div>
+<div class="card-head sec-head">${head}${status ? `<div class="sec-status">${status}</div>` : ''}</div>
 ${extrasHead}
 ${ess.length ? `<div class="fields">${body(ess)}</div>` : ''}
 ${suggest}
@@ -102,20 +101,6 @@ export function renderSuggest(deal, r, catalog) {
 <h3 style="margin-top:16px">Model shortlist for ${escapeHtml(deal.data.type.replace(/-/g, ' '))} data ${infoButton('model', 'Model shortlist')}</h3>
 <div class="chips">${cards}</div>
 <p class="small muted" style="margin:8px 0 0">Ranked by modality, RL eligibility and size. Choosing a model does not qualify it.</p>
-</div>`;
-}
-
-export function renderGates(deal, r) {
-  const items = [
-    { ok: r.errors.length === 0, label: 'Inputs are valid', why: r.errors[0] || 'all checks pass' },
-    { ok: r.gates.readiness === 'QUALIFIED*', label: 'Model qualified to train', why: r.gates.readiness },
-    { ok: r.capacity.verdict === 'FEASIBLE*', label: 'Capacity is feasible', why: r.capacity.verdict },
-    { ok: r.pricing.remainingBudget >= 0, label: 'Within customer budget', why: `headroom ${money(r.pricing.remainingBudget)}` },
-    { ok: r.pricing.grossMargin >= deal.pricing.minGrossMargin, label: 'Margin at or above minimum', why: `${pct(r.pricing.grossMargin)} vs ${pct(deal.pricing.minGrossMargin, 0)}` },
-  ];
-  return `<div class="card">
-<div class="card-head"><div><h2>Gates before a quote</h2><p class="small muted" style="margin:4px 0 0">Missing verification means HOLD. A quote can never be READY from a proxy.</p></div><span class="chip ${r.gates.status === 'READY FOR REVIEW' ? 'ok' : ''}">${escapeHtml(r.gates.status)}</span></div>
-<ul class="checklist">${items.map((i) => `<li><span class="tick ${i.ok ? 'on' : 'off'}" aria-hidden="true">${i.ok ? '✓' : '✕'}</span><span>${escapeHtml(i.label)}</span><span class="why">${escapeHtml(i.why)}</span></li>`).join('')}</ul>
 </div>`;
 }
 
@@ -176,12 +161,6 @@ export function renderEconomics(state) {
 
 <section class="card" aria-labelledby="h-cost">
 <div class="card-head"><div><div class="eyebrow" style="margin-top:0">Cost build</div><h2 id="h-cost">Demand → GPU-hours → COGS → price</h2></div></div>
-<div class="stepper">
-<div>${infoButton('kpi.gpuHours', 'Demand GPU-hours')} Demand<b>${hours(r.work.totalGpuHours)}</b><small>${count(r.work.evalCases)} eval cases · ${escapeHtml(String(deal.rl.cycles))} cycles</small></div>
-<div>${infoButton('kpi.cogs', 'Forecast COGS')} Forecast COGS<b>${money(cg.cogs)}</b><small>incl. ${money(cg.rework)} rework</small></div>
-<div>${infoButton('kpi.quote', 'Quote')} Customer quote<b>${money(p.quote)}</b><small>${escapeHtml(p.mode === 'costPlus' ? 'cost-plus' : 'rate card')}</small></div>
-<div>${infoButton('kpi.grossMargin', 'Gross margin')} Gross margin<b>${pct(p.grossMargin)}</b><small>target ${pct(p.targetGrossMargin, 0)}</small></div>
-</div>
 <div class="two-col">
 <div><h3>Full cost ledger ${infoButton('cogs.cogs', 'Full cost ledger')}</h3>${renderLedger(r)}
 <div class="small" style="margin-top:10px">Rework allowance ${infoButton('cogs.rework', 'Rework allowance')} <b>${money(cg.rework)}</b> · Risk-adjusted COGS <b>${money(cg.cogs)}</b></div></div>
@@ -271,46 +250,41 @@ export function renderGuide() {
 <h3 style="margin-top:18px">Inputs</h3>${groups.input.map(row).join('')}`;
 }
 
-export const scoresFromLog = scoreLog;
 
 // ---------- Start here: the process, for a new user ----------
 const PROCESS = [
-  ['1', 'Customer & data', 'customer', 'Who the customer is, what they want improved, and how much training data they have.', 'Sets the amount of training work: the panel shows training compute as soon as examples are entered.'],
-  ['2', 'Model & method', 'model', 'The open-weight model to train. The tool ranks candidates for their data and shows the gates still open.', 'Sets the GPU count, the price per cycle and the hardware gate. A custom model is held until verified.'],
-  ['3', 'RL plan & stop rules', 'rl', 'How many RL cycles, how often they run, the success target and when to review progress.', 'Sets the duration and the price per cycle. The customer always decides to continue or stop.'],
-  ['4', 'Compute demand', 'demand', 'How much data each cycle uses and how fast our hardware trains on it. Most values are auto-filled from your data.', 'Sets the GPU-hours, which is the main driver of delivery cost.'],
-  ['5', 'GPU capacity', 'capacity', 'Whether spare GPUs are already paid for, and whether more can be bought.', 'Decides whether compute is an existing cost or new cash, and whether the schedule is feasible.'],
-  ['6', 'Delivery costs', 'labor', 'Engineering hours by role, graders, storage, platform and any extra cost lines.', 'Sets the full delivery cost (COGS). Shown internally only.'],
-  ['7', 'Price & margin', 'pricing', 'The target margin, the customer budget and any discount.', 'Sets the quote. If cost would push margin below target, the price rises to the floor, shown inside the phases.'],
-  ['8', 'Approvals', 'approvals', 'Benchmark confirmed, training licence approved, GPU rate confirmed.', 'Decides READY or HOLD. A quote can never be ready on an unverified assumption.'],
-  ['9', 'Production (optional)', 'serving', 'Whether the customer also wants the model served after training.', 'Adds a separate monthly order. It is never part of the training price.'],
+  ['1', 'Customer & data', 'customer', 'Sets the amount of training work.'],
+  ['2', 'Model & method', 'model', 'Sets GPU count, cycle price and the hardware gate.'],
+  ['3', 'RL plan & stop rules', 'rl', 'Sets duration and price per cycle.'],
+  ['4', 'Compute demand', 'demand', 'Sets GPU-hours, the main driver of cost.'],
+  ['5', 'GPU capacity', 'capacity', 'Decides spare GPUs versus new purchase.'],
+  ['6', 'Delivery costs', 'labor', 'Sets delivery cost (COGS). Internal only.'],
+  ['7', 'Price & margin', 'pricing', 'Sets the quote and the margin.'],
+  ['8', 'Approvals', 'approvals', 'Decides READY or HOLD.'],
+  ['9', 'Production (optional)', 'serving', 'A separate monthly order, never part of training.'],
 ];
 
 export function renderHome(state) {
   const { deal, r, touched } = state;
   const q = estimateQuality(deal, touched);
-  const rows = PROCESS.map(([n, title, sec, what, feeds]) => `<li class="proc-step">
+  const rows = PROCESS.map(([n, title, sec, what]) => `<li class="proc-step">
 <button type="button" class="proc-num" data-goto="sec-${sec}" data-go-step="deal" aria-label="Go to section ${n}">${n}</button>
-<div><div class="proc-title"><button type="button" class="linkish big" data-goto="sec-${sec}" data-go-step="deal">${escapeHtml(title)}</button></div>
-<p>${escapeHtml(what)}</p><p class="proc-feeds"><b>What it changes:</b> ${escapeHtml(feeds)}</p></div></li>`).join('');
+<div><button type="button" class="linkish big" data-goto="sec-${sec}" data-go-step="deal">${escapeHtml(title)}</button> <span class="muted">${escapeHtml(what)}</span></div></li>`).join('');
   return `<div class="eyebrow">Start here</div>
 <h1>How this tool prices an engagement</h1>
 <p class="lede">It takes one customer's request and shows, before anything is promised, what it costs to deliver, what to charge, and whether the deal can be approved. Work top to bottom: each section changes the live panel on the right.</p>
 
 <div class="home-grid">
-<section class="card"><h2>What it does for the business</h2>
+<section class="card"><h2>For the business</h2>
 <ul class="plain">
-<li>Turns a customer request into GPU-hours, delivery cost and a price in one run.</li>
-<li>Shows what each decision costs before it is made: which model, how many cycles, buying GPUs or using spare ones.</li>
-<li>Keeps every deal honest: a proxy can never be quoted as ready, and a missing approval holds the quote.</li>
-<li>Produces the proposal and statement of work from the same numbers, so they cannot disagree.</li>
+<li>One run turns a customer request into GPU-hours, delivery cost, a price and a margin.</li>
+<li>Each decision shows its cost before it is made: model, cycles, buying or reusing GPUs.</li>
+<li>A quote can never be ready on an unverified assumption.</li>
 </ul></section>
-<section class="card"><h2>What it does for the customer</h2>
+<section class="card"><h2>For the customer</h2>
 <ul class="plain">
-<li>A proposal that explains each charge: what it buys, why it costs that amount, and the effort behind it.</li>
-<li>Invoices tied to milestones, with the amount due if they stop after any cycle.</li>
-<li>They decide after every cycle whether to continue or stop. Progress reviews never stop contracted work on their own.</li>
-<li>Clear exclusions and a plain-language glossary, so there are no surprise costs.</li>
+<li>A proposal that explains each charge, its effort, and when it is invoiced.</li>
+<li>They decide after every cycle whether to continue. Reviews never stop contracted work on their own.</li>
 </ul></section>
 </div>
 

@@ -169,24 +169,15 @@ export const NOT_INCLUDED = [
 ];
 
 export const GLOSSARY = [
-  ['RL cycle', 'One round of training the model on its own attempts, scoring the attempts, and updating the model.'],
+  ['RL cycle', 'One round of training on the model\'s own attempts, scoring them, and updating the model.'],
   ['Rollout', 'One attempt by the model at a task, recorded with its result.'],
   ['Held-out evaluation', 'A test set the model never trains on, used to measure real improvement.'],
   ['Grader', 'The rules that score an attempt, for example pass or fail, or a rubric score.'],
   ['Compute allowance', 'The training compute included in the price, stated in GPU-hours for the whole engagement.'],
-  ['Checkpoint', 'A saved version of the trained model, with its exact settings, so results can be reproduced.'],
-  ['Reinforcement learning (RL)', 'A way of improving a model by letting it attempt tasks, scoring the attempts, and rewarding the behaviour that scores well.'],
-  ['Reward', 'The score the grader gives an attempt, which the training uses to decide what to reinforce.'],
-  ['Baseline', 'The score of the untrained model on the held-out evaluation. Improvement is measured from this point.'],
-  ['Metric', 'The single measure of success you approve, for example the held-out pass rate.'],
-  ['Go / no-go gate', 'A decision point at the end of the foundation phase. You approve it before any RL cycle is paid for.'],
-  ['Standard-size model', 'The reference tier that the base cycle price is set for. Smaller and larger models are priced as a multiple of it.'],
-  ['Weights', 'The learned numbers that make up the model. The handoff package includes the trained weights.'],
-  ['Traces', 'Recorded attempts, showing each step the model took, for inspection.'],
-  ['Runbook', 'Written instructions for operating the handed-over model.'],
-  ['Forward-deployed engineer', 'An engineer who works alongside your team on-site or in your environment, rather than only remotely.'],
+  ['Checkpoint', 'A saved version of the trained model, with its settings, so results can be reproduced.'],
+  ['Go / no-go gate', 'A decision point at the end of the foundation phase. You approve it before any cycle is paid for.'],
   ['Change order', 'A short written amendment that adds or changes scope and its price before the work starts.'],
-  ['Statement of work (SOW)', 'The contract schedule that defines scope, phases, evidence, invoices and amendment rules. Sent with this proposal.'],
+  ['Statement of work (SOW)', 'The contract schedule that defines scope, phases, evidence, invoices and amendment rules.'],
 ];
 
 export const FAQ = [

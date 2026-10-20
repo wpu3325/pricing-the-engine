@@ -257,7 +257,6 @@ svg.chart .axis { font: 11px var(--mono); fill: var(--muted); }
 .section { position: relative; scroll-margin-top: 80px; }
 .sec-head { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
 .sec-num { width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: #fff; display: grid; place-items: center; font: 500 14px var(--mono); flex: none; }
-.sec-head .sec-num-wrap { display: none; }
 .sec-feeds { font: 500 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .sec-head h2 { margin-top: 2px; }
 .sec-status { margin-left: auto; }
