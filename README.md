@@ -2,6 +2,8 @@
 
 A deal tool for an enterprise reinforcement-learning (RL) post-training engagement, built for the Applied Compute take-home. It turns a customer request into the cost to deliver, the price, the margin, and a proposal and statement of work.
 
+> Not affiliated with Applied Compute. A take-home assignment for an interview.
+
 **Start here: https://wpu3325.github.io/pricing-the-engine/** (the deliverables hub; every page below is linked from it).
 
 | Deliverable | What it is | Link |
@@ -40,4 +42,6 @@ npm start          # serve the site locally at http://localhost:8080
 
 Throughput (100,000 tokens per GPU-hour) is a proxy and the largest unknown. Rates, labour and margin policy are illustrative. The final holdout evaluation is not costed. Legal text is placeholder. The full list is on the [hub](https://wpu3325.github.io/pricing-the-engine/) and in [PARITY.md](docs/PARITY.md).
 
-No licence is granted; all rights reserved. This is a take-home submission, not an official Applied Compute document.
+Not affiliated with Applied Compute. This is a take-home assignment for an interview, not an official Applied Compute document.
+
+No licence is granted; all rights reserved.
