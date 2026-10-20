@@ -1,0 +1,8 @@
+{
+  "_note": "HBM per GPU (GB) for memory screening only. Values are public spec sheet figures; verify against supplier SKU before quoting.",
+  "skus": [
+    { "sku": "H100", "hbmGb": 80,  "gpusPerNode": 8, "verify": false },
+    { "sku": "B200", "hbmGb": 180, "gpusPerNode": 8, "verify": true },
+    { "sku": "B300", "hbmGb": 288, "gpusPerNode": 8, "verify": true }
+  ]
+}

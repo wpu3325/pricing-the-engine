@@ -1,0 +1,23 @@
+{
+  "_note": "Illustrative planning proxies for the workload profile layer. Not measured benchmarks; every derived value is labelled UNVERIFIED PROXY in the UI and must be replaced by a customer measurement.",
+  "dataTypes": {
+    "text":        { "label": "Text / documents",          "tokensPerExample": 1500, "passesPerCycle": 1, "modality": "text" },
+    "code":        { "label": "Code",                      "tokensPerExample": 3000, "passesPerCycle": 1, "modality": "text" },
+    "tabular":     { "label": "Structured / tabular",      "tokensPerExample": 600,  "passesPerCycle": 1, "modality": "text" },
+    "vision":      { "label": "Images / vision",           "tokensPerExample": 1200, "passesPerCycle": 1, "modality": "vision" },
+    "audio":       { "label": "Audio / speech",            "tokensPerExample": 9000, "passesPerCycle": 1, "modality": "audio" },
+    "video":       { "label": "Video",                     "tokensPerExample": 12000, "passesPerCycle": 1, "modality": "vision" },
+    "agent":       { "label": "Multimodal agent traces",   "tokensPerExample": 8000, "passesPerCycle": 1, "modality": "text" },
+    "timeseries":  { "label": "Time-series / sensor",      "tokensPerExample": 800,  "passesPerCycle": 1, "modality": "other" }
+  },
+  "taskTypes": {
+    "single-turn": { "label": "Single-turn, verifiable",       "rolloutAttemptsPerCycle": 4000, "rolloutInputTokens": 2000,  "rolloutOutputTokens": 1500,  "evalCasesPerCycle": 200 },
+    "tool-use":    { "label": "Multi-turn tool use",           "rolloutAttemptsPerCycle": 4000, "rolloutInputTokens": 12000, "rolloutOutputTokens": 10000, "evalCasesPerCycle": 200 },
+    "agent-sandbox": { "label": "Long-horizon agent / sandbox", "rolloutAttemptsPerCycle": 3000, "rolloutInputTokens": 30000, "rolloutOutputTokens": 20000, "evalCasesPerCycle": 150 },
+    "rubric-judge": { "label": "Rubric / LLM-judge",           "rolloutAttemptsPerCycle": 2000, "rolloutInputTokens": 8000,  "rolloutOutputTokens": 4000,  "evalCasesPerCycle": 300 },
+    "human-in-loop": { "label": "Human-in-the-loop review",    "rolloutAttemptsPerCycle": 1000, "rolloutInputTokens": 8000,  "rolloutOutputTokens": 4000,  "evalCasesPerCycle": 100 }
+  },
+  "trainingMemoryMultiplier": 6,
+  "bytesPerParamBf16": 2,
+  "hardwareHint": "Multiplier covers weights + gradients + optimizer state + activations (heuristic, 4-8x in literature); the Validate gate still requires a measured benchmark."
+}
