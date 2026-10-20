@@ -2,6 +2,17 @@
 // Each is a patch on the default deal; none is hard-wired into the engine.
 import { defaultDeal } from './engine/defaults.js';
 import { setPathOn } from './path.js';
+import { COGS_EXTENDED_PRESETS } from './data/cogs_extended_presets.js';
+
+// The example deal uses the complete cost ledger and the usage model. Every value is an
+// illustrative placeholder, labelled as such in the UI and in PARITY.md.
+const EXAMPLE_FULL = {
+  'pricing.mode': 'cogsBuilt',
+  'capacity.targetUtilization': 0.7,
+  'ari.tokensMPerCycle': 50,
+  'extras.holdoutEvalGpuHours': 400,
+  ...Object.fromEntries(Object.entries(COGS_EXTENDED_PRESETS.values).map(([k, v]) => [`extras.${k}`, v])),
+};
 
 // A real, empty deal: nothing about the customer is invented. Assumptions (rates,
 // prices, policy) keep their illustrative defaults and are marked as such in the UI.
@@ -19,8 +30,8 @@ export function newDeal() {
 }
 
 export const STARTERS = [
-  { id: 'workflow', name: 'Workflow automation', model: 'Qwen3.6-35B-A3B', blurb: 'Text workflow, multi-turn tool use, 3 cycles. Default example.',
-    patch: {} },
+  { id: 'workflow', name: 'Workflow automation', model: 'Qwen3.6-35B-A3B', blurb: 'Text workflow, multi-turn tool use, 3 cycles. Default example, complete cost ledger.',
+    patch: EXAMPLE_FULL },
   { id: 'code-agent', name: 'Code agent', model: 'Qwen3.8-27B', blurb: 'Code data, long-horizon sandbox rollouts, 4 cycles.',
     patch: { model: 'Qwen3.8-27B', 'data.type': 'code', 'data.taskType': 'agent-sandbox', 'data.examples': 40000, 'data.tokensPerExample': 3000, 'rl.cycles': 4 } },
   { id: 'vision', name: 'Document vision', model: 'Qwen3.6-35B-A3B-VL', blurb: 'Image/document extraction on B200 with a purchased reservation.',

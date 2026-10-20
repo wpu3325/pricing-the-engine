@@ -9,7 +9,8 @@ import { dirname, join } from 'node:path';
 import { compute, loadCatalog } from '../src/engine/index.js';
 import { starterDeal } from '../src/presets.js';
 import { buildSow, buildProposal } from '../src/documents.js';
-import { buildPricingModelPage, buildSowPage } from '../scripts/lib/wrappers.mjs';
+import { buildSowPage } from '../scripts/lib/wrappers.mjs';
+import { buildPricingModelPage } from '../scripts/lib/pricing_model.mjs';
 import { buildCogsPage } from '../scripts/lib/cogs.mjs';
 import { buildHub } from '../scripts/lib/hub.mjs';
 import { buildExcelPage } from '../scripts/lib/excel.mjs';
@@ -31,7 +32,7 @@ test('published pages are fresh: rebuilding from the engine reproduces each file
   const fresh = {
     'index.html': buildHub(),
     'deliverables/excel-model.html': buildExcelPage(),
-    'deliverables/pricing-model.html': buildPricingModelPage(deal, r),
+    'deliverables/pricing-model.html': buildPricingModelPage(deal, r, loadCatalog()),
     'deliverables/statement-of-work.html': buildSowPage(deal, r),
     'deliverables/customer/pricing-proposal.html': buildProposal(deal, r),
     'deliverables/customer/statement-of-work.html': buildSow(deal, r),

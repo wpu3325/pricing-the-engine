@@ -25,7 +25,7 @@ export function compute(deal, catalog = loadCatalog()) {
   const serving = computeServing(deal, model, capacity, cogs.cogs);
   const readiness = deal.model ? modelReadiness(deal, model) : 'HOLD - SELECT MODEL';
   const suitability = modelSuitability(model);
-  const status = !deal.model ? 'HOLD - SELECT MODEL' : commercialStatus(deal, { errors, readiness, capacity, pricing });
+  const status = !deal.model ? 'HOLD - SELECT MODEL' : commercialStatus(deal, { costs: Object.fromEntries(cogs.ledger.map((l) => [l.id, l.value])), errors, readiness, capacity, pricing });
   return {
     model,
     errors,

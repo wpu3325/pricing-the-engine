@@ -46,7 +46,7 @@ export function parityRows() {
   const dump = loadDump();
   const sheets = sheetIndex(dump);
   const catalog = loadCatalog();
-  const r = compute(dealWith({}), catalog);
+  const r = compute(dealWith({ 'pricing.mode': 'rateCard' }), catalog);
   return Object.entries(mapping).map(([key, fn]) => {
     const [sh, ref] = key.split('!');
     const cells = sheets[sh] || {};

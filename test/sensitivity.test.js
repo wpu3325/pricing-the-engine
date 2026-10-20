@@ -7,13 +7,13 @@ import { dealWith } from './helpers.js';
 
 const catalog = loadCatalog();
 
-test('tornado: higher throughput never raises COGS; higher cycle fee never lowers quote', () => {
+test('tornado: higher throughput never raises COGS; a dearer GPU never lowers the usage-model price', () => {
   const deal = dealWith();
   const t = tornado(deal, catalog);
   const tp = t.rows.find((r) => r.key === 'policyTp');
   assert.ok(tp.high.gm >= tp.low.gm, 'throughput up should improve margin');
-  const fee = t.rows.find((r) => r.key === 'cycleFee');
-  assert.ok(fee.high.quote > fee.low.quote);
+  const gpu = t.rows.find((r) => r.key === 'gpuRate');
+  assert.ok(gpu.high.quote > gpu.low.quote, 'a dearer GPU raises the usage-model price');
   assert.ok(t.rows.every((r) => Number.isFinite(r.low.gm) && Number.isFinite(r.high.gm)));
 });
 

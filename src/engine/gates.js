@@ -48,11 +48,20 @@ export function inputErrors(deal) {
 }
 
 // '02 Economics Capacity'!B104: the commercial approval status.
-export function commercialStatus(deal, { errors, readiness, capacity, pricing }) {
+export function commercialStatus(deal, { errors, readiness, capacity, pricing, costs }) {
   if (errors.length) return 'HOLD - INPUT';
   if (readiness !== 'QUALIFIED*') return 'HOLD - MODEL';
   if (capacity.verdict !== 'FEASIBLE*') return 'HOLD - CAPACITY';
   if (pricing.budgetSet && pricing.remainingBudget < 0) return 'HOLD - BUDGET';
+  if (pricing.mode === 'cogsBuilt') {
+    // A package with no cost behind it is a gap in the model, not a free line.
+    // Known gap: the handoff must carry the holdout evaluation, or the final evaluation is not costed.
+    const packages = pricing.lines.filter((l) => ['readiness', 'cycles', 'handoff'].includes(l.key));
+    const missingPackage = packages.some((l) => !(l.cost > 0));
+    const holdoutCosted = (costs?.holdoutEval ?? 0) > 0;
+    if (missingPackage || !holdoutCosted) return 'HOLD - COST GAP';
+    if ((deal.ari?.tokensMPerCycle ?? 0) > 0 && !deal.approvals?.servingThroughputMeasured) return 'HOLD - THROUGHPUT';
+  }
   if (pricing.grossMargin < deal.pricing.minGrossMargin) return 'HOLD - MARGIN';
   return 'READY FOR REVIEW';
 }

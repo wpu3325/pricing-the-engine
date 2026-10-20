@@ -66,71 +66,65 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <div class="mark">| · APPLIED COMPUTE · INTERNAL ·</div>
 <div class="banner">INTERNAL. Shows margin policy and the competitor walk-away. Do not send to the customer.</div>
 <div class="rationale"><h1>Pricing rationale</h1>
-<p>How the $210,000 default engagement is priced, why each phase costs what it does, and what the evidence does and does not support.</p>
-<h2>1. The price, phase by phase</h2>
+<p>Why the example deal is priced the way it is, what each part is for, and how far the evidence goes. The line-by-line numbers and the live inputs are on the internal pricing model page. The policy itself is in <a href="https://github.com/wpu3325/pricing-the-engine/blob/main/docs/PRICING_POLICY.md">PRICING_POLICY.md</a>.</p>
+<h2>1. How the price is built</h2>
+<p>The price is an output of the cost model. Each customer line is its own cost pool divided by (1 − its margin):</p>
 <table>
 <thead>
 <tr>
-<th>Phase</th>
-<th>Price</th>
-<th>Effort (hours)</th>
-<th>Effective rate</th>
-<th>Share</th>
+<th>Customer line</th>
+<th>What it covers</th>
+<th>Margin</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>1 · Eval and environment foundation</td>
-<td>$30,000</td>
-<td>108</td>
-<td>~$278/h</td>
-<td>14%</td>
+<td>Setup package</td>
+<td>Evaluation set, grader, environment and baseline</td>
+<td>45%</td>
+<td>$61,952</td>
 </tr>
 <tr>
-<td>2 · Engineering through the cycles</td>
-<td>$78,000</td>
-<td>312</td>
-<td>~$250/h</td>
-<td>37%</td>
+<td>Managed RL cycles</td>
+<td>Three cycles: engineering, agent platform, compute and evaluation</td>
+<td>45% and 30% and 60%</td>
+<td>$174,860</td>
 </tr>
 <tr>
-<td>3 · Three RL cycles</td>
-<td>$72,000</td>
-<td>(in cycle price)</td>
-<td>$24,000 per cycle</td>
-<td>34%</td>
+<td>Handoff package</td>
+<td>Independent holdout evaluation and handoff</td>
+<td>45%</td>
+<td>$7,106</td>
 </tr>
 <tr>
-<td>4 · Handoff and independent verification</td>
-<td>$30,000</td>
-<td>(in fee)</td>
-<td>fixed</td>
-<td>14%</td>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>44.6% blended</strong></td>
+<td><strong>$243,918</strong></td>
 </tr>
 </tbody></table>
-<p>Effort hours come from the labour inputs (<code>labor.*</code>); no hourly rate is shown to the customer.</p>
-<h2>2. Readiness phase ($30K): why this price</h2>
-<p>The phase is framed as a fixed-scope build of the assets every RL cycle optimises against: a frozen held-out evaluation set, a versioned grader, a production-realistic environment, and a measured baseline. The customer owns these and can reuse them with any later model. It is not a feasibility opinion.</p>
-<p>Four anchors:</p>
-<ol>
-<li><strong>Effort.</strong> 108 setup hours (40 research, 40 forward-deployed, 16 delivery, 12 infrastructure), 108 hours across four roles, delivered in the first two weeks. $30,000 / 108 h ≈ $278/h, inside the $200–350/h band that the sources below cite for consulting work.</li>
-<li><strong>Share of project.</strong> $30K is 14% of $210K. One vendor estimate puts paid discovery at 10–15% of total project cost.</li>
-<li><strong>Absolute band.</strong> Vendor guides cite paid discovery at $20–60K over 2–4 weeks. The phase fits that band and ends in working assets, not only a document. One guide warns that a phase producing only a document is a weak purchase; this one does not.</li>
-<li><strong>Market structure.</strong> Self-serve RL services bill for compute only. The OpenAI reinforcement fine-tuning billing guide lists $100 per hour of training time, with grader tokens billed separately; Fireworks bills reinforcement fine-tuning by GPU-second and does not charge for models under 16B parameters. In both cases the customer builds the evaluation, grader and environment. This phase is that same work, done with embedded engineers.</li>
-</ol>
-<p><strong>Internal view.</strong> The phase costs about $21–23K to deliver (setup labour $19.6K, baseline graders $1.5K, baseline evaluation GPU about $0.1K, plus 10% rework), so it earns a thin margin by design. The margin is earned in the cycles. A possible negotiation lever, not the default: credit part of the fee against Phase 3 if the customer signs within 30 days.</p>
+<p>Each line is a different kind of work, so each has a different margin. Packages carry 45%, the target. Managed compute carries 30%, because it is the part a compute-only competitor can undercut. Platform and Ari usage carries 60%, because that is where the product is differentiated.</p>
+<p>Human hours are never a customer line. Engineering effort sets each package from standard effort. Ari replaces some of that effort over time, and the customer keeps a set share of the saving (<code>pricing.automationShare</code>, 50% in the example). The rest stays with Applied Compute, so the business gets more margin as Ari automates the work.</p>
+<h2>2. Why this structure</h2>
+<ul>
+<li><strong>Defensible.</strong> Every dollar of price traces to a cost pool, and every pool adds back to COGS. A challenge on any line is a question about that line&#39;s cost, not about a rate card.</li>
+<li><strong>Sustainable.</strong> Usage meters (extra GPU-hours and agent tokens) move cost to the customer when the workload grows, so margin does not erode with scope.</li>
+<li><strong>Protects the margin.</strong> Fixed packages carry a margin floor. The quote is held (<code>HOLD - COST GAP</code>, <code>HOLD - THROUGHPUT</code>, <code>HOLD - MARGIN</code>) when a cost is missing, unmeasured, or too thin.</li>
+<li><strong>Honest about what is unknown.</strong> Ari token prices stay provisional until serving throughput is measured. The quote is shown as a band until then.</li>
+</ul>
 <h2>3. Where a competitor can undercut</h2>
 <ul>
-<li><strong>Per-cycle price</strong> (about $24,000 for roughly 1,100 GPU-hours of work) is the line most exposed to a compute-only competitor. Raw H100 compute for that work is roughly $4,000–9,000 at $3.99–8.00 per GPU-hour. The cycle price is defended by the managed loop: rollouts, environments, graders, evaluation and reporting, not by compute.</li>
-<li><strong>Foundation</strong> is exposed to a competitor who offers the same tooling without engineers. The answer is that the customer keeps the assets, and that the engineers are the product.</li>
-<li><strong>Trade scope, not rate.</strong> Fewer cycles, a shorter readiness phase or a narrower workflow lower the price while keeping the per-unit price at or above the floor.</li>
+<li><strong>Managed compute</strong> is the exposed line. A compute-only competitor sells raw GPU time, so the managed compute margin is kept at 30%. The defence is the managed loop, not the GPU.</li>
+<li><strong>The packages</strong> are exposed to a competitor who offers the same tooling without engineers. The answer is that the customer keeps the evaluation, grader and environment, and the engineers are part of the product.</li>
+<li><strong>Trade scope, not rate.</strong> Fewer cycles, a narrower workflow, or a smaller automation share lower the price while the line margins stay intact.</li>
 </ul>
 <h2>4. Margin</h2>
 <ul>
-<li><strong>Target 45%, floor 35%</strong> (policy inputs, not company-published figures).</li>
-<li>With the workbook&#39;s cost baseline the margin is 49.2%.</li>
-<li>Filling the illustrative extension costs (see <code>COGS_LEDGER.md</code>) raises delivery COGS to about $130,000 and, under the rate card, lifts the quote to $236,358 to hold the 45% target. The workbook&#39;s 49% is therefore optimistic if those costs are real.</li>
+<li>Target 45% blended, floor 35% (policy inputs, not company-published figures).</li>
+<li>The example lands at 44.6% blended, just under the target, because the managed compute and handoff costs are set from illustrative inputs.</li>
+<li>The price band moves about ±15% when throughput, GPU cost and effort each move by 20% together. Quote the band until those inputs are measured.</li>
 </ul>
-<h2>5. Evidence quality (read before relying on a number)</h2>
+<h2>3. Evidence quality (read before relying on a number)</h2>
 <table>
 <thead>
 <tr>
@@ -176,10 +170,10 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 </tr>
 </tbody></table>
 <p><strong>Not found:</strong> a public enterprise RL managed-service price list for any provider. The price is therefore a reasoned position, not a market-rate quote.</p>
-<p><strong>Stale input:</strong> the workbook&#39;s $3.99 PayGo H100 price is the expired promotion. It is kept for parity. The illustrative preset uses the $5.49 list price.</p>
+<p><strong>Stale input:</strong> the workbook&#39;s $3.99 PayGo H100 price is the expired promotion. The example uses the $5.49 list price.</p>
 <h2>6. Known gap</h2>
-<p>The final holdout evaluation (Phase 4) runs evaluation compute that the workbook does not cost separately. Phase 4&#39;s cost is therefore understated and its margin overstated. It is flagged in <code>PARITY.md</code> (D-10) and should be costed before a quote.</p>
-<h2>Sources</h2>
+<p>The final holdout evaluation is costed as its own line (<code>holdoutEval</code>), but the example&#39;s 400 GPU-hours is illustrative. Until the team measures it, the quote is held (<code>HOLD - COST GAP</code>). The handoff package also looks small against the setup package: its cost is the verifier&#39;s labour and the holdout evaluation, so it should be reviewed before a quote goes out.</p>
+<h2>5. Sources</h2>
 <ul>
 <li>OpenAI, Billing guide for the Reinforcement Fine-Tuning API: <a href="https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api">https://help.openai.com/en/articles/11323177-billing-guide-for-the-reinforcement-fine-tuning-api</a></li>
 <li>OpenAI, API pricing: <a href="https://platform.openai.com/docs/pricing/">https://platform.openai.com/docs/pricing/</a></li>

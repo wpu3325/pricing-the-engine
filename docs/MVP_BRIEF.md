@@ -1,3 +1,5 @@
+> Historical brief. Its pricing section (fixed fees and the workbook rate card) is superseded by the usage model in [PRICING_POLICY.md](PRICING_POLICY.md); the rate card remains available as the workbook reference.
+
 # Vibe-coded MVP build brief | model-aware capacity underwriting
 
 This replaces the older size-tier contract. Preserve the **four logical views**: Intake, Economics/Capacity, Customer Offer/SOW, Guide/Provenance.

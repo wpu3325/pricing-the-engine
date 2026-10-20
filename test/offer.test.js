@@ -39,9 +39,10 @@ for (const [name, patch] of Object.entries(SCENARIOS)) {
 }
 
 test('folding keeps the margin adjustment inside the lines (no separate adjustment)', () => {
-  const r = compute(dealWith({ 'pricing.discountPct': 0.5 }), catalog);
+  const rc = { 'pricing.mode': 'rateCard', 'pricing.discountPct': 0.5 };
+  const r = compute(dealWith(rc), catalog);
   assert.ok(r.pricing.adjustment > 0, 'scenario must actually raise the price');
-  const o = buildOffer(dealWith({ 'pricing.discountPct': 0.5 }), r, catalog);
+  const o = buildOffer(dealWith(rc), r, catalog);
   assert.equal(o.sumCheck, o.total);
 });
 
@@ -61,10 +62,10 @@ test('effort hours come straight from the labour inputs: 108 in foundation, 312 
 });
 
 test('what-changes-the-price figures equal the engine re-run', () => {
-  const deal = dealWith();
+  const deal = dealWith({ 'pricing.mode': 'rateCard' });
   const r = compute(deal, catalog);
   const o = buildOffer(deal, r, catalog);
-  const plus = compute(dealWith({ 'rl.cycles': 4 }), catalog);
+  const plus = compute(dealWith({ 'pricing.mode': 'rateCard', 'rl.cycles': 4 }), catalog);
   assert.equal(o.scale.plusCycle, Math.round(plus.pricing.quote) - o.total);
   assert.equal(o.scale.plusCycle, 48000); // one cycle fee plus its extra-cycle engineering
 });

@@ -122,7 +122,7 @@ test('stop rules: plateau after two sub-threshold gains; target hit; customer de
 });
 
 test('margin floor: quote never falls below COGS / (1 - target GM) in rate-card mode', () => {
-  const r = compute(dealWith({ 'pricing.discountPct': 0.5 }), catalog);
+  const r = compute(dealWith({ 'pricing.mode': 'rateCard', 'pricing.discountPct': 0.5 }), catalog);
   assert.ok(r.pricing.quote >= r.pricing.marginFloorPrice - 1e-6);
   assert.ok(r.pricing.adjustment >= 0);
 });

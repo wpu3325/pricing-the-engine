@@ -71,9 +71,23 @@ export function defaultDeal() {
       onCallWeeks: 0, onCallRatePerWeek: 0, trips: 0, tripCost: 0,
       seats: 0, seatCost: 0, softwareLicences: 0, baseModelLicence: 0,
       insurancePct: 0,                                    // insurance, % of direct cost
+      holdoutEvalGpuHours: 0,                             // final holdout evaluation (Phase 4)
+    },
+    scope: {                                              // effort tier inputs (simple | standard | complex)
+      integrations: 'standard', dataReadiness: 'standard', graderComplexity: 'standard',
+    },
+    effort: {
+      calibrationFactor: 1,                               // actual / standard hours, from past engagements
+    },
+    ari: {                                                // Ari agent and platform usage
+      tokensMPerCycle: 0,                                 // million agent tokens per RL cycle
+      servingTokensPerGpuHour: 1000000,                   // placeholder until measured
+      automationPct: 0,                                   // share of human hours Ari replaces
     },
     pricing: {
-      mode: 'rateCard',                       // rateCard (workbook) | costPlus (MVP extension)
+      mode: 'cogsBuilt',                      // cogsBuilt (usage model, default) | rateCard (workbook reference) | costPlus (MVP extension)
+      lineMargins: { package: 0.45, compute: 0.30, software: 0.60 },
+      automationShare: 0.5,                   // share of automation savings the customer keeps
       readinessFee: 30000,                    // B68
       engineeringSetupFee: 78000,             // B69
       cycleFee: 24000,                        // B70
@@ -86,6 +100,7 @@ export function defaultDeal() {
       budgetCeiling: 260000,                  // B22
     },
     capacity: {
+      targetUtilization: 1,                   // reserved GPU utilization; <1 prices idle hours in
       useExisting: true,                      // B79
       acquisition: 'Auto',                    // B80
       canObtainExtra: false,                  // B81
@@ -109,6 +124,7 @@ export function defaultDeal() {
       accessApproved: false,                  // B102
       skuRateConfirmed: false,                // B104
       dataAccess: 'Customer supplies by kickoff', // B33
+      servingThroughputMeasured: false,       // gates token pricing until throughput is measured
     },
     serving: {
       include: false,                         // B23

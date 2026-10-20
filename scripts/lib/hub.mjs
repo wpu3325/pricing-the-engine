@@ -18,15 +18,15 @@ export const REQUIREMENTS = [
   { req: 'A. An asset the team can flex per deal', where: [['Live tool', 'app/index.html'], ['Excel model', 'deliverables/excel-model.html']],
     why: 'The workbook is the reference; the tool is the flexible version. The parity table shows they agree cell by cell, so a change in one can be carried to the other.' },
   { req: 'B. Scope of work and pricing proposal with rationale', where: [['Proposal', 'deliverables/pricing-model.html'], ['SOW', 'deliverables/statement-of-work.html']],
-    why: 'Each phase says what the customer gets, why it costs that, how many effort hours sit behind it and when it is invoiced, so every charge maps to a deliverable.' },
+    why: 'Three phases: a setup package, managed RL cycles with compute and Ari usage included, and a handoff package. Each shows what the customer gets and when it is invoiced. No hours are sold.' },
   { req: 'B. Margin profile and reasoning', where: [['Pricing and margin', 'deliverables/pricing-rationale.html'], ['Live tool: economics', 'app/index.html']],
-    why: 'A 45% target leaves room for a 35% floor: below the floor the engagement is not worth the GPU and engineering risk. The rationale explains why, and the tool shows what moves the margin.' },
+    why: 'Margins are set by line type: packages 45%, managed compute 30%, platform and Ari usage 60%. The blended margin is reported against a 45% target and a 35% floor. The pricing page shows what moves it.' },
   { req: 'B. Contract terms: short term vs long term protection', where: [['SOW', 'deliverables/statement-of-work.html']],
     why: 'Now: scope is one workflow and model, the customer decides after each cycle, acceptance rests on objective evidence, and invoices follow milestones. As the customer expands, new models, regions or production need a new order.' },
   { req: 'B. When to re-paper or restructure', where: [['SOW, section 5', 'deliverables/statement-of-work.html']],
     why: 'Seven explicit triggers, such as a new base model, more cycles, a new workflow or region, production use, or usage above 80% of the envelope. Each is a signal to re-scope, not to quietly absorb more work.' },
   { req: 'B. Defending price against cost pushback', where: [['Pricing and margin', 'deliverables/pricing-rationale.html'], ['Proposal', 'deliverables/pricing-model.html']],
-    why: 'The readiness fee is justified against cost and market benchmarks. Internal cost and margin never appear in customer documents; a test enforces this.' },
+    why: 'Every customer line is its own cost over (1 − its margin), so each charge can be traced to a cost pool. Internal cost and margin never appear in customer documents; a test enforces this.' },
   { req: 'B. A cheaper competitor undercutting', where: [['Pricing and margin', 'deliverables/pricing-rationale.html'], ['Live tool: economics', 'app/index.html']],
     why: 'Match on scope, not rate. Cutting the price cuts margin, so the rationale shows the margin left after a match and the walk-away price.' },
 ];
@@ -38,7 +38,7 @@ export function buildHub() {
     { n: '02', title: 'COGS model', href: 'deliverables/cogs-model.html', kind: 'Internal · A',
       why: 'Every delivery cost, its phase and its source. Shows cost and margin, so it stays internal.', extra: [] },
     { n: '03', title: 'Pricing model and proposal', href: 'deliverables/pricing-model.html', kind: 'Review page · B',
-      why: 'The price the customer sees, the reasoning behind each phase fee, and the customer copy of the proposal.', extra: [] },
+      why: 'The price as an output of cost: each customer line built from its cost pool, the GPU and token economics, automation, and fixed-cost recovery. Includes the customer copy.', extra: [] },
     { n: '04', title: 'Statement of work', href: 'deliverables/statement-of-work.html', kind: 'Review page · B',
       why: 'The contract terms the proposal depends on: scope now, customer control as it grows, and the re-paper triggers. Includes the customer copy.', extra: [] },
     { n: '05', title: 'Pricing and margin rationale', href: 'deliverables/pricing-rationale.html', kind: 'Internal · B',
@@ -71,7 +71,7 @@ export function buildHub() {
 
 <h2>Known limits, stated up front</h2>
 <ul>
-  <li>Throughput (100,000 tokens per GPU-hour) is a proxy and the largest unknown. Until it is measured, every margin is provisional.</li>
+  <li>Throughput is a proxy (100,000 tokens per GPU-hour in the workbook; 1,000,000 as the usage-model placeholder). Until it is measured, Ari token prices are provisional and the quote is held.</li>
   <li>Rates, labour, extension costs and margin policy are illustrative. The workbook’s $3.99 H100 price is an expired promotion; list is $5.49.</li>
   <li>The final holdout evaluation is not costed, so the handoff margin is overstated.</li>
   <li>The deck and GTM PDFs in the original pack carried different figures ($112,097 COGS against the workbook’s $106,590). They are not used; the workbook is canonical. See <a href="${REPO}/docs/PARITY.md">PARITY.md</a> §3.</li>

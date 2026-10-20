@@ -33,7 +33,7 @@ test('status banner blocks sending unless READY FOR REVIEW', () => {
   const deal = dealWith();
   const r = compute(deal, catalog);
   assert.match(buildProposal(deal, r), /PRELIMINARY: DO NOT SEND CUSTOMER: HOLD - MODEL/);
-  const ready = compute(dealWith({ 'approvals.benchmarkConfirmed': true, 'approvals.accessApproved': true, 'approvals.skuRateConfirmed': true }), catalog);
+  const ready = compute(dealWith({ 'approvals.benchmarkConfirmed': true, 'approvals.accessApproved': true, 'approvals.skuRateConfirmed': true, 'extras.holdoutEvalGpuHours': 400 }), catalog);
   assert.match(buildSow(deal, ready), /DRAFT: commercial and legal review still required/);
 });
 

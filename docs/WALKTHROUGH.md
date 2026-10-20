@@ -39,9 +39,10 @@ Engineering hours by role and external costs. For a complete cost base, press **
 - The panel's **Where the cost goes** bars show which group drives cost. The **Delivery COGS** figure is internal.
 
 ## Step 7 · Price and margin
-Set the target margin (45% by default), the customer budget, and any discount.
+The price is built from cost, line by line: a setup package, managed RL cycles (with compute and Ari usage included), and a handoff package. Each line is its cost divided by (1 − its margin). Set the discount, if any. Usage beyond the included allowances is metered.
 
-- If cost would push margin below the target, the price rises to the floor. The rise is shown inside the phases, not as a separate charge.
+- If an input is missing, the quote is held. The panel says which.
+- Human hours do not appear as a price. Set the effort tier, calibration and the share of hours Ari replaces; these change the labour cost inside the packages.
 
 ## Step 8 · Approvals
 Tick the three gates: benchmark confirmed, training licence approved, GPU rate confirmed.
@@ -57,7 +58,7 @@ Only if the customer wants the model served afterwards. This is a separate month
 
 1. The panel status reads **Ready for review**. If it still says **HOLD**, the *Before this can be quoted* list says why.
 2. Open **Proposal**. Read it as the customer would: each phase should answer *what do I get* and *why does it cost this*.
-3. Check the **Economics** step for the internal view: cost by phase, margin by phase, and what moves the margin most.
+3. Check the **Economics** step for the internal view: cost and margin by price line, the GPU choice, and what moves the margin most. The **Pricing model** page explains the same numbers in order.
 4. Download the **proposal** and **SOW** from the Proposal step. Send only after commercial and legal review.
 
 ## Read the status
@@ -65,7 +66,7 @@ Only if the customer wants the model served afterwards. This is a separate month
 | Shown as | Meaning |
 |---|---|
 | Select a model | Choose the model in step 2. |
-| HOLD (any reason) | A required input or approval is missing. The panel says which. |
+| HOLD (any reason) | A required input or approval is missing. The panel says which. Usage-model holds: `HOLD - COST GAP` (the handoff has no holdout evaluation cost) and `HOLD - THROUGHPUT` (Ari tokens are priced but throughput is not measured). |
 | Ready for review | Every gate passes. Still needs commercial and legal review before it is sent. |
 
 ## Things to remember

@@ -14,7 +14,11 @@ export const DRIVERS = [
   { key: 'graders', label: 'Grader and platform costs', apply: (d, f) => { for (const k of ['graderPerCycle', 'baselineGraders', 'platformSupport']) d.costs[k] = scale(d.costs[k], f); } },
   { key: 'rework', label: 'Rework allowance', apply: (d, f) => { d.costs.reworkPct = scale(d.costs.reworkPct, f); } },
   { key: 'reserve', label: 'GPU reservation price', apply: (d, f) => { d.capacity.reservePrice = scale(d.capacity.reservePrice, f); } },
-  { key: 'cycleFee', label: 'RL cycle fee (price)', apply: (d, f) => { d.pricing.cycleFee = scale(d.pricing.cycleFee, f); } },
+  { key: 'gpuRate', label: 'GPU cost (all capacity prices)', apply: (d, f) => {
+    for (const k of ['paygoPrice', 'extendPrice', 'reservePrice', 'allocationRate']) d.capacity[k] = scale(d.capacity[k], f);
+  } },
+  { key: 'calibration', label: 'Effort calibration (hours)', apply: (d, f) => { d.effort = { ...(d.effort ?? {}), calibrationFactor: scale(d.effort?.calibrationFactor ?? 1, f) }; } },
+  { key: 'packageMargin', label: 'Package margin', apply: (d, f) => { d.pricing.lineMargins = { ...d.pricing.lineMargins, package: Math.min(0.9, scale(d.pricing.lineMargins.package, f)) }; } },
 ];
 
 const summarize = (r) => ({ quote: r.pricing.quote, cogs: r.cogs.cogs, gm: r.pricing.grossMargin, gpuh: r.work.totalGpuHours });

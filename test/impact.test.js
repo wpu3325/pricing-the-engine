@@ -8,8 +8,8 @@ import { dealWith } from './helpers.js';
 const catalog = loadCatalog();
 
 test('the cycles change reports the exact engine deltas', () => {
-  const before = metricsOf(compute(dealWith(), catalog));
-  const after = metricsOf(compute(dealWith({ 'rl.cycles': 4 }), catalog));
+  const before = metricsOf(compute(dealWith({ 'pricing.mode': 'rateCard' }), catalog));
+  const after = metricsOf(compute(dealWith({ 'pricing.mode': 'rateCard', 'rl.cycles': 4 }), catalog));
   const text = describeEdit('Cycles 3 → 4', before, after);
   assert.match(text, /quote \+\$48,000/);
   assert.match(text, /weeks \+1/);
