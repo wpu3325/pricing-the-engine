@@ -8,6 +8,8 @@ export const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 }[c]));
 
+const E = (v) => escapeHtml(String(v));
+
 export const slug = (s) => String(s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'deal';
 
 export function statusBanner(status) {
@@ -88,10 +90,10 @@ export function buildSow(deal, r) {
   if (s.include) phases.push(`<tr><td><strong>4 · Inference pilot (optional)</strong></td><td>Benchmark representative traffic, SLO throughput, warm replicas and scaling policy.</td><td>Approves traffic forecast, deployment posture and the commercial service order.</td><td>Load-test results and approved serving order before production.</td></tr>`);
 
   const milestones = [
-    ['Readiness and baseline', `Week ${ready}`, r.pricing.lines[0].value],
+    ['Readiness and baseline', `Week ${E(ready)}`, r.pricing.lines[0].value],
     ['Engineering and integration', 'Week 1 (fixed)', r.pricing.lines[1].value],
-    ...Array.from({ length: n }, (_, i) => [`RL cycle ${i + 1} of ${n}`, `Week ${ready + (i + 1) * cad}`, r.pricing.lines[2].value / n]),
-    ['Independent handoff and verification', `Week ${total}`, r.pricing.lines[4].value],
+    ...Array.from({ length: n }, (_, i) => [`RL cycle ${i + 1} of ${n}`, `Week ${E(ready + (i + 1) * cad)}`, r.pricing.lines[2].value / n]),
+    ['Independent handoff and verification', `Week ${E(total)}`, r.pricing.lines[4].value],
   ];
   const ms = milestones.map(([a, b, c]) => `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td><td class="num">${money(c)}</td></tr>`).join('');
 
@@ -100,10 +102,10 @@ export function buildSow(deal, r) {
 <p>Production inference is not part of this training engagement. If elected, it is contracted under a separate service order with the following indicative terms:</p>
 <table><tbody>
 <tr><td>Service type</td><td>${escapeHtml(s.contract)} ${s.contract === 'Shared' ? '(usage minimum)' : '(dedicated warm replicas)'}</td></tr>
-<tr><td>Minimum warm capacity</td><td>${count(s.minWarmReplicas)} GPUs</td></tr>
-<tr><td>Included monthly tokens</td><td>${tokens(s.includedInputTokens)} input · ${tokens(s.includedOutputTokens)} output</td></tr>
-<tr><td>Indicative monthly price</td><td>${money(r.serving.price)}</td></tr>
-<tr><td>Service-level target</td><td>${pct(s.availabilityTarget ?? 0.999, 1)} availability target; [latency SLA — to be set after load test]</td></tr>
+<tr><td>Minimum warm capacity</td><td>${E(count(s.minWarmReplicas))} GPUs</td></tr>
+<tr><td>Included monthly tokens</td><td>${E(tokens(s.includedInputTokens))} input · ${E(tokens(s.includedOutputTokens))} output</td></tr>
+<tr><td>Indicative monthly price</td><td>${E(money(r.serving.price))}</td></tr>
+<tr><td>Service-level target</td><td>${E(pct(s.availabilityTarget ?? 0.999, 1))} availability target; [latency SLA — to be set after load test]</td></tr>
 </tbody></table>` : '';
 
   const body = `
@@ -114,8 +116,8 @@ export function buildSow(deal, r) {
 <tr><td>Workflow in scope</td><td>${escapeHtml(deal.customer.workflow)}</td></tr>
 <tr><td>Base model</td><td>${escapeHtml(deal.model)} (open-weight; access and licence per Section 7)</td></tr>
 <tr><td>Method</td><td>${escapeHtml(deal.method)} reinforcement learning</td></tr>
-<tr><td>Approved RL cycles</td><td>${n} (every ${cad} week${cad === 1 ? '' : 's'}); change orders required beyond ${n}</td></tr>
-<tr><td>Planned duration</td><td>${total} weeks</td></tr>
+<tr><td>Approved RL cycles</td><td>${E(n)} (every ${E(cad)} week${cad === 1 ? '' : 's'}); change orders required beyond ${E(n)}</td></tr>
+<tr><td>Planned duration</td><td>${E(total)} weeks</td></tr>
 <tr><td>Hosting region</td><td>${escapeHtml(deal.customer.region)}</td></tr>
 </tbody></table>
 
@@ -125,9 +127,9 @@ export function buildSow(deal, r) {
 
 <h2>3. Stopping rules and decision authority</h2>
 <ul>
-<li>Success target: held-out score of ${pct(deal.rl.target, 0)} on the frozen evaluation (${escapeHtml(deal.rl.metric)}). Reaching it triggers a review, not an automatic stop.</li>
-<li>Plateau: gains below ${(deal.rl.minGain * 100).toFixed(1)} percentage points for ${deal.rl.slowCycles} consecutive cycles trigger a review.</li>
-<li>Cycle cap: ${n} cycles pre-authorised. Work is not stopped automatically by any score threshold.</li>
+<li>Success target: held-out score of ${E(pct(deal.rl.target, 0))} on the frozen evaluation (${escapeHtml(deal.rl.metric)}). Reaching it triggers a review, not an automatic stop.</li>
+<li>Plateau: gains below ${E((deal.rl.minGain * 100).toFixed(1))} percentage points for ${E(deal.rl.slowCycles)} consecutive cycles trigger a review.</li>
+<li>Cycle cap: ${E(n)} cycles pre-authorised. Work is not stopped automatically by any score threshold.</li>
 <li>Only the customer decides whether to continue or stop after each cycle. Decision owner: ${escapeHtml(deal.customer.workflow ? 'customer product / SME lead' : 'customer')}.</li>
 </ul>
 
@@ -172,15 +174,15 @@ export function buildProposal(deal, r) {
   const serving = s.include ? `<h2>Optional production serving (separate order)</h2>
 <table><tbody>
 <tr><td>Indicative monthly price</td><td class="num">${money(r.serving.price)}</td></tr>
-<tr><td>Included monthly tokens</td><td>${tokens(s.includedInputTokens)} input · ${tokens(s.includedOutputTokens)} output</td></tr>
-<tr><td>Overage</td><td>${money(s.inputOveragePerM)} per million input tokens · ${money(s.outputOveragePerM)} per million output tokens</td></tr>
+<tr><td>Included monthly tokens</td><td>${E(tokens(s.includedInputTokens))} input · ${E(tokens(s.includedOutputTokens))} output</td></tr>
+<tr><td>Overage</td><td>${E(money(s.inputOveragePerM))} per million input tokens · ${E(money(s.outputOveragePerM))} per million output tokens</td></tr>
 </tbody></table>
 <p class="note">Production serving requires a load test and a signed service order. It is not included in the training total above.</p>` : '';
 
   const body = `
 <h2>Training engagement — itemized proposal</h2>
 <table><thead><tr><th>Item</th><th>Billing</th><th>What the customer receives</th><th class="num">Amount</th></tr></thead>
-<tbody>${lines}<tr class="total"><td>Total proposed training fee</td><td></td><td>Model: ${escapeHtml(deal.model)} · ${n} approved cycles · ${r.work.totalWeeks} weeks</td><td class="num">${money(p.quote)}</td></tr></tbody></table>
+<tbody>${lines}<tr class="total"><td>Total proposed training fee</td><td></td><td>Model: ${escapeHtml(deal.model)} · ${E(n)} approved cycles · ${E(r.work.totalWeeks)} weeks</td><td class="num">${money(p.quote)}</td></tr></tbody></table>
 <p class="note">Fee items are priced in USD. [Validity period — to confirm] · [Tax treatment — counsel review].</p>
 ${serving}
 <h2>Why this price</h2>
@@ -219,7 +221,9 @@ export function buildCogsCsv(deal, r) {
     ['Price', 'Gross margin', (r.pricing.grossMargin * 100).toFixed(2) + '%'],
     ['Price', 'Budget headroom', r.pricing.remainingBudget.toFixed(2)],
   ];
-  const q = (v) => `"${String(v).replace(/"/g, '""')}"`;
+  // Neutralise spreadsheet formula injection: prefix cells that start with = + - @ or a control char.
+  const safe = (v) => { const t = String(v); return /^[=+\-@\t\r]/.test(t) ? `'${t}` : t; };
+  const q = (v) => `"${safe(v).replace(/"/g, '""')}"`;
   return rows.map((row) => row.map(q).join(',')).join('\n') + '\n';
 }
 

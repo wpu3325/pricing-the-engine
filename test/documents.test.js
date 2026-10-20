@@ -54,3 +54,19 @@ test('internal COGS export is clearly marked internal and file names are unique 
   assert.equal(a, 'example-enterprise_qwen3-6-35b-a3b_sow_2026-10-19');
   assert.match(buildDealJson(deal), /"format": "pricing-the-engine\/deal"/);
 });
+
+test('numeric and text fields in generated HTML are all escaped (no raw interpolation)', () => {
+  const deal = dealWith({ 'rl.cycles': 2, 'rl.cadenceWeeks': 1, 'rl.metric': '<b>x</b>', 'rl.slowCycles': 2, 'customer.region': '"><img src=x>' });
+  const r = compute(deal, catalog);
+  const html = buildSow(deal, r);
+  assert.equal(html.includes('<img src=x>'), false);
+  assert.equal(html.includes('<b>x</b>'), false);
+});
+
+test('CSV export neutralises spreadsheet formula injection', () => {
+  const deal = dealWith({ 'customer.name': '=HYPERLINK("http://evil","click")', 'customer.workflow': '+cmd' });
+  const r = compute(deal, catalog);
+  const csv = buildCogsCsv(deal, r);
+  assert.ok(csv.includes(`"'=HYPERLINK(""http://evil"",""click"")"`), 'formula cell must be prefixed');
+  assert.equal(/\n"=/.test(csv), false);
+});
