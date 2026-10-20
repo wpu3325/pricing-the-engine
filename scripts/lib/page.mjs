@@ -22,10 +22,23 @@ export function navHtml(base, current = '') {
   return `<nav class="deliv-nav" aria-label="Deliverables">${links}</nav>`;
 }
 
-export const PAGE_CSS = `
+// Nav bar rules, shared by every page that shows the deliverables menu.
+export const NAV_CSS = `
+.deliv-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.deliv-nav a{font-size:14px;text-decoration:none;color:var(--ink);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;background:var(--card)}
+.deliv-nav a[aria-current="page"],.deliv-nav a:hover{border-color:var(--accent);color:var(--accent)}
+`;
+
+// Colour tokens, shared so that any page using the nav gets the same palette.
+export const TOKENS_CSS = `
 :root{--bg:#fffaf7;--ink:#101010;--muted:#5f5f5f;--line:#ececec;--line-2:#dcdcdc;--accent:#f04a00;--card:#ffffff;--ok:#1f7a3d;--warn:#8a5a00;--bad:#b3261e}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161412;--ink:#f3eee9;--muted:#a7a098;--line:#2c2925;--line-2:#3a3530;--card:#1e1b18;--ok:#6fd08c;--warn:#e7b65c;--bad:#ff8a80}}
 :root[data-theme="dark"]{--bg:#161412;--ink:#f3eee9;--muted:#a7a098;--line:#2c2925;--line-2:#3a3530;--card:#1e1b18;--ok:#6fd08c;--warn:#e7b65c;--bad:#ff8a80}
+`;
+
+export const PAGE_CSS = `
+${NAV_CSS}
+${TOKENS_CSS}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,sans-serif}
 main{max-width:980px;margin:0 auto;padding:32px 20px 72px}
@@ -35,9 +48,6 @@ h2{font:400 26px/1.2 Newsreader,Georgia,serif;margin:40px 0 10px}
 h3{font:600 16px/1.3 Inter,system-ui,sans-serif;margin:22px 0 6px}
 p.lede{color:var(--muted);max-width:68ch;font-size:17px}
 a{color:var(--accent)}
-.deliv-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.deliv-nav a{font-size:14px;text-decoration:none;color:var(--ink);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;background:var(--card)}
-.deliv-nav a[aria-current="page"],.deliv-nav a:hover{border-color:var(--accent);color:var(--accent)}
 .cards{display:grid;gap:14px;margin-top:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
 .card .num{font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);letter-spacing:.05em;text-transform:uppercase}
