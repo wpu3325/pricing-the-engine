@@ -23,6 +23,9 @@ export function computeCapacity(deal, work, model) {
   const evalPerCycleGH = work.evalGpuHoursPerCycle;
   const baselineEvalGH = work.baselineEvalGpuHours;
   const { trainerGpus, rolloutGpus, evalGpus, peakGpus, concurrent } = work;
+  // Brief: pre-existing H100 capacity is not eligible for a B300-class model.
+  // Workbook counted it when the plan was H100; the MVP blocks it (see docs/PARITY.md, D-2).
+  const hardwareBlocked = model.gpuRequirement === 'B300' && c.gpuSku !== 'B300';
 
   const weeks = [];
   for (let w = 1; w <= horizon; w++) {
@@ -34,7 +37,7 @@ export function computeCapacity(deal, work, model) {
     const peak = rl ? Math.max(peakGpus, evalGpus) : (evalGH > 0 ? evalGpus : 0);
 
     let existing = 0;
-    if (deal.capacity.useExisting) {
+    if (deal.capacity.useExisting && !hardwareBlocked) {
       for (const p of c.pools) if (poolCoversWeek(p, w, c.gpuSku)) existing += p.freeGpus;
     }
     const need = Math.max(0, peak - existing);

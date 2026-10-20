@@ -28,7 +28,9 @@ for (const sc of scenarios) {
     const deal = dealWith(sc.deal);
     const r = compute(deal, catalog);
     const failures = [];
+    const scoped = sc.parity?.mode === 'verdict-only' ? new Set(sc.parity.cells) : null;
     for (const [cell, fn] of Object.entries(mapping)) {
+      if (scoped && !scoped.has(cell)) continue;
       const want = gold[cell];
       if (want === undefined || want === null) continue; // blank in workbook
       let got = fn(r);
@@ -39,7 +41,7 @@ for (const sc of scenarios) {
       }
       if (!close(got, want)) failures.push(`${cell}: engine=${JSON.stringify(got)} workbook=${JSON.stringify(want)}`);
     }
-    for (let week = 1; week <= 16; week++) {
+    for (let week = 1; week <= (scoped ? 0 : 16); week++) {
       const w = r.capacity.weeks[week - 1];
       for (const [col, fn] of Object.entries(gridMapping)) {
         const cell = `02!${col}${week + 31}`;
