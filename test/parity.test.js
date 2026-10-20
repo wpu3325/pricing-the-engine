@@ -25,7 +25,7 @@ function close(a, b) {
 for (const sc of scenarios) {
   test(`golden parity: ${sc.id}`, () => {
     const gold = JSON.parse(readFileSync(join(dir, `${sc.id}.json`), 'utf8')).expected;
-    const deal = dealWith(sc.deal);
+    const deal = dealWith({ 'pricing.mode': 'rateCard', ...sc.deal });
     const r = compute(deal, catalog);
     const failures = [];
     const scoped = sc.parity?.mode === 'verdict-only' ? new Set(sc.parity.cells) : null;

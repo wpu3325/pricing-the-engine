@@ -102,7 +102,7 @@ details summary{cursor:pointer;font-weight:600;padding:6px 0}
 <td class="num">106,590</td></tr><tr><td><strong>RL cycle fee</strong><div class="note">Cycles approved × fee per cycle × size-class factor (0.65× small, 1× standard, 2.5× large).</div></td>
 <td><code>02 Economics Capacity!B93</code></td>
 <td class="formula">=B10*&#39;01 Deal Setup&#39;!B70*IF(&#39;01 Deal Setup&#39;!$G$31=1,0.65,IF(&#39;01 Deal Setup&#39;!$G$31=2,1,2.5))</td>
-<td class="num">72,000</td></tr><tr><td><strong>Margin-floor price</strong><div class="note">COGS ÷ (1 − target margin). If the itemised price is below this, the workbook adds an adjustment (B99); the tool folds it into the phase fees.</div></td>
+<td class="num">72,000</td></tr><tr><td><strong>Margin-floor price</strong><div class="note">COGS ÷ (1 − target margin). In the workbook rate card, a shortfall is added as an adjustment (B99). The usage model prices each line from its own cost instead; this chain is the rate-card reference.</div></td>
 <td><code>02 Economics Capacity!B98</code></td>
 <td class="formula">=B84/MAX(0.01,1-&#39;01 Deal Setup&#39;!B76)</td>
 <td class="num">193,800</td></tr><tr><td><strong>Quote</strong><div class="note">Itemised price plus any margin-floor adjustment. This is the number the customer sees, split by phase.</div></td>

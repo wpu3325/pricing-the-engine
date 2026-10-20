@@ -83,11 +83,31 @@ GPU cost = already-paid capacity (allocated at the allocation rate) plus any new
 - Taxes
 - Marketplace and payment fees: these depend on the price, which would make the cost circular. Add them as a fixed line if needed.
 
+## Price classes and the usage model
+
+Each ledger line is priced in one of five customer pools, so every cost reaches exactly one price line:
+
+| Pool | Lines | Margin |
+|---|---|---|
+| Setup package | Foundation-phase package costs (people, data, graders, base-model licence) | 45% |
+| Managed cycles | Engineering and cycle package costs, excluding compute and software | 45% |
+| Managed compute | GPU lines for training, rollout and evaluation, dev time, reruns, idle reserved capacity | 30% |
+| Platform and Ari usage | Ari token cost, platform support, seats, licences | 60% |
+| Handoff package | Handoff-phase costs, including the holdout evaluation | 45% |
+
+Shared cost (storage, egress, rework, insurance, customer success, legal, on-call, travel) is allocated across the five pools in proportion to their direct cost. The pools always add back to the COGS total (`test/cogsbuilt.test.js`).
+
+**Automation.** `ari.automationPct` replaces that share of human hours, which lowers the labour lines. `pricing.automationShare` decides how much of that saving the customer keeps: the cycle packages carry the rest.
+
+**New lines in this version:** `ari` (agent tokens, at serving cost), `holdoutEval` (the final holdout evaluation, in the handoff pool), `idleCapacity` (reserved GPU hours below the target utilization).
+
 ## Known gaps
 
 - **Final holdout evaluation compute (Phase 4)** is not costed in the workbook. Phase 4 cost is understated.
 - **Customer-side data preparation** is only costed if the team adds a line for it.
 
 ## Illustrative values
+
+The example deal fills the extension lines, the holdout evaluation (400 GPU-hours), Ari tokens (50M per cycle) and a 70% target utilization. Each is a placeholder until measured or supplied.
 
 `data/cogs_extended_presets.json`, labelled UNVERIFIED. With the preset filled, the extension lines total about $21,300 (including insurance) and the rework allowance adds about $11,800, bringing delivery COGS from $106,590 to about $130,000.

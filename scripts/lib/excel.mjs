@@ -24,7 +24,7 @@ export const CHAINS = [
   { ref: '02!B82', title: 'Base delivery cost', plain: 'Engineering, graders, storage, platform and GPU compute, summed before rework.' },
   { ref: '02!B84', title: 'Delivery COGS including rework', plain: 'Base cost plus the rework allowance (a percentage of base cost). This is the internal cost the price must cover.' },
   { ref: '02!B93', title: 'RL cycle fee', plain: 'Cycles approved × fee per cycle × size-class factor (0.65× small, 1× standard, 2.5× large).' },
-  { ref: '02!B98', title: 'Margin-floor price', plain: 'COGS ÷ (1 − target margin). If the itemised price is below this, the workbook adds an adjustment (B99); the tool folds it into the phase fees.' },
+  { ref: '02!B98', title: 'Margin-floor price', plain: 'COGS ÷ (1 − target margin). In the workbook rate card, a shortfall is added as an adjustment (B99). The usage model prices each line from its own cost instead; this chain is the rate-card reference.' },
   { ref: '02!B100', title: 'Quote', plain: 'Itemised price plus any margin-floor adjustment. This is the number the customer sees, split by phase.' },
   { ref: '02!B101', title: 'Gross margin', plain: '1 − COGS ÷ quote.' },
   { ref: '02!B104', title: 'Status gate', plain: 'HOLD if an input is missing, the model is unverified, capacity is infeasible, the budget is exceeded or margin is under the floor. READY FOR REVIEW only when every check passes.' },

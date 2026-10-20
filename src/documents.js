@@ -100,6 +100,40 @@ ${body}
 const usd = (v) => money(v);
 const hrs = (n) => `${Number(n).toLocaleString('en-US')} hours`;
 
+// Usage-based (cogsBuilt) customer wording. Meters are customer prices, so they are shown;
+// supplier cost, margin and labour rates never are.
+function cogsPhaseRows(o, deal) {
+  const N = o.cycles;
+  return [
+    ['1 · Setup package', `Weeks 1–${E(o.readinessWeeks)}`, 'Frozen evaluation set, grader, environment and baseline score; go/no-go gate.', 'Co-design and sign-off of evaluation and grader.', 'Versioned grader and harness, reproducible baseline run ID, signed go/no-go.'],
+    ['2 · Managed RL cycles', `${E(N)} cycle(s), one every ${E(deal.rl.cadenceWeeks)} week(s)`, 'Train, rollouts, held-out evaluation and the agent platform, with the included compute and usage allowances.', 'Explicitly chooses to stop or continue after each cycle.', 'Run ID, usage ledger against the allowances, graded metrics, failure samples, signed cycle decision.'],
+    ['3 · Independent handoff', `Week ${E(o.weeks)}`, 'Final evaluation on untouched data; checkpoint, configuration, traces and runbook.', 'Accepts delivery by checking the listed artifacts.', 'Reproducibility report, model version, delivered files and signed handoff.'],
+  ];
+}
+
+function meterSection(o) {
+  if (o.mode !== 'cogsBuilt') return '';
+  return `<h2>Usage and allowances</h2>
+<table><tbody>
+<tr><td>Included managed compute</td><td>${E(o.allowance.toLocaleString('en-US'))} GPU-hours across the engagement</td></tr>
+<tr><td>Included agent and platform tokens</td><td>${o.allowanceTokens ? `${E(o.allowanceTokens.toLocaleString('en-US'))} tokens` : 'As agreed in the order'}</td></tr>
+<tr><td>Additional compute beyond the allowance</td><td>${usd(o.meters.gpuHourRate)} per additional GPU-hour</td></tr>
+<tr><td>Additional agent tokens beyond the allowance</td><td>${usd(o.meters.tokenPerMillion)} per additional million tokens</td></tr>
+</tbody></table>
+<p class="note">Usage is reported in each cycle's score report. Rates are reviewed quarterly against measured cost; a change applies from the next invoice and is notified in writing.</p>`;
+}
+
+function cogsChangeRows(deal, o) {
+  return [
+    ['One more cycle', `+${usd(o.scale.plusCycle)}`, 'One more managed cycle, beyond the approved count. Priced from its compute, platform usage and effort.'],
+    o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), 'One managed cycle less. The setup and handoff packages do not change.'],
+    ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The setup invoice and the first cycle invoice. No later invoices are issued. The handoff package is not billed unless the handoff is signed.'],
+    ['Compute beyond the allowance', `${usd(o.meters.gpuHourRate)} per additional GPU-hour`, 'Metered at the rate above, reported in each cycle score report.'],
+    ['Agent tokens beyond the allowance', `${usd(o.meters.tokenPerMillion)} per additional million tokens`, 'Metered at the rate above, reported in each cycle score report.'],
+    ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately, through a change order, before any work starts.'],
+  ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
+}
+
 function phaseCard(ph) {
   const items = ph.includes.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
   const effort = ph.hours
@@ -122,7 +156,7 @@ function scheduleTable(o) {
 export function buildSow(deal, r) {
   const o = buildOffer(deal, r);
   const s = deal.serving;
-  const phases = [
+  const phases = o.mode === 'cogsBuilt' ? cogsPhaseRows(o, deal) : [
     ['1 · Eval and environment foundation', `Weeks 1–${E(o.readinessWeeks)}`, 'Frozen evaluation set, grader, environment and baseline score; go/no-go gate.', 'Co-design and sign-off of evaluation and grader.', 'Versioned grader and harness, reproducible baseline run ID, signed go/no-go.'],
     ['2 · Engineering through the cycles', 'Shared across cycles', 'Harness, grader quality checks, infrastructure and per-cycle diagnostics.', 'Reviews each cycle and provides the data and access agreed at kickoff.', 'Run IDs, diagnostics and written cycle review.'],
     ['3 · RL cycles (repeat)', `${E(o.cycles)} cycle(s), one every ${E(deal.rl.cadenceWeeks)} week(s)`, 'Train, rollouts, held-out evaluation and a score report per cycle.', 'Explicitly chooses to stop or continue after each cycle.', 'Run ID, compute ledger, graded metrics, failure samples, signed cycle decision.'],
@@ -167,6 +201,7 @@ export function buildSow(deal, r) {
 <h2>4. Commercial schedule</h2>
 <p>Invoices follow the milestones below. Payment terms: [net terms: counsel review].</p>
 ${scheduleTable(o)}
+${meterSection(o)}
 
 <h2>5. Amendment and re-papering triggers</h2>
 <p>The following require a written amendment before work proceeds:</p>
@@ -192,12 +227,12 @@ export function buildProposal(deal, r) {
   const summary = `You are buying ${o.cycles} managed reinforcement-learning (RL) ${o.cycles === 1 ? 'cycle' : 'cycles'} to improve <b>${escapeHtml(deal.rl.metric)}</b> for <b>${escapeHtml(deal.customer.workflow)}</b>, from a measured baseline of ${E(pct(b, 0))} toward a target of ${E(pct(t, 0))}, over ${E(o.weeks)} weeks. The model is <b>${escapeHtml(deal.model)}</b>, ${E(o.modelSpec)}. The total is <b>${usd(o.total)}</b>. The ${E(pct(t, 0))} target is a review point, not a guarantee: when it is reached, or when results stop improving, you decide whether to continue. You approve every cycle, and each invoice is issued when its milestone completes.`;
   const bar = o.phases.map((ph) => `<span class="seg-${ph.key}" style="width:${((ph.amount / o.total) * 100).toFixed(2)}%" title="${escapeHtml(ph.title)}"></span>`).join('');
   const legend = o.phases.map((ph) => `<li><span class="dot seg-${ph.key}"></span>${escapeHtml(ph.title)} <b>${usd(ph.amount)}</b> <span class="muted">(${E(pct(ph.amount / o.total, 0))})</span></li>`).join('');
-  const change = [
+  const change = o.mode === 'cogsBuilt' ? cogsChangeRows(deal, o) : [
     ['One more cycle', `+${usd(o.scale.plusCycle)}`, `The cycle fee of ${usd(deal.pricing.cycleFee)} plus extra-cycle engineering, because it goes beyond the ${deal.pricing.includedCycles} included cycles.`],
     o.scale.minusCycle == null ? null : ['One fewer cycle', usd(o.scale.minusCycle), `The cycle fee of ${usd(deal.pricing.cycleFee)} is not charged. The engineering fee does not change.`],
     ['Stop after cycle 1', usd(o.stopAfterFirstCycle), 'The readiness invoice and the first cycle invoice. No later invoices are issued. You are not billed the handoff fee unless the handoff is signed.'],
-    ['A smaller model (small class)', `${usd(o.tiers.small)} per cycle`, 'The cycle price for a small model, set at 0.65 times the standard cycle fee.'],
-    ['A larger model (large class)', `${usd(o.tiers.large)} per cycle`, 'The cycle price for a large mixture-of-experts model, set at 2.5 times the standard cycle fee.'],
+    o.tiers ? ['A smaller model (small class)', `${usd(o.tiers.small)} per cycle`, 'The cycle price for a small model, set at 0.65 times the standard cycle fee.'] : null,
+    o.tiers ? ['A larger model (large class)', `${usd(o.tiers.large)} per cycle`, 'The cycle price for a large mixture-of-experts model, set at 2.5 times the standard cycle fee.'] : null,
     ['Another workflow, data source or region', 'Change order', 'Scope changes are quoted separately, through a change order, before any work starts.'],
   ].filter(Boolean).map(([a, b2, c]) => `<tr><td><strong>${escapeHtml(a)}</strong></td><td class="num">${E(b2)}</td><td>${escapeHtml(c)}</td></tr>`).join('');
   const discountRow = o.discount ? `<p class="note">Includes a negotiated discount of ${usd(-o.discount)}, applied to the readiness invoice.</p>` : '';

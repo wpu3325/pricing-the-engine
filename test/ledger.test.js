@@ -39,8 +39,8 @@ test('every ledger line has a valid delivery phase and a source', () => {
 });
 
 test('filling the illustrative extension lines raises cost and lowers margin', () => {
-  const base = compute(dealWith(), catalog);
-  const full = compute(dealWith(fill), catalog);
+  const base = compute(dealWith({ 'pricing.mode': 'rateCard' }), catalog);
+  const full = compute(dealWith({ ...fill, 'pricing.mode': 'rateCard' }), catalog);
   assert.ok(full.cogs.cogs > base.cogs.cogs);
   assert.ok(full.pricing.grossMargin < base.pricing.grossMargin);
   assert.ok(full.cogs.extendedTotal > 0);

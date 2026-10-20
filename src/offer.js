@@ -51,6 +51,7 @@ export function effortHours(deal) {
 }
 
 export function buildOffer(deal, r, catalog = loadCatalog()) {
+  if (r.pricing.mode === 'cogsBuilt') return buildCogsBuiltOffer(deal, r, catalog);
   const p = r.pricing;
   const N = Math.max(1, deal.rl.cycles);
   const R = deal.rl.readinessWeeks, cad = deal.rl.cadenceWeeks;
@@ -187,3 +188,101 @@ export const FAQ = [
   ['What if a cycle does not improve the score?', 'You decide after each cycle whether to continue, change direction or stop. You pay for the cycles and milestones completed. We do not stop contracted work silently, and we do not charge for work you have stopped before it starts.'],
   ['What happens if I stop early?', 'You pay for approved work completed and for any non-cancellable third-party compute committed for your engagement, net of reasonable reuse. The handoff fee is billed only on a signed handoff.'],
 ];
+
+// Usage-based offer (pricing.mode 'cogsBuilt'). Three customer phases: a setup package,
+// managed RL cycles (compute and Ari usage included), and a handoff package. Human hours
+// never appear: the packages are priced from standard effort, with the saving from
+// automation shared as pricing.automationShare sets.
+export function buildCogsBuiltOffer(deal, r, catalog = loadCatalog()) {
+  const p = r.pricing;
+  const N = Math.max(1, deal.rl.cycles);
+  const R = deal.rl.readinessWeeks, cad = deal.rl.cadenceWeeks;
+  const total = Math.round(p.quote);
+  const byKey = Object.fromEntries(p.lines.map((l) => [l.key, l.value]));
+  const discount = Math.round(byKey.discount ?? 0);
+  const managed = (byKey.cycles ?? 0) + (byKey.compute ?? 0) + (byKey.software ?? 0);
+  const [setup, cycles, handoff] = foldLines([byKey.readiness ?? 0, managed, byKey.handoff ?? 0], p.quote, 0);
+  const allowance = Math.ceil(r.work.totalGpuHours / 10) * 10;
+  const allowanceTokens = Math.round((deal.ari?.tokensMPerCycle ?? 0) * N);
+  const meters = p.meters ?? {};
+  const perCycle = Math.floor(cycles / N);
+  const sizeWord = classFactors(r.model.proxyClass).cycleEngineeringFactor < 1 ? 'a smaller model'
+    : classFactors(r.model.proxyClass).cycleEngineeringFactor > 1 ? 'a large mixture-of-experts model' : 'a standard-size model';
+
+  const phases = [
+    {
+      key: 'setup', number: 1, title: 'Setup package: evaluation and environment', amount: setup,
+      timing: `Weeks 1–${R}`, billed: `Week ${R}, when the go/no-go gate is signed`,
+      includes: [
+        'Workflow and data review, with your subject-matter experts',
+        `Frozen held-out evaluation set (${deal.demand.baselineEvalCases} baseline cases) and baseline score`,
+        'Grader and reward specification, versioned and signed off by you',
+        'Production-realistic environment with a smoke-tested end-to-end RL dry run',
+        'Go / no-go recommendation with the expected improvement range',
+      ],
+      why: 'The foundation every RL cycle depends on: an evaluation you can trust, a grader that measures what matters, and a baseline to measure improvement against. You keep these assets and can reuse them with any future model.',
+      evidence: ['Signed evaluation charter and frozen baseline score', 'Versioned grader and harness with a reproducible run ID', 'Signed go / no-go recommendation with the expected improvement range'],
+      hours: null,
+    },
+    {
+      key: 'managed', number: 2, title: `Managed RL ${N === 1 ? 'cycle' : 'cycles'} (${N})`, amount: cycles,
+      timing: `One cycle every ${cad} week${cad === 1 ? '' : 's'}`, billed: 'Invoiced as each cycle completes',
+      perCycle,
+      includes: [
+        `Rollouts: ${deal.demand.rolloutAttemptsPerCycle.toLocaleString('en-US')} attempts per cycle`,
+        `Held-out evaluation: ${deal.demand.evalCasesPerCycle} cases per cycle, run on untouched data`,
+        `Managed compute: ${allowance.toLocaleString('en-US')} GPU-hours included across the engagement`,
+        allowanceTokens > 0 ? `Ari and platform usage: ${allowanceTokens.toLocaleString('en-US')} agent tokens included` : 'Ari and platform usage: included as agreed',
+        'A written score report and your stop or continue decision after each cycle',
+      ],
+      evidence: ['A score report per cycle: held-out score and change from the previous cycle', 'Your signed continue or stop decision'],
+      why: `Each cycle runs the full loop for ${sizeWord}: train, generate rollouts, evaluate on held-out cases, and report. The price covers managed compute, the agent platform and evaluation, so you do not receive a separate compute bill. Usage beyond the included allowances is metered.`,
+      hours: null,
+    },
+    {
+      key: 'handoff', number: 3, title: 'Handoff and independent verification', amount: handoff,
+      timing: `Week ${r.work.totalWeeks}`, billed: `Week ${r.work.totalWeeks}, on signed handoff`,
+      includes: [
+        'Final evaluation on data never used in training',
+        'Checkpoint and weights package, with configuration and traces',
+        'Reproducibility report and an operating runbook',
+        'Signed handoff acceptance against the agreed evidence',
+      ],
+      evidence: ['Reproducibility report and model version', 'Signed handoff acceptance against the listed artifacts'],
+      why: 'An independent check on data the model never trained on, plus everything your team needs to run the model without us.',
+      hours: null,
+    },
+  ];
+
+  // Invoices: setup at the gate, one per managed cycle, handoff on acceptance.
+  const split = (amt) => Array.from({ length: N }, (_, i) => (i === N - 1 ? amt - Math.floor(amt / N) * (N - 1) : Math.floor(amt / N)));
+  const cycleSplit = split(cycles);
+  const milestones = [
+    { label: 'Setup gate', week: R, amount: setup, note: discount ? 'Includes the negotiated discount' : '' },
+    ...cycleSplit.map((amt, i) => ({ label: `Cycle ${i + 1} of ${N}`, week: R + (i + 1) * cad, amount: amt, note: 'Managed cycle, usage included' })),
+    { label: 'Handoff and verification', week: r.work.totalWeeks, amount: handoff, note: '' },
+  ];
+  let running = 0;
+  for (const m of milestones) { running += m.amount; m.cumulative = running; }
+
+  const delta = (n) => {
+    const d = clone(deal); d.rl.cycles = n;
+    return Math.round(compute(d, catalog).pricing.quote) - total;
+  };
+  const scale = { plusCycle: delta(deal.rl.cycles + 1), minusCycle: deal.rl.cycles > 1 ? delta(deal.rl.cycles - 1) : null };
+  const stopAfterFirstCycle = milestones[0].amount + milestones[1].amount;
+
+  return {
+    total, discount, phases, milestones, scale, allowance, allowanceTokens, meters,
+    tiers: null, stopAfterFirstCycle,
+    modelSpec: r.model.totalB == null ? 'a model whose parameter count is not yet verified' : `an open-weight model with ${r.model.totalB} billion parameters${r.model.activeB ? `, of which ${r.model.activeB} billion are active for each token` : ''}`,
+    sizeClass: sizeWord,
+    sumCheck: phases.reduce((s, ph) => s + ph.amount, 0),
+    perCycle,
+    cycles: N,
+    weeks: r.work.totalWeeks,
+    readinessWeeks: R,
+    handoffWeeks: deal.rl.handoffWeeks,
+    mode: 'cogsBuilt',
+  };
+}

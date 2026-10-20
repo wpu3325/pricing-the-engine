@@ -19,7 +19,7 @@ Cell map: `test/mapping.js`. Workbook source: `deliverables/downloads/AppliedCom
 | D-3 | 16-week grid; verdict "EXTEND CALENDAR" when > 16 weeks | Grid grows to 52 weeks; "EXTEND CALENDAR" only above 52 weeks | Brief: the 16-week grid is a demo limit. Identical results for ≤ 16 weeks | `MAX_WEEKS` in `src/engine/capacity.js`; parity scenarios all ≤ 16 weeks |
 | D-4 | Cycles limited to 1–10 (`02!B104`) | 1–52 cycles; HOLD-INPUT outside that | Same demo-limit reason as D-3 | `inputErrors` in `src/engine/gates.js` |
 | D-5 | Plateau test hard-codes the last two gains; with one score `INDEX(H37:H44,B20-1)` = `INDEX(…,0)` returns the whole column | Plateau = last N gains all below threshold, N = customer's "consecutive slow cycles"; requires N scores | Fixes a spreadsheet defect; stop-order is preserved (target → cycle cap → plateau) | `stopAction` in `src/engine/gates.js`; acceptance stop-rule test |
-| D-6 | Only the rate card prices | Cost-plus pricing mode added (`COGS ÷ (1 − target GM)`) | Lets the tool price any deal size, not only the template | `pricing.mode` in `src/engine/pricing.js`; acceptance cost-plus test |
+| D-6 | Only the rate card prices (`pricing.mode`) | Cost-plus added, and the usage model (`cogsBuilt`) is now the default. Each customer line is built from its own COGS pool. The rate card stays selectable as the workbook reference | Price follows the cost model, and human hours are never sold | `src/engine/pricing.js`; `test/cogsbuilt.test.js`; `test/acceptance.test.js` (cost-plus) |
 
 Not parity-affecting, MVP-only additions: the workload profile layer (`src/engine/profile.js`), sensitivity analysis (`src/sensitivity.js`), share links and deal files, customer SOW/proposal generation.
 
@@ -45,6 +45,8 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 - Throughput for policy, rollout and eval (100,000 tokens/GPU-hour, `01!B43:B45`). It is a backsolved proxy, not a benchmark.
 - H100 $3.99 PayGo, $2.75 extension, $2.50 reservation, $2.50 allocation (public proxy and finance assumptions).
 - Labour loaded rates, graders, storage, platform, rework 10%, margin policy 45% / 35%.
+- Usage model (all placeholders, labelled in the UI): line margins (packages 45%, compute 30%, platform and Ari usage 60%), automation share (50%), effort tier factors (0.7 / 1.0 / 1.4), calibration (1.0 until engagements close), target utilization (70% on the example), Ari tokens per cycle (50M on the example), serving throughput (1,000,000 tokens per GPU-hour), holdout evaluation hours (400), platform team and Ari development costs (for the fixed-cost view only).
+- Illustrative GPU rates and throughput multiples for B200 and B300 (`data/gpu_skus.json`). H100 list is $5.49.
 - Workload profile presets (`data/workload_presets.json`) and GPU HBM sizes (`data/gpu_skus.json`).
 - Model parameter counts from the supplied catalogue. Several are null and are shown as "Not verified".
 
@@ -55,7 +57,10 @@ Every value below is labelled in the UI and must be replaced with a measurement 
 | D-7 | Margin floor raise shown as a separate "Proposed price adjustment" line (sheet 03 row 12) | Adjustment is folded pro rata into the four phase fees; displayed lines sum exactly to the total | A separate adjustment confused customers and the SOW milestones did not sum to the total | `buildOffer` / `foldLines` in `src/offer.js`; `test/offer.test.js` |
 | D-8 | Cost is eight buckets (`02!B73:B81`) | Same eight buckets plus about 40 ledger lines; extension inputs default to $0 | Brief asks for every cost line. Defaults keep parity | `src/engine/cogs.js`; `test/ledger.test.js`; parity suite unchanged |
 | D-9 | Marketplace and payment fees not modelled | Not modelled; documented as excluded | Those fees depend on the price, which would be circular | `docs/COGS_LEDGER.md` |
-| D-10 | Final holdout evaluation compute is not costed separately | Still not costed; flagged as a known gap | Adding it would change the workbook baseline; it should be costed before a quote | `docs/PRICING_RATIONALE.md` §6 |
+| D-10 | Final holdout evaluation compute is not costed separately | Costed as its own ledger line (`holdoutEval`). The example deal enters an illustrative 400 GPU-hours; the usage model holds the quote with `HOLD - COST GAP` until it is costed | Adding it would change the workbook baseline; it should be costed before a quote | `docs/PRICING_RATIONALE.md` §6 |
+
+| D-11 | Human hours were sold through fixed fees | The usage model (`cogsBuilt`, default) prices standard-effort packages with an automation lever. Hours are an internal cost only. Price lines: setup package, managed cycles (compute and Ari usage), handoff package | Hours should not be a sold line; the price should be an output of COGS | `src/engine/pricing.js` (`cogsBuilt`), `src/offer.js` (`buildCogsBuiltOffer`), `test/cogsbuilt.test.js` |
+| D-12 | Ari and platform usage had no meter | Ari tokens are a ledger line (`ari`), priced per million tokens at a 60% margin. The meter is provisional until serving throughput is measured (`HOLD - THROUGHPUT`) | Ari is priced on tokens; the rate is set from measured throughput, not the proxy | `src/engine/pricing.js` (`meters`), `src/engine/gates.js`, `test/guardrails.test.js` |
 
 ## 6. Other refreshed conflicts
 

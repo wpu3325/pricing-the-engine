@@ -10,8 +10,8 @@ test('first load is a blank deal that asks for inputs, with no invented customer
 test('the worked example reproduces the workbook headline numbers in the side panel', async ({ page }) => {
   await page.goto('/app/index.html');
   await page.locator('#starter').selectOption('workflow');
-  await expect(page.locator('#rail')).toContainText('$210,000');
-  await expect(page.locator('#rail')).toContainText('$106,590');
+  await expect(page.locator('#rail')).toContainText('$243,918');
+  await expect(page.locator('#rail')).toContainText('$135,158');
   await expect(page.locator('#rail')).toContainText('3,360 GPU-h');
   await expect(page.locator('#rail .rail-head')).toContainText('HOLD - MODEL');
 });
@@ -22,8 +22,8 @@ test('changing cycles updates the quote live and focus stays in the form', async
   const cycles = page.locator('[data-path="rl.cycles"]');
   await cycles.fill('4');
   await cycles.press('Tab');
-  await expect(page.locator('#rail')).toContainText('$258,000');
-  await expect(page.locator('#rail .last-change')).toContainText('quote +$48,000');
+  await expect(page.locator('#rail')).toContainText('$294,463');
+  await expect(page.locator('#rail .last-change')).toContainText('quote +$50,545');
 });
 
 test('every ⓘ shows an explanation with this deal’s numbers', async ({ page }) => {

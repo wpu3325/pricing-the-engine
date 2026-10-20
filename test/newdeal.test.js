@@ -29,7 +29,9 @@ test('an unset budget does not raise a budget hold', () => {
 });
 
 test('the parity default deal is unchanged by the blank-start guards', () => {
-  const r = compute(defaultDeal(), catalog);
+  const d = defaultDeal();
+  d.pricing.mode = 'rateCard';
+  const r = compute(d, catalog);
   assert.equal(r.pricing.budgetSet, true);
   assert.equal(r.pricing.quote, 210000);
   assert.equal(r.gates.status, 'HOLD - MODEL');

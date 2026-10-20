@@ -12,6 +12,7 @@ import { infoButton } from './tooltip.js';
 import { sectionStatus, estimateQuality } from '../progress.js';
 import { buildOffer } from '../offer.js';
 import { COGS_EXTENDED_PRESETS } from '../data/cogs_extended_presets.js';
+import { gpuComparison } from '../gpuCompare.js';
 
 export const STEPS = [
   { id: 'start', n: '★', name: 'Start here', sub: 'How the process works' },
@@ -129,6 +130,15 @@ export function renderLedger(r) {
 
 export function renderPhaseMargin(deal, r) {
   const o = buildOffer(deal, r);
+  if (r.pricing.mode === 'cogsBuilt') {
+    const rows = r.pricing.lines.filter((l) => l.key !== 'discount').map((l) => {
+      const m = l.value - (l.cost ?? 0);
+      return `<tr class="${m < 0 ? 'hl' : ''}"><td>${escapeHtml(l.label)}<div class="small muted">margin ${pct(l.margin, 0)} on this line</div></td><td class="num">${money(l.value)}</td><td class="num">${money(l.cost ?? 0)}</td><td class="num">${money(m)}</td><td class="num">${l.value ? pct(m / l.value, 0) : '—'}</td></tr>`;
+    }).join('');
+    return `<table class="t"><thead><tr><th>Price line (internal)</th><th class="num">Price to customer</th><th class="num">Cost to deliver, incl. shared</th><th class="num">Margin</th><th class="num">Margin %</th></tr></thead><tbody>${rows}
+<tr class="total"><td>Total</td><td class="num">${money(r.pricing.quote)}</td><td class="num">${money(r.cogs.cogs)}</td><td class="num">${money(r.pricing.quote - r.cogs.cogs)}</td><td class="num">${pct(r.pricing.grossMargin, 1)}</td></tr></tbody></table>
+<p class="small muted" style="margin-top:8px">Each line is priced from its own cost, shared overhead is allocated across the lines by direct cost, and the total row is the real margin.</p>`;
+  }
   const L = r.cogs.phaseTotals;
   const price = { Foundation: o.phases[0].amount, Engineering: o.phases[1].amount, Cycles: o.phases[2].amount, Handoff: o.phases[3].amount };
   const rows = ['Foundation', 'Engineering', 'Cycles', 'Handoff'].map((ph) => {
@@ -154,6 +164,8 @@ export function renderEconomics(state) {
     ['Reserve', c.reserveCost, `Minimum ${deal.capacity.minReservationWeeks} weeks, paid even if unused`],
   ];
   const cheapest = methods.reduce((a, b) => (b[1] < a[1] ? b : a));
+  const gpuRows = gpuComparison(deal, catalog);
+  const gpuTable = gpuRows.map((g) => `<tr class="${g.sku === deal.capacity.gpuSku ? 'hl' : ''}"><td>${escapeHtml(g.sku)}${g.sku === deal.capacity.gpuSku ? ' <span class="chip ok" style="padding:3px 6px">this deal</span>' : ''}</td><td class="num">$${g.paygoPerHour.toFixed(2)}</td><td class="num">${g.throughputVsH100.toFixed(1)}×</td><td class="num">$${g.costPerWork.toFixed(2)}</td><td class="num">${count(g.gpuHours)}</td><td>${escapeHtml(g.method)}</td><td class="num">${money(g.gpuCost)}</td><td class="num">${pct(g.gpuShare, 1)}</td><td class="num">${money(g.price)}</td><td class="small muted">${escapeHtml(g.verdict)}</td></tr>`).join('');
   return `
 <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
 <div><h2>Economics</h2><p class="small muted" style="margin:4px 0 0">Internal view. Everything here is for Applied Compute, not the customer.</p></div>
@@ -189,6 +201,12 @@ ${methods.map(([n, v, note]) => `<tr class="${n === cheapest[0] ? 'hl' : ''}"><t
 <div><h3>Schedule facts</h3><div class="fields" style="grid-template-columns:repeat(2,minmax(0,1fr))">
 ${[['Peak GPUs in RL', count(r.work.peakGpus)], ['GPUs short at peak', count(c.peakAdditional)], ['Weeks uncovered', count(c.weeksNeeding)], ['Hours per RL cycle', decimal(r.work.wallHoursPerCycle, 1)], ['Planned weeks', count(r.work.totalWeeks)], ['Method selected', c.method]].map(([a, b]) => `<div class="kpi" style="border:1px solid var(--line);border-radius:10px"><div class="k">${escapeHtml(a)}</div><div class="v" style="font-size:20px">${escapeHtml(b)}</div></div>`).join('')}
 </div></div></div>
+</section>
+
+<section class="card" aria-labelledby="h-gpu">
+<div class="card-head"><div><div class="eyebrow" style="margin-top:0">GPU choice</div><h2 id="h-gpu">How much does the GPU type change cost and price?</h2><p class="small muted" style="margin:4px 0 0">Each row re-prices this deal on one GPU type. The GPU rates and throughput are <b>illustrative placeholders, not quotes</b>; they live in data/gpu_skus.json.</p></div></div>
+<div class="scroll-x"><table class="t"><thead><tr><th>GPU</th><th class="num">PayGo $/GPU-h</th><th class="num">Throughput vs H100</th><th class="num">$ per unit of work</th><th class="num">GPU-hours</th><th>Capacity method</th><th class="num">GPU cost</th><th class="num">Share of COGS</th><th class="num">Price</th><th>Capacity verdict</th></tr></thead><tbody>${gpuTable}</tbody></table></div>
+<p class="small muted">A GPU type matters most when compute is a large share of cost. At the default scale, prepaid capacity and labour dominate, so the price moves only a little between types.</p>
 </section>
 
 <section class="card" aria-labelledby="h-sens">
