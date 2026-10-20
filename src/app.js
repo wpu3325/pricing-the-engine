@@ -289,6 +289,7 @@ function onClick(e) {
 function onStarter(e) {
   if (e.target.id !== 'starter') return;
   state.deal = starterDeal(e.target.value);
+  state.step = 'deal'; // any starter opens the Deal form
   state.touched = new Set(KEY_INPUTS.map((k) => k.path)); // worked examples are complete
   state.lastChange = null;
   commit({ full: true });
